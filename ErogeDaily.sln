@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeDaily", "ErogeDaily\ErogeDaily.csproj", "{229D192A-5691-44CB-B784-CB72EBEA9B5F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{229D192A-5691-44CB-B784-CB72EBEA9B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{229D192A-5691-44CB-B784-CB72EBEA9B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{229D192A-5691-44CB-B784-CB72EBEA9B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{229D192A-5691-44CB-B784-CB72EBEA9B5F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C94003A4-0450-442F-A31B-72D1799611BC}
+	EndGlobalSection
+EndGlobal

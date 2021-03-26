@@ -1,0 +1,108 @@
+﻿<Window x:Class="ErogeDaily.Views.GameRegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:local="clr-namespace:ErogeDaily.Views"
+        mc:Ignorable="d"
+        ui:WindowHelper.UseModernWindowStyle="True"
+        ui:TitleBar.ExtendViewIntoTitleBar="True"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        x:Name="Window"
+        Title="GameRegistrationWindow" Height="600" Width="430"
+        MinWidth="300" MaxHeight="600" MinHeight="300">
+    
+    <ScrollViewer Margin="0 32 0 0">
+        <Grid Margin="24 0">
+            <StackPanel>
+                <TextBlock Text="ゲームの登録" Style="{StaticResource TitleTextBlockStyle}"/>
+                <Button x:Name="FlyoutButton"
+                        Content="批評空間から自動入力"
+                        Margin="0 24 0 0">
+                    <ui:FlyoutService.Flyout>
+                        <ui:Flyout x:Name="InputFlyout"
+                                   Placement="Bottom">
+                            <StackPanel Width="300" Margin="12 0">
+                                <TextBox x:Name="ErogameScapeUrl" 
+                                         ui:ControlHelper.Header="批評空間のゲームURL"
+                                         Text="{Binding ErogameScapeUrl}"
+                                         InputScope="Url"
+                                         Margin="0 12 0 0" HorizontalAlignment="Stretch"/>
+                                <TextBlock x:Name="ValidationMessageTextBlock"
+                                           Text="有効なURLではありません"
+                                           Visibility="{Binding ValidationMessageVisibility}"
+                                           Margin="0 6 0 0"
+                                           Foreground="Red"
+                                           Style="{StaticResource CaptionTextBlockStyle}"/>
+                                <TextBlock Margin="0 6" TextWrapping="Wrap" 
+                                           Style="{StaticResource CaptionTextBlockStyle}">
+                                    例：https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/game.php?game=12345
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button x:Name="FlyoutCompleteButton" 
+                                            Content="完了"
+                                            Margin="0 12"
+                                            Command="{Binding FlyoutCompleteCommand}"/>
+                                    <Button x:Name="FlyoutCancelButton" 
+                                            Content="キャンセル" 
+                                            Margin="12"
+                                            Click="FlyoutHide"/>
+                                    <ui:ProgressRing x:Name="FlyoutProgressRing"
+                                                     IsActive="True"
+                                                     Visibility="{Binding ProgressRingVisibility}"
+                                                     Margin="0 12"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </ui:Flyout>
+                    </ui:FlyoutService.Flyout>
+                </Button>
+                <TextBox x:Name="Title" 
+                         ui:ControlHelper.Header="タイトル" 
+                         Text="{Binding Game.Title, Mode=TwoWay}"
+                         Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                <TextBox x:Name="Brand" 
+                         ui:ControlHelper.Header="ブランド" 
+                         Text="{Binding Game.Brand, Mode=TwoWay}"
+                         Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                <DatePicker x:Name="ReleaseDate"
+                            ui:ControlHelper.Header="発売日" 
+                         Text="{Binding Game.ReleaseDate, Mode=TwoWay}"
+                            Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                <TextBox x:Name="ImageUri" 
+                         ui:ControlHelper.Header="サムネイル画像のURL" 
+                         Text="{Binding Game.ImageUri, Mode=TwoWay, 
+                            Converter={StaticResource UriStringConverter}}"
+                         Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" 
+                             x:Name="FileName" 
+                             ui:ControlHelper.Header="実行ファイルの場所" 
+                             Text="{Binding Game.FileName, Mode=TwoWay}"
+                             Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                    <Button Grid.Column="1"
+                            Content="参照"
+                            Command="{Binding SelectExecutionFileNameCommand}"
+                            Margin="8 0 0 0" VerticalAlignment="Bottom"/>
+                </Grid>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="登録"
+                            Command="{Binding RegisterCommand}"
+                            CommandParameter="{Binding ElementName=Window}"
+                            Margin="0 24"/>
+                    <Button Content="キャンセル" 
+                            Command="{Binding CancelCommand}"
+                            CommandParameter="{Binding ElementName=Window}"
+                            Margin="24" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>

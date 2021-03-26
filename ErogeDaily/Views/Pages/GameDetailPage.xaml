@@ -1,0 +1,100 @@
+﻿<ui:Page 
+    x:Class="ErogeDaily.Views.Pages.GameDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:local="clr-namespace:ErogeDaily.Views.Pages"
+    mc:Ignorable="d" 
+    d:DesignHeight="450" d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Title="GameDetailPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" DataContext="{Binding Game}" Margin="35 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" MaxWidth="500"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0"
+                   Source="{Binding ImageUri, 
+                        Converter={StaticResource UriToBitmapImagelConverter},
+                        ConverterParameter=400}" 
+                   Height="200"
+                   Stretch="UniformToFill"/>
+            <Grid Grid.Column="1" Margin="15 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="15 0 0 0">
+                    <TextBlock Text="{Binding Title}" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                    <TextBlock Text="{Binding Brand}" Style="{StaticResource BodyTextBlockStyle}"/>
+                    <TextBlock Text="{Binding ReleaseDate, StringFormat=yyyy-MM-dd}" Style="{StaticResource BodyTextBlockStyle}"/>
+                </StackPanel>
+                <ui:CommandBar Grid.Row="1" HorizontalAlignment="Left" Background="Transparent">
+                    <ui:AppBarButton Icon="Play" Label="ゲームを起動"/>
+                    <ui:AppBarButton Icon="Edit" Label="編集"/>
+                    <ui:AppBarButton Icon="Delete" Label="プレイデータを削除"/>
+                    <!--<ui:AppBarButton Icon="Save" Label="セーブデータをアップロード"/>-->
+                </ui:CommandBar>
+            </Grid>
+        </Grid>
+        <Border Grid.Row="1" 
+                Margin="0 35 0 0"
+                BorderThickness="0 2 0 0 " 
+                BorderBrush="{DynamicResource SystemBaseMediumLowColorBrush}">
+            <Grid Margin="35 25">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" FontSize="30">
+                    <TextBlock.Inlines>
+                        <Run Text="プレイ時間"/>
+                        <Run Text="{Binding Game.TotalPlayTime, StringFormat={}{0:hh\\:mm\\:ss}}"/>
+                    </TextBlock.Inlines>
+                </TextBlock>
+                <TextBlock Grid.Row="1">
+                    <TextBlock.Inlines>
+                        <Run Text="プレイ開始日"/>
+                        <Run Text="{Binding Game.RegistrationDate, StringFormat=yyyy-MM-dd}"/>
+                    </TextBlock.Inlines>
+                </TextBlock>
+                <TextBlock Grid.Row="2">
+                    <TextBlock.Inlines>
+                        <Run Text="最終プレイ日"/>
+                        <Run Text="{Binding Game.LatestDate, StringFormat=yyyy-MM-dd}"/>
+                    </TextBlock.Inlines>
+                </TextBlock>
+                <!--<StackPanel Grid.Row="3">
+                    <TextBlock Text="ルート別プレイ時間"/>
+                    <ListView SelectionMode="Single">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}"/>
+                                    <TextBlock Text="{Binding Time}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListViewItem Content="加藤恵"/>
+                        <ListViewItem Content="澤村・スペンサー・英梨々"/>
+                        <ListViewItem Content="霞ヶ丘詩羽"/>
+                    </ListView>
+                </StackPanel>-->
+            </Grid>
+        </Border>
+    </Grid>
+</ui:Page>
