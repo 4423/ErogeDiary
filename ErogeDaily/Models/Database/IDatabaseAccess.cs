@@ -14,5 +14,6 @@ namespace ErogeDaily.Models.Database
         public Task<ObservableCollection<Game>> GetGamesAsync();
         public Task<Game> FindGameByFileNameAsync(string fileName);
         public Task<Game> FindGameByTitleAndBrandAsync(string title, string brand);
+        public Task RemoveAsync(Game game);
     }
 }

@@ -45,5 +45,11 @@ namespace ErogeDaily.Models.Database
             await Games.LoadAsync();
             return Games.Local.ToObservableCollection();
         }
+
+        public async Task RemoveAsync(Game game)
+        {
+            Games.Remove(game);
+            await this.SaveChangesAsync();
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace ErogeDaily.Dialog
     public interface IMessageBoxDialog
     {
         public void ShowErrorDialog(string message, string title);
+        public bool ShowYesNoDialog(string message, string title);
+        public void ShowInfoDialog(string message, string title);
     }
 }
