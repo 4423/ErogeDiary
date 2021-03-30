@@ -18,17 +18,17 @@ namespace ErogeDaily.ViewModels.Pages
 
         private IDatabaseAccess database;
         private IRegionManager regionManager;
-        private IMessageBoxDialog messageDialog;
+        private IDialogService dialogService;
 
 
         public GameDetailViewModel(
             IDatabaseAccess database,
             IRegionManager regionManager,
-            IMessageBoxDialog messageDialog)
+            IDialogService dialogService)
         {
             this.database = database;
             this.regionManager = regionManager;
-            this.messageDialog = messageDialog;
+            this.dialogService = dialogService;
 
             DeleteGameCommand = new DelegateCommand(DeleteGame);
         }
@@ -58,12 +58,23 @@ namespace ErogeDaily.ViewModels.Pages
 
         private async void DeleteGame()
         {
-            var isOk = messageDialog.ShowYesNoDialog(
-                "プレイデータを削除しますか？\nセーブデータやゲーム本体は削除されません。", "確認");
-            if (isOk)
+            var result = dialogService.MessageDialog.Show(new MessageDialogParameters()
+            {
+                Title = "確認",
+                Message = "プレイデータを削除しますか？\nセーブデータやゲーム本体は削除されません。",
+                Icon = MessageDialogImage.Question,
+                Button = MessageDialogButton.YesNo,
+            });
+            if (result == MessageDialogResult.Yes)
             {
                 await database.RemoveAsync(Game);
-                messageDialog.ShowInfoDialog("削除に成功しました。", "情報");
+                dialogService.MessageDialog.Show(new MessageDialogParameters()
+                {
+                    Title = "情報",
+                    Message = "削除に成功しました。",
+                    Icon = MessageDialogImage.Information,
+                    Button = MessageDialogButton.OK,
+                });
                 NavigationHelper.GetNavigationService(regionManager)?.Journal?.GoBack();
             }
         }

@@ -25,15 +25,13 @@ namespace ErogeDaily.ViewModels
 
         private IDatabaseAccess database;
         private IErogameScapeAccess erogameScape;
-        private IOpenFileDialogService openFileDialog;
-        private IMessageBoxDialog messageBoxDialog;
+        private IDialogService dialogService;
 
 
         public GameRegistrationViewModel(
             IDatabaseAccess database,
             IErogameScapeAccess erogameScape,
-            IOpenFileDialogService openFileDialog,
-            IMessageBoxDialog messageBoxDialog)
+            IDialogService dialogService)
         {
             FlyoutCompleteCommand = new DelegateCommand(FlyoutComplete);
             SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
@@ -47,8 +45,7 @@ namespace ErogeDaily.ViewModels
 
             this.database = database;
             this.erogameScape = erogameScape;
-            this.openFileDialog = openFileDialog;
-            this.messageBoxDialog = messageBoxDialog;
+            this.dialogService = dialogService;
         }
 
         private void CloseWindow(Window window)
@@ -70,7 +67,13 @@ namespace ErogeDaily.ViewModels
             }
             else
             {
-                messageBoxDialog.ShowErrorDialog("既に同じゲームが登録されています。", "エラー");
+                dialogService.MessageDialog.Show(new MessageDialogParameters()
+                {
+                    Title = "エラー",
+                    Message = "既に同じゲームが登録されています。",
+                    Icon = MessageDialogImage.Error,
+                    Button = MessageDialogButton.OK,
+                });
             }
         }
 
@@ -98,7 +101,8 @@ namespace ErogeDaily.ViewModels
 
         private void SelectExecutionFileName()
         {
-            var fileName = openFileDialog.Show("ゲームの実行ファイルを選択してください", "実行ファイル(*.exe)|*.exe");
+            var fileName = dialogService.OpenFileDialog.Show(
+                "ゲームの実行ファイルを選択してください", "実行ファイル(*.exe)|*.exe");
             if (fileName != null)
             {
                 Game.FileName = fileName;

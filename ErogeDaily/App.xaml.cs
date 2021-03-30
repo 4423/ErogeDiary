@@ -46,8 +46,7 @@ namespace ErogeDaily
             containerRegistry.RegisterInstance<GameMonitor>(gameMonitor);
 
             containerRegistry.Register<IErogameScapeAccess, WebScrapingErogameScapeAccess>();
-            containerRegistry.Register<IOpenFileDialogService, OpenFileDialogService>();
-            containerRegistry.Register<IMessageBoxDialog, MessageBoxDialog>();
+            containerRegistry.Register<IDialogService, DialogService>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ErogeDaily.Dialogs
 {
-    public interface IOpenFileDialogService
+    public interface IOpenFileDialog
     {
         string Show(string title, string filter);
     }

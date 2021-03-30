@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ErogeDaily.Dialogs
 {
-    public class OpenFileDialogService : IOpenFileDialogService
+    public class OpenFileDialog : IOpenFileDialog
     {
         public string Show(string title, string filter)
         {
-            var ofd = new OpenFileDialog()
+            var ofd = new Microsoft.Win32.OpenFileDialog()
             {
                 Title = title,
                 Filter = filter,
