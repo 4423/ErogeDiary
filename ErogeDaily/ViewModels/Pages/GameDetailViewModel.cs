@@ -1,4 +1,4 @@
-﻿using ErogeDaily.Dialog;
+﻿using ErogeDaily.Dialogs;
 using ErogeDaily.Models;
 using ErogeDaily.Models.Database;
 using Prism.Commands;

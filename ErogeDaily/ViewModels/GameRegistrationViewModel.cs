@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using ErogeDaily.Models.ErogameScape;
-using ErogeDaily.Dialog;
+using ErogeDaily.Dialogs;
 using ErogeDaily.Models.Database;
 using ModernWpf.Controls;
 

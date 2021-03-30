@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ErogeDaily.Dialog
+namespace ErogeDaily.Dialogs
 {
     public class MessageBoxDialog : IMessageBoxDialog
     {
