@@ -58,22 +58,21 @@ namespace ErogeDaily.ViewModels.Pages
 
         private async void DeleteGame()
         {
-            var result = dialogService.MessageDialog.Show(new MessageDialogParameters()
+            var result = await dialogService.MessageDialog.ShowAsync(new MessageDialogParameters()
             {
                 Title = "確認",
                 Message = "プレイデータを削除しますか？\nセーブデータやゲーム本体は削除されません。",
-                Icon = MessageDialogImage.Question,
-                Button = MessageDialogButton.YesNo,
+                PrimaryButtonText = "削除",
+                CloseButtonText = "キャンセル",
             });
-            if (result == MessageDialogResult.Yes)
+            if (result == MessageDialogResult.Primary)
             {
                 await database.RemoveAsync(Game);
-                dialogService.MessageDialog.Show(new MessageDialogParameters()
+                await dialogService.MessageDialog.ShowAsync(new MessageDialogParameters()
                 {
                     Title = "情報",
                     Message = "削除に成功しました。",
-                    Icon = MessageDialogImage.Information,
-                    Button = MessageDialogButton.OK,
+                    CloseButtonText = "OK",
                 });
                 NavigationHelper.GetNavigationService(regionManager)?.Journal?.GoBack();
             }

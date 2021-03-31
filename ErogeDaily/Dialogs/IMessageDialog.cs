@@ -8,6 +8,6 @@ namespace ErogeDaily.Dialogs
 {
     public interface IMessageDialog
     {
-        public MessageDialogResult Show(MessageDialogParameters parameters);
+        public Task<MessageDialogResult> ShowAsync(MessageDialogParameters parameters);
     }
 }

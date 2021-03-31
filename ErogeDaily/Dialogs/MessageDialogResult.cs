@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModernWpf.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,16 +10,14 @@ namespace ErogeDaily.Dialogs
 {
     public enum MessageDialogResult
     {
-        None = 0,
-        OK = 1,
-        Cancel = 2,
-        Yes = 6,
-        No = 7,
+        None,
+        Primary,
+        Secondary,
     }
 
     public static class MessageBoxResultExtentions
     {
-        public static MessageDialogResult ToMessageDialogResult(this MessageBoxResult result)
+        public static MessageDialogResult ToMessageDialogResult(this ContentDialogResult result)
             => (MessageDialogResult)result;
     }
 }

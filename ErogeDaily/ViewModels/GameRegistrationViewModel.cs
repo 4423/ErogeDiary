@@ -67,12 +67,11 @@ namespace ErogeDaily.ViewModels
             }
             else
             {
-                dialogService.MessageDialog.Show(new MessageDialogParameters()
+                await dialogService.MessageDialog.ShowAsync(new MessageDialogParameters()
                 {
                     Title = "エラー",
                     Message = "既に同じゲームが登録されています。",
-                    Icon = MessageDialogImage.Error,
-                    Button = MessageDialogButton.OK,
+                    CloseButtonText = "OK",
                 });
             }
         }

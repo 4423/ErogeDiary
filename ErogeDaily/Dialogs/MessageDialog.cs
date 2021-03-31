@@ -1,4 +1,5 @@
-﻿using Prism.Services.Dialogs;
+﻿using ModernWpf.Controls;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,24 @@ namespace ErogeDaily.Dialogs
 {
     public class MessageDialog : IMessageDialog
     {
-        public MessageDialogResult Show(MessageDialogParameters parameters)
+        public Task<MessageDialogResult> ShowAsync(MessageDialogParameters parameters)
         {
-            var result = MessageBox.Show(parameters.Message, parameters.Title, 
-                parameters.Button.ToMessageBoxButton(), parameters.Icon.ToMessageBoxImage());
-            return result.ToMessageDialogResult();
+            var d = new ContentDialog()
+            {
+                Title = parameters.Title,
+                Content = parameters.Message,
+                CloseButtonText = parameters.CloseButtonText,
+            };
+            if (!String.IsNullOrEmpty(parameters.PrimaryButtonText))
+            {
+                d.PrimaryButtonText = parameters.PrimaryButtonText;
+            }
+            if (!String.IsNullOrEmpty(parameters.SecondaryButtonText))
+            {
+                d.SecondaryButtonText = parameters.SecondaryButtonText;
+            }
+
+            return d.ShowAsync().ContinueWith(t => t.Result.ToMessageDialogResult());
         }
     }
 }
