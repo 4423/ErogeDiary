@@ -102,6 +102,22 @@ namespace ErogeDaily.Models
                 && !String.IsNullOrWhiteSpace(imageUri.AbsolutePath)
                 && File.Exists(FileName);
         }
+
+        public Game Clone()
+        {
+            var game = (Game)MemberwiseClone();
+            game.ImageUri = new Uri(ImageUri.AbsoluteUri);
+            return game;
+        }
+
+        public void CopyFrom(Game game)
+        {
+            Title = game.Title;
+            Brand = game.Brand;
+            ReleaseDate = game.ReleaseDate;
+            ImageUri = game.ImageUri;
+            FileName = game.FileName;
+        }
     }
 
     public static class GameExtensions

@@ -3,8 +3,10 @@ using ErogeDaily.Models;
 using ErogeDaily.Models.Database;
 using ErogeDaily.Models.ErogameScape;
 using ErogeDaily.ViewModels;
+using ErogeDaily.ViewModels.Dialogs;
 using ErogeDaily.ViewModels.Pages;
 using ErogeDaily.Views;
+using ErogeDaily.Views.Dialogs;
 using ErogeDaily.Views.Pages;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -47,6 +49,8 @@ namespace ErogeDaily
 
             containerRegistry.Register<IErogameScapeAccess, WebScrapingErogameScapeAccess>();
             containerRegistry.Register<IDialogService, DialogService>();
+
+            containerRegistry.RegisterDialog<GameEditDialog, GameEditDialogViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

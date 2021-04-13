@@ -4,6 +4,7 @@ using ErogeDaily.Models.Database;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +15,27 @@ namespace ErogeDaily.ViewModels.Pages
 {
     public class GameDetailViewModel : BindableBase, INavigationAware
     {
+        public DelegateCommand EditGameCommand { get; private set; }
         public DelegateCommand DeleteGameCommand { get; private set; }
 
         private IDatabaseAccess database;
         private IRegionManager regionManager;
-        private IDialogService dialogService;
+        private ErogeDaily.Dialogs.IDialogService dialogService;
+        private Prism.Services.Dialogs.IDialogService ds;
 
 
         public GameDetailViewModel(
             IDatabaseAccess database,
             IRegionManager regionManager,
-            IDialogService dialogService)
+            Prism.Services.Dialogs.IDialogService ds,
+            ErogeDaily.Dialogs.IDialogService dialogService)
         {
             this.database = database;
             this.regionManager = regionManager;
             this.dialogService = dialogService;
+            this.ds = ds;
 
+            EditGameCommand = new DelegateCommand(EditGame);
             DeleteGameCommand = new DelegateCommand(DeleteGame);
         }
 
@@ -55,6 +61,15 @@ namespace ErogeDaily.ViewModels.Pages
 
         public void OnNavigatedFrom(NavigationContext navigationContext) {}
 
+
+        private void EditGame()
+        {
+            var dialogParams = new DialogParameters()
+            {
+                { "game", Game }
+            };
+            ds.ShowDialog(nameof(Views.Dialogs.GameEditDialog), dialogParams, null);
+        }
 
         private async void DeleteGame()
         {
