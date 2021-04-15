@@ -20,20 +20,20 @@ namespace ErogeDaily.ViewModels.Pages
 
         private IDatabaseAccess database;
         private IRegionManager regionManager;
-        private ErogeDaily.Dialogs.IDialogService dialogService;
-        private Prism.Services.Dialogs.IDialogService ds;
+        private IMessageDialog messageDialog;
+        private IDialogService dialogService;
 
 
         public GameDetailViewModel(
             IDatabaseAccess database,
             IRegionManager regionManager,
-            Prism.Services.Dialogs.IDialogService ds,
-            ErogeDaily.Dialogs.IDialogService dialogService)
+            IMessageDialog messageDialog,
+            IDialogService dialogService)
         {
             this.database = database;
             this.regionManager = regionManager;
+            this.messageDialog = messageDialog;
             this.dialogService = dialogService;
-            this.ds = ds;
 
             EditGameCommand = new DelegateCommand(EditGame);
             DeleteGameCommand = new DelegateCommand(DeleteGame);
@@ -68,12 +68,12 @@ namespace ErogeDaily.ViewModels.Pages
             {
                 { "game", Game }
             };
-            ds.ShowDialog(nameof(Views.Dialogs.GameEditDialog), dialogParams, null);
+            dialogService.ShowDialog(nameof(Views.Dialogs.GameEditDialog), dialogParams, null);
         }
 
         private async void DeleteGame()
         {
-            var result = await dialogService.MessageDialog.ShowAsync(new MessageDialogParameters()
+            var result = await messageDialog.ShowAsync(new MessageDialogParameters()
             {
                 Title = "確認",
                 Message = "プレイデータを削除しますか？\nセーブデータやゲーム本体は削除されません。",
@@ -83,7 +83,7 @@ namespace ErogeDaily.ViewModels.Pages
             if (result == MessageDialogResult.Primary)
             {
                 await database.RemoveAsync(Game);
-                await dialogService.MessageDialog.ShowAsync(new MessageDialogParameters()
+                await messageDialog.ShowAsync(new MessageDialogParameters()
                 {
                     Title = "情報",
                     Message = "削除に成功しました。",

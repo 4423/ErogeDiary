@@ -1,4 +1,5 @@
-﻿using ErogeDaily.Models;
+﻿using ErogeDaily.Dialogs;
+using ErogeDaily.Models;
 using ErogeDaily.Models.Database;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -18,14 +19,14 @@ namespace ErogeDaily.ViewModels.Dialogs
         public DelegateCommand UpdateCommand { get; private set; }
 
         private IDatabaseAccess database;
-        private ErogeDaily.Dialogs.IDialogService dialogService;
+        private IOpenFileDialog openFileDialog;
         private Game originalGame;
 
 
-        public GameEditDialogViewModel(IDatabaseAccess database, ErogeDaily.Dialogs.IDialogService dialogService)
+        public GameEditDialogViewModel(IDatabaseAccess database, IOpenFileDialog openFileDialog)
         {
             this.database = database;
-            this.dialogService = dialogService;
+            this.openFileDialog = openFileDialog;
 
             SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
             CloseCommand = new DelegateCommand(CloseDialog);
@@ -50,7 +51,7 @@ namespace ErogeDaily.ViewModels.Dialogs
 
         private void SelectExecutionFileName()
         {
-            var fileName = dialogService.OpenFileDialog.Show(
+            var fileName = openFileDialog.Show(
                 "ゲームの実行ファイルを選択してください", "実行ファイル(*.exe)|*.exe");
             if (fileName != null)
             {

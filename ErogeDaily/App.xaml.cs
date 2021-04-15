@@ -48,7 +48,8 @@ namespace ErogeDaily
             containerRegistry.RegisterInstance<GameMonitor>(gameMonitor);
 
             containerRegistry.Register<IErogameScapeAccess, WebScrapingErogameScapeAccess>();
-            containerRegistry.Register<IDialogService, DialogService>();
+            containerRegistry.Register<IMessageDialog, MessageDialog>();
+            containerRegistry.Register<IOpenFileDialog, OpenFileDialog>();
 
             containerRegistry.RegisterDialog<GameEditDialog, GameEditDialogViewModel>();
         }

@@ -25,13 +25,15 @@ namespace ErogeDaily.ViewModels
 
         private IDatabaseAccess database;
         private IErogameScapeAccess erogameScape;
-        private IDialogService dialogService;
+        private IMessageDialog messageDialog;
+        private IOpenFileDialog openFileDialog;
 
 
         public GameRegistrationViewModel(
             IDatabaseAccess database,
             IErogameScapeAccess erogameScape,
-            IDialogService dialogService)
+            IMessageDialog messageDialog,
+            IOpenFileDialog openFileDialog)
         {
             FlyoutCompleteCommand = new DelegateCommand(FlyoutComplete);
             SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
@@ -45,7 +47,8 @@ namespace ErogeDaily.ViewModels
 
             this.database = database;
             this.erogameScape = erogameScape;
-            this.dialogService = dialogService;
+            this.messageDialog = messageDialog;
+            this.openFileDialog = openFileDialog;
         }
 
         private void CloseWindow(Window window)
@@ -67,7 +70,7 @@ namespace ErogeDaily.ViewModels
             }
             else
             {
-                await dialogService.MessageDialog.ShowAsync(new MessageDialogParameters()
+                await messageDialog.ShowAsync(new MessageDialogParameters()
                 {
                     Title = "エラー",
                     Message = "既に同じゲームが登録されています。",
@@ -100,7 +103,7 @@ namespace ErogeDaily.ViewModels
 
         private void SelectExecutionFileName()
         {
-            var fileName = dialogService.OpenFileDialog.Show(
+            var fileName = openFileDialog.Show(
                 "ゲームの実行ファイルを選択してください", "実行ファイル(*.exe)|*.exe");
             if (fileName != null)
             {
