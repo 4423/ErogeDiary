@@ -3,6 +3,7 @@ using ErogeDaily.Models.Database;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,14 +21,19 @@ namespace ErogeDaily.ViewModels.Pages
 
         private IDatabaseAccess database;
         private IRegionManager regionManager;
+        private IDialogService dialogService;
 
 
-        public HomeViewModel(IDatabaseAccess database, IRegionManager regionManager)
+        public HomeViewModel(
+            IDatabaseAccess database, 
+            IRegionManager regionManager, 
+            IDialogService dialogService)
         {
             GameRegistrationCommand = new DelegateCommand(RegisterGame);
 
             this.database = database;
             this.regionManager = regionManager;
+            this.dialogService = dialogService;
 
             LoadFromDatabase();
 
@@ -96,8 +102,7 @@ namespace ErogeDaily.ViewModels.Pages
 
         private void RegisterGame()
         {
-            var window = new Views.GameRegistrationWindow();
-            window.ShowDialog();
+            dialogService.ShowDialog(nameof(Views.Dialogs.GameRegistrationDialog), null, null);
         }
 
 

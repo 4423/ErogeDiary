@@ -1,26 +1,25 @@
-﻿using ErogeDaily.Models;
+﻿using ErogeDaily.Dialogs;
+using ErogeDaily.Models;
+using ErogeDaily.Models.Database;
+using ErogeDaily.Models.ErogameScape;
 using Prism.Commands;
 using Prism.Mvvm;
-using Unity;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using ErogeDaily.Models.ErogameScape;
-using ErogeDaily.Dialogs;
-using ErogeDaily.Models.Database;
-using ModernWpf.Controls;
 
-namespace ErogeDaily.ViewModels
+namespace ErogeDaily.ViewModels.Dialogs
 {
-    public class GameRegistrationViewModel : BindableBase
+    public class GameRegistrationDialogViewModel : BindableBase, IDialogAware
     {
         public DelegateCommand FlyoutCompleteCommand { get; private set; }
         public DelegateCommand SelectExecutionFileNameCommand { get; private set; }
-        public DelegateCommand<Window> RegisterCommand { get; private set; }
-        public DelegateCommand<Window> CancelCommand { get; private set; }
+        public DelegateCommand RegisterCommand { get; private set; }
+        public DelegateCommand CancelCommand { get; private set; }
         public Action HideFlyout { get; set; }
 
         private IDatabaseAccess database;
@@ -29,7 +28,7 @@ namespace ErogeDaily.ViewModels
         private IOpenFileDialog openFileDialog;
 
 
-        public GameRegistrationViewModel(
+        public GameRegistrationDialogViewModel(
             IDatabaseAccess database,
             IErogameScapeAccess erogameScape,
             IMessageDialog messageDialog,
@@ -37,12 +36,10 @@ namespace ErogeDaily.ViewModels
         {
             FlyoutCompleteCommand = new DelegateCommand(FlyoutComplete);
             SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
-            RegisterCommand = new DelegateCommand<Window>(RegisterGame);
-            CancelCommand = new DelegateCommand<Window>(CloseWindow);
+            RegisterCommand = new DelegateCommand(RegisterGame);
+            CancelCommand = new DelegateCommand(CloseDialog);
 
             Game = new Game();
-            ValidationMessageVisibility = Visibility.Collapsed;
-            ProgressRingVisibility = Visibility.Hidden;
             IsOpen = false;
 
             this.database = database;
@@ -51,12 +48,8 @@ namespace ErogeDaily.ViewModels
             this.openFileDialog = openFileDialog;
         }
 
-        private void CloseWindow(Window window)
-        {
-            window?.Close();
-        }
 
-        private async void RegisterGame(Window window)
+        private async void RegisterGame()
         {
             if (!Game.IsValid())
             {
@@ -66,7 +59,7 @@ namespace ErogeDaily.ViewModels
             if (await database.FindGameByTitleAndBrandAsync(Game.Title, Game.Brand) == null)
             {
                 await database.AddGameAsync(game);
-                CloseWindow(window);
+                RaiseRequestClose(new DialogResult(ButtonResult.OK));
             }
             else
             {
@@ -79,9 +72,14 @@ namespace ErogeDaily.ViewModels
             }
         }
 
+        private void CloseDialog()
+        {
+            RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
+        }
+
         private async void FlyoutComplete()
         {
-            ProgressRingVisibility = Visibility.Visible;
+            IsWorking = true;
 
             try
             {
@@ -90,14 +88,14 @@ namespace ErogeDaily.ViewModels
             }
             catch (Exception)
             {
-                ValidationMessageVisibility = Visibility.Visible;
-                ProgressRingVisibility = Visibility.Hidden;
+                IsInvalidErogameScapeUrl = true;
+                IsWorking = false;
                 return;
             }
 
             HideFlyout?.Invoke();
-            ValidationMessageVisibility = Visibility.Collapsed;
-            ProgressRingVisibility = Visibility.Hidden;
+            IsInvalidErogameScapeUrl = false;
+            IsWorking = false;
         }
 
 
@@ -119,18 +117,18 @@ namespace ErogeDaily.ViewModels
             set { SetProperty(ref game, value); }
         }
 
-        private Visibility validationMessageVisibility;
-        public Visibility ValidationMessageVisibility
+        private bool isInvalidErogameScapeUrl;
+        public bool IsInvalidErogameScapeUrl
         {
-            get { return validationMessageVisibility; }
-            set { SetProperty(ref validationMessageVisibility, value); }
+            get { return isInvalidErogameScapeUrl; }
+            set { SetProperty(ref isInvalidErogameScapeUrl, value); }
         }
 
-        private Visibility progressRingVisibility;
-        public Visibility ProgressRingVisibility
+        private bool isWorking;
+        public bool IsWorking
         {
-            get { return progressRingVisibility; }
-            set { SetProperty(ref progressRingVisibility, value); }
+            get { return isWorking; }
+            set { SetProperty(ref isWorking, value); }
         }
 
         private bool isFlyoutOpen;
@@ -146,5 +144,20 @@ namespace ErogeDaily.ViewModels
             get { return erogameScapeUrl; }
             set { SetProperty(ref erogameScapeUrl, value); }
         }
+
+
+
+        public event Action<IDialogResult> RequestClose;
+
+        public virtual void RaiseRequestClose(IDialogResult dialogResult)
+            => RequestClose?.Invoke(dialogResult);
+
+        public virtual bool CanCloseDialog() => true;
+
+        public virtual void OnDialogOpened(IDialogParameters parameters) { }
+        
+        public virtual void OnDialogClosed() { }
+
+        public string Title => "";
     }
 }

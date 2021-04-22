@@ -33,7 +33,6 @@ namespace ErogeDaily
         protected override void ConfigureViewModelLocator()
         {
             base.ConfigureViewModelLocator();
-            ViewModelLocationProvider.Register<GameRegistrationWindow, GameRegistrationViewModel>();
             ViewModelLocationProvider.Register<HomePage, HomeViewModel>();
             ViewModelLocationProvider.Register<GameDetailPage, GameDetailViewModel>();
         }
@@ -52,6 +51,7 @@ namespace ErogeDaily
             containerRegistry.Register<IOpenFileDialog, OpenFileDialog>();
 
             containerRegistry.RegisterDialog<GameEditDialog, GameEditDialogViewModel>();
+            containerRegistry.RegisterDialog<GameRegistrationDialog, GameRegistrationDialogViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
