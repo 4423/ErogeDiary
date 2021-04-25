@@ -58,7 +58,10 @@ namespace ErogeDaily.ViewModels.Dialogs
 
             if (await database.FindGameByTitleAndBrandAsync(Game.Title, Game.Brand) == null)
             {
-                await database.AddGameAsync(game);
+                var outputUri = await ThumbnailDownloadHelper.DownloadAsync(Game.ImageUri);
+                Game.ImageUri = outputUri;
+
+                await database.AddGameAsync(Game);
                 RaiseRequestClose(new DialogResult(ButtonResult.OK));
             }
             else
