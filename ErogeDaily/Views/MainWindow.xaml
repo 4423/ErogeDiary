@@ -19,7 +19,7 @@
         ui:TitleBar.BackButtonCommand="{Binding GoBackCommand}"
         ui:TitleBar.BackButtonStyle="{DynamicResource AppTitleBarBackButtonStyle}"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="ErogeDaily" Height="450" Width="800" 
+        Title="ErogeDaily" Height="{Binding WindowHeight, Mode=TwoWay}" Width="800" 
         MinWidth="450" MinHeight="350">
 
     <Window.Resources>
@@ -43,30 +43,27 @@
                     VerticalAlignment="Center">
             <!--<ui:HyperlinkButton Content="設定" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>-->
         </StackPanel>
-        
-        <ScrollViewer Grid.Row="1">
-            <ui:SimpleStackPanel>
-                <ui:Frame x:Name="RootFrame"
-                          prism:RegionManager.RegionName="FrameRegion"
-                          ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                          ScrollViewer.CanContentScroll="True">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Navigated">
-                            <i:InvokeCommandAction Command="{Binding RootFrameNavigatedCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <ui:Frame.ContentTransitions>
-                        <ui:TransitionCollection>
-                            <ui:NavigationThemeTransition>
-                                <ui:DrillInNavigationTransitionInfo/>
-                            </ui:NavigationThemeTransition>
-                        </ui:TransitionCollection>
-                    </ui:Frame.ContentTransitions>
-                </ui:Frame>
-            </ui:SimpleStackPanel>
-        </ScrollViewer>
 
-        <Grid Grid.Row="2" Background="#88ED217C" Height="64" 
+        <ui:SimpleStackPanel Grid.Row="1">
+            <ui:Frame x:Name="RootFrame"
+                      Height="{Binding FrameHeight, Mode=TwoWay}"
+                      prism:RegionManager.RegionName="FrameRegion">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Navigated">
+                        <i:InvokeCommandAction Command="{Binding RootFrameNavigatedCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ui:Frame.ContentTransitions>
+                    <ui:TransitionCollection>
+                        <ui:NavigationThemeTransition>
+                            <ui:DrillInNavigationTransitionInfo/>
+                        </ui:NavigationThemeTransition>
+                    </ui:TransitionCollection>
+                </ui:Frame.ContentTransitions>
+            </ui:Frame>
+        </ui:SimpleStackPanel>
+
+        <Grid Grid.Row="2" Background="#88ED217C" Height="64"
               Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>

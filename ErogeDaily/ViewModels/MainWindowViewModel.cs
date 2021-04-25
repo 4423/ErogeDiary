@@ -112,7 +112,35 @@ namespace ErogeDaily.ViewModels
         public bool IsPlaying
         {
             get => isPlaying;
-            set { SetProperty(ref isPlaying, value); }
+            set
+            {
+                SetProperty(ref isPlaying, value);
+                UpdateFrameHeight();
+            }
+        }
+
+        private void UpdateFrameHeight()
+        {
+            var h = IsPlaying ? 90 : 50;
+            FrameHeight = WindowHeight - h;
+        }
+
+        public int windowHeight = 450;
+        public int WindowHeight
+        {
+            get => windowHeight;
+            set
+            {
+                SetProperty(ref windowHeight, value);
+                UpdateFrameHeight();
+            }
+        }
+
+        public int frameHeight;
+        public int FrameHeight
+        {
+            get => frameHeight;
+            set { SetProperty(ref frameHeight, value); }
         }
     }
 }
