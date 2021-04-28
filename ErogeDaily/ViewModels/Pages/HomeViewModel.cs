@@ -1,4 +1,5 @@
-﻿using ErogeDaily.Models;
+﻿using ErogeDaily.Dialogs;
+using ErogeDaily.Models;
 using ErogeDaily.Models.Database;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,23 +19,28 @@ namespace ErogeDaily.ViewModels.Pages
 {
     public class HomeViewModel : BindableBase
     {
+        public DelegateCommand<Game> StartGameCommand { get; private set; }
         public DelegateCommand GameRegistrationCommand { get; private set; }
 
         private IDatabaseAccess database;
         private IRegionManager regionManager;
         private IDialogService dialogService;
+        private IMessageDialog messageDialog;
 
 
         public HomeViewModel(
             IDatabaseAccess database, 
-            IRegionManager regionManager, 
-            IDialogService dialogService)
+            IRegionManager regionManager,
+            IDialogService dialogService,
+            IMessageDialog messageDialog)
         {
+            StartGameCommand = new DelegateCommand<Game>(StartGame);
             GameRegistrationCommand = new DelegateCommand(RegisterGame);
 
             this.database = database;
             this.regionManager = regionManager;
             this.dialogService = dialogService;
+            this.messageDialog = messageDialog;
 
             LoadFromDatabase();
 
@@ -59,6 +66,23 @@ namespace ErogeDaily.ViewModels.Pages
         private async void LoadFromDatabase()
         {
             Games = await database.GetGamesAsync();
+        }
+
+        private async void StartGame(Game game)
+        {
+            try
+            {
+                Process.Start(game.FileName);
+            }
+            catch (Exception ex)
+            {
+                await messageDialog.ShowAsync(new MessageDialogParameters()
+                {
+                    Title = "エラー",
+                    Message = $"ゲームの起動に失敗しました。\n{ex.Message}",
+                    CloseButtonText = "OK",
+                });
+            }
         }
 
         public class GameOrder

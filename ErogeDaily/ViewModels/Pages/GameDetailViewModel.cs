@@ -7,6 +7,7 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace ErogeDaily.ViewModels.Pages
 {
     public class GameDetailViewModel : BindableBase, INavigationAware
     {
+        public DelegateCommand StartGameCommand { get; private set; }
         public DelegateCommand EditGameCommand { get; private set; }
         public DelegateCommand DeleteGameCommand { get; private set; }
 
@@ -35,6 +37,7 @@ namespace ErogeDaily.ViewModels.Pages
             this.messageDialog = messageDialog;
             this.dialogService = dialogService;
 
+            StartGameCommand = new DelegateCommand(StartGame);
             EditGameCommand = new DelegateCommand(EditGame);
             DeleteGameCommand = new DelegateCommand(DeleteGame);
         }
@@ -61,6 +64,22 @@ namespace ErogeDaily.ViewModels.Pages
 
         public void OnNavigatedFrom(NavigationContext navigationContext) {}
 
+        private async void StartGame()
+        {
+            try
+            {
+                Process.Start(Game.FileName);
+            }
+            catch (Exception ex)
+            {
+                await messageDialog.ShowAsync(new MessageDialogParameters()
+                {
+                    Title = "エラー",
+                    Message = $"ゲームの起動に失敗しました。\n{ex.Message}",
+                    CloseButtonText = "OK",
+                });
+            }
+        }
 
         private void EditGame()
         {

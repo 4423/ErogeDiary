@@ -43,7 +43,8 @@
                         <TextBlock Text="{Binding Game.ReleaseDate, StringFormat=yyyy-MM-dd}" Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                     <ui:CommandBar Grid.Row="1" HorizontalAlignment="Left" Background="Transparent">
-                        <ui:AppBarButton Icon="Play" Label="ゲームを起動"/>
+                        <ui:AppBarButton Icon="Play" Label="ゲームを起動"
+                                         Command="{Binding StartGameCommand}"/>
                         <ui:AppBarButton Icon="Edit" Label="編集"
                                          Command="{Binding EditGameCommand}"/>
                         <ui:AppBarButton Icon="Delete" Label="プレイデータを削除" 

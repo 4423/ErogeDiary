@@ -155,6 +155,9 @@
                                     Background="#88000000"
                                     Foreground="White"
                                     ToolTip="ゲームを起動"
+                                    Command="{Binding Path=DataContext.StartGameCommand,
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:Page}}}"
+                                    CommandParameter="{Binding}"
                                     Style="{StaticResource PlayButtonStyle}">
                                 <Button.RenderTransform>
                                     <ScaleTransform x:Name="AnimatedScaleTransform" ScaleX="1" ScaleY="1" CenterX="30" CenterY="30"/>
