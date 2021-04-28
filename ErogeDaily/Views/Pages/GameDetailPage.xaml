@@ -27,7 +27,7 @@
 
                 <Image Grid.Column="0"
                        Source="{Binding Game.ImageUri, 
-                            Converter={StaticResource UriToBitmapImagelConverter},
+                            Converter={StaticResource UriToBitmapImageConverter},
                             ConverterParameter=400}" 
                        Height="200"
                        Stretch="UniformToFill"/>

@@ -12,6 +12,6 @@ namespace ErogeDaily.Models.ErogameScape
         public string Title { get; set; }
         public string Brand { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public Uri ImageUri { get; set; }
+        public string ImageUri { get; set; }
     }
 }

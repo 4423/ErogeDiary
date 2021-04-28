@@ -23,20 +23,20 @@ namespace ErogeDaily.Models
 
         public static string ThumbnailDir { get; private set; }
 
-        public async static Task<Uri> DownloadAsync(Uri imageUri)
+        public async static Task<string> DownloadAsync(string imageUri)
         {
             var timestamp = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
-            var extension = Path.GetExtension(imageUri.AbsolutePath);
+            var extension = Path.GetExtension(imageUri);
             var outputPath = Path.Combine(ThumbnailDir, $"{timestamp}{extension}");
 
             await DownloadCoreAsync(imageUri, outputPath);
             
-            return new Uri(outputPath);
+            return outputPath;
         }
 
-        private async static Task DownloadCoreAsync(Uri imageUri, string outputPath)
+        private async static Task DownloadCoreAsync(string imageUri, string outputPath)
         {
-            var res = await client.GetStreamAsync(imageUri);
+            var res = await client.GetStreamAsync(new Uri(imageUri));
             Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
             using (var outputStream = new FileStream(outputPath, FileMode.CreateNew))
             {

@@ -44,8 +44,8 @@ namespace ErogeDaily.Models
             set { SetProperty(ref releaseDate, value); }
         }
 
-        private Uri imageUri;
-        public Uri ImageUri
+        private string imageUri;
+        public string ImageUri
         {
             get => imageUri;
             set { SetProperty(ref imageUri, value); }
@@ -98,15 +98,13 @@ namespace ErogeDaily.Models
         {
             return !String.IsNullOrWhiteSpace(title)
                 && !String.IsNullOrWhiteSpace(brand)
-                && imageUri != null
-                && !String.IsNullOrWhiteSpace(imageUri.AbsolutePath)
+                && !String.IsNullOrWhiteSpace(imageUri)
                 && File.Exists(FileName);
         }
 
         public Game Clone()
         {
             var game = (Game)MemberwiseClone();
-            game.ImageUri = new Uri(ImageUri.AbsoluteUri);
             return game;
         }
 

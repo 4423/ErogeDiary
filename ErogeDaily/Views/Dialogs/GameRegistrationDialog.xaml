@@ -82,8 +82,7 @@
                             Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBox x:Name="ImageUri" 
                          ui:ControlHelper.Header="サムネイル画像のURL" 
-                         Text="{Binding Game.ImageUri, Mode=TwoWay, 
-                            Converter={StaticResource UriStringConverter}}"
+                         Text="{Binding Game.ImageUri, Mode=TwoWay}"
                          Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <Grid>
                     <Grid.ColumnDefinitions>

@@ -140,7 +140,7 @@
                             <Border.Background>
                                 <ImageBrush Stretch="UniformToFill" 
                                             ImageSource="{Binding ImageUri, 
-                                                Converter={StaticResource UriToBitmapImagelConverter},
+                                                Converter={StaticResource UriToBitmapImageConverter},
                                                 ConverterParameter=300}">
                                     <!--<ImageBrush.ImageSource>
                                         <BitmapImage DecodePixelWidth="300" UriSource="{Binding ImageUri}"/>

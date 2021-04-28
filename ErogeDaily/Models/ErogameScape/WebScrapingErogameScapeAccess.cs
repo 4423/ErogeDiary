@@ -36,7 +36,7 @@ namespace ErogeDaily.Models.ErogameScape
                 Title = title,
                 Brand = brand,
                 ReleaseDate = DateTime.Parse(releaseDate),
-                ImageUri = new Uri(imageUrl)
+                ImageUri = imageUrl
             };
         }
     }

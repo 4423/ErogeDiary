@@ -9,13 +9,17 @@ using System.Windows.Media.Imaging;
 
 namespace ErogeDaily.Views.Converters
 {
-    public class UriToBitmapImagelConverter : IValueConverter
+    public class UriToBitmapImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var uri = value as Uri;
 
-            if (uri == null)
+            if (uri != null || value is string)
+            {
+                uri = new Uri((string)value);
+            }
+            else
             {
                 return null;
             }

@@ -37,7 +37,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converter:UriStringConverter x:Key="UriStringConverter"/>
-            <converter:UriToBitmapImagelConverter x:Key="UriToBitmapImagelConverter"/>
+            <converter:UriToBitmapImageConverter x:Key="UriToBitmapImageConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
