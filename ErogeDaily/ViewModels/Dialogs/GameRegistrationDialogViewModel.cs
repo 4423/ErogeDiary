@@ -66,7 +66,7 @@ namespace ErogeDaily.ViewModels.Dialogs
                 }
                 else
                 {
-                    Game.ImageUri = await ThumbnailDownloadHelper.DownloadAsync(Game.ImageUri);
+                    Game.ImageUri = await ThumbnailDownloadHelper.DownloadToThumbnailDirectoryAsync(Game.ImageUri);
                 }
 
                 await database.AddGameAsync(Game);

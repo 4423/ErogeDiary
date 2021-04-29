@@ -30,18 +30,16 @@ namespace ErogeDaily.Models
             return Path.Combine(ThumbnailDir, $"{timestamp}{extension}");
         }
 
-        public async static Task<string> DownloadAsync(string imageUri)
+        public async static Task<string> DownloadToThumbnailDirectoryAsync(string imageUri)
         {
             var outputPath = GenerateThumbnailPath(imageUri);
-
-            await DownloadCoreAsync(imageUri, outputPath);
-            
+            await DownloadAsync(imageUri, outputPath);
             return outputPath;
         }
 
-        private async static Task DownloadCoreAsync(string imageUri, string outputPath)
+        private async static Task DownloadAsync(string sourceUri, string outputPath)
         {
-            var res = await client.GetStreamAsync(new Uri(imageUri));
+            var res = await client.GetStreamAsync(new Uri(sourceUri));
             Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
             using (var outputStream = new FileStream(outputPath, FileMode.CreateNew))
             {
@@ -52,7 +50,13 @@ namespace ErogeDaily.Models
         public async static Task<string> CopyToThumbnailDirectoryAsync(string imagePath)
         {
             var outputPath = GenerateThumbnailPath(imagePath);
-            using (var sourceStream = File.Open(imagePath, FileMode.Open))
+            await CopyAsync(imagePath, outputPath);
+            return outputPath;
+        }
+
+        private async static Task CopyAsync(string sourcePath, string outputPath)
+        {
+            using (var sourceStream = File.Open(sourcePath, FileMode.Open))
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
                 using (var outputStream = new FileStream(outputPath, FileMode.CreateNew))
@@ -60,7 +64,6 @@ namespace ErogeDaily.Models
                     await sourceStream.CopyToAsync(outputStream);
                 }
             }
-            return outputPath;
         }
     }
 }
