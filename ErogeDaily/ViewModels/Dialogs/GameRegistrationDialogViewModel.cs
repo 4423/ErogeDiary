@@ -62,11 +62,11 @@ namespace ErogeDaily.ViewModels.Dialogs
             {
                 if (new Uri(Game.ImageUri).IsFile)
                 {
-                    Game.ImageUri = await ThumbnailDownloadHelper.CopyToThumbnailDirectoryAsync(Game.ImageUri);
+                    Game.ImageUri = await ThumbnailHelper.CopyToThumbnailDirectoryAsync(Game.ImageUri);
                 }
                 else
                 {
-                    Game.ImageUri = await ThumbnailDownloadHelper.DownloadToThumbnailDirectoryAsync(Game.ImageUri);
+                    Game.ImageUri = await ThumbnailHelper.DownloadToThumbnailDirectoryAsync(Game.ImageUri);
                 }
 
                 await database.AddGameAsync(Game);

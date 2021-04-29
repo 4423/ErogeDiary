@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace ErogeDaily.Models
 {
-    public static class ThumbnailDownloadHelper
+    public static class ThumbnailHelper
     {
         private static readonly HttpClient client;
 
-        static ThumbnailDownloadHelper()
+        static ThumbnailHelper()
         {
             client = new HttpClient();
             ThumbnailDir = Path.Combine(
