@@ -6,6 +6,7 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace ErogeDaily.ViewModels.Dialogs
 {
     public class GameEditDialogViewModel : BindableBase, IDialogAware
     {
+        public DelegateCommand SelectThumbnailFileNameCommand { get; private set; }
         public DelegateCommand SelectExecutionFileNameCommand { get; private set; }
         public DelegateCommand CloseCommand { get; private set; }
         public DelegateCommand UpdateCommand { get; private set; }
@@ -28,6 +30,7 @@ namespace ErogeDaily.ViewModels.Dialogs
             this.database = database;
             this.openFileDialog = openFileDialog;
 
+            SelectThumbnailFileNameCommand = new DelegateCommand(SelectThumbnailFileName);
             SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
             CloseCommand = new DelegateCommand(CloseDialog);
             UpdateCommand = new DelegateCommand(UpdateGame);
@@ -48,6 +51,16 @@ namespace ErogeDaily.ViewModels.Dialogs
             set { SetProperty(ref game, value); }
         }
 
+        private void SelectThumbnailFileName()
+        {
+            var imageUri = openFileDialog.Show(
+                "サムネイル画像を選択してください",
+                "画像ファイル(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp");
+            if (imageUri != null)
+            {
+                Game.ImageUri = imageUri;
+            }
+        }
 
         private void SelectExecutionFileName()
         {
@@ -70,6 +83,13 @@ namespace ErogeDaily.ViewModels.Dialogs
             if (!Game.IsValid())
             {
                 return;
+            }
+
+            if (Game.ImageUri != originalGame.ImageUri)
+            {
+                Game.ImageUri = new Uri(Game.ImageUri).IsFile ?
+                    await ThumbnailHelper.CopyToThumbnailDirectoryAsync(Game.ImageUri) :
+                    await ThumbnailHelper.DownloadToThumbnailDirectoryAsync(Game.ImageUri);
             }
 
             originalGame.CopyFrom(Game);

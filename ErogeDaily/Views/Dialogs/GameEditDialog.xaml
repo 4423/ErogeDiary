@@ -36,10 +36,22 @@
                             ui:ControlHelper.Header="発売日" 
                          Text="{Binding Game.ReleaseDate, Mode=TwoWay}"
                             Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
-                <TextBox x:Name="ImageUri" 
-                         ui:ControlHelper.Header="サムネイル画像のURL" 
-                         Text="{Binding Game.ImageUri, Mode=TwoWay}"
-                         Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" 
+                             x:Name="ImageUri" 
+                             ui:ControlHelper.Header="サムネイル画像の場所（URLまたはファイルパス）" 
+                             Text="{Binding Game.ImageUri, Mode=TwoWay}"
+                             Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                    <Button Grid.Column="1"
+                            Content="参照"
+                            Command="{Binding SelectThumbnailFileNameCommand}"
+                            Margin="8 0 0 0" VerticalAlignment="Bottom"/>
+                </Grid>
+                
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
