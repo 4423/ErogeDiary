@@ -23,11 +23,16 @@ namespace ErogeDaily.Models
 
         public static string ThumbnailDir { get; private set; }
 
-        public async static Task<string> DownloadAsync(string imageUri)
+        public static string GenerateThumbnailPath(string imageUri)
         {
             var timestamp = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
             var extension = Path.GetExtension(imageUri);
-            var outputPath = Path.Combine(ThumbnailDir, $"{timestamp}{extension}");
+            return Path.Combine(ThumbnailDir, $"{timestamp}{extension}");
+        }
+
+        public async static Task<string> DownloadAsync(string imageUri)
+        {
+            var outputPath = GenerateThumbnailPath(imageUri);
 
             await DownloadCoreAsync(imageUri, outputPath);
             
@@ -42,6 +47,20 @@ namespace ErogeDaily.Models
             {
                 await res.CopyToAsync(outputStream);
             }
+        }
+
+        public async static Task<string> CopyToThumbnailDirectoryAsync(string imagePath)
+        {
+            var outputPath = GenerateThumbnailPath(imagePath);
+            using (var sourceStream = File.Open(imagePath, FileMode.Open))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+                using (var outputStream = new FileStream(outputPath, FileMode.CreateNew))
+                {
+                    await sourceStream.CopyToAsync(outputStream);
+                }
+            }
+            return outputPath;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace ErogeDaily.ViewModels.Dialogs
     public class GameRegistrationDialogViewModel : BindableBase, IDialogAware
     {
         public DelegateCommand FlyoutCompleteCommand { get; private set; }
+        public DelegateCommand SelectThumbnailFileNameCommand { get; private set; }
         public DelegateCommand SelectExecutionFileNameCommand { get; private set; }
         public DelegateCommand RegisterCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
@@ -35,6 +36,7 @@ namespace ErogeDaily.ViewModels.Dialogs
             IOpenFileDialog openFileDialog)
         {
             FlyoutCompleteCommand = new DelegateCommand(FlyoutComplete);
+            SelectThumbnailFileNameCommand = new DelegateCommand(SelectThumbnailFileName);
             SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
             RegisterCommand = new DelegateCommand(RegisterGame);
             CancelCommand = new DelegateCommand(CloseDialog);
@@ -58,8 +60,14 @@ namespace ErogeDaily.ViewModels.Dialogs
 
             if (await database.FindGameByTitleAndBrandAsync(Game.Title, Game.Brand) == null)
             {
-                var outputUri = await ThumbnailDownloadHelper.DownloadAsync(Game.ImageUri);
-                Game.ImageUri = outputUri;
+                if (new Uri(Game.ImageUri).IsFile)
+                {
+                    Game.ImageUri = await ThumbnailDownloadHelper.CopyToThumbnailDirectoryAsync(Game.ImageUri);
+                }
+                else
+                {
+                    Game.ImageUri = await ThumbnailDownloadHelper.DownloadAsync(Game.ImageUri);
+                }
 
                 await database.AddGameAsync(Game);
                 RaiseRequestClose(new DialogResult(ButtonResult.OK));
@@ -101,6 +109,16 @@ namespace ErogeDaily.ViewModels.Dialogs
             IsWorking = false;
         }
 
+        private void SelectThumbnailFileName()
+        {
+            var imageUri = openFileDialog.Show(
+                "サムネイル画像を選択してください", 
+                "画像ファイル(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp");
+            if (imageUri != null)
+            {
+                Game.ImageUri = imageUri;
+            }
+        }
 
         private void SelectExecutionFileName()
         {
