@@ -83,8 +83,9 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0">
-                <ui:AppBarButton Icon="Add" Label="ゲームを登録" Command="{Binding GameRegistrationCommand}">
-                </ui:AppBarButton>
+                <ui:CommandBar>
+                    <ui:AppBarButton Icon="Add" Label="ゲームを登録" Command="{Binding GameRegistrationCommand}"/>
+                </ui:CommandBar>
             </StackPanel>
             
             <StackPanel Grid.Column="1" Orientation="Horizontal"
