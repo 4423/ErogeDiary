@@ -121,7 +121,7 @@ namespace ErogeDaily.ViewModels
 
         private void UpdateFrameHeight()
         {
-            var h = IsPlaying ? 90 : 50;
+            var h = IsPlaying ? 58 : 18;
             FrameHeight = WindowHeight - h;
         }
 

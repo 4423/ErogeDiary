@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:ErogeDaily.Views"
         mc:Ignorable="d"
         fw:AcrylicWindow.Enabled="True"
-        Background="{DynamicResource SystemAltMediumHighColorBrush}"
+        Background="#1f2022"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.RequestedTheme="Dark"
         ui:ThemeManager.IsThemeAware="True"
@@ -63,42 +63,25 @@
             </ui:Frame>
         </ui:SimpleStackPanel>
 
-        <Grid Grid.Row="2" Background="#88ED217C" Height="64"
+        <Grid Grid.Row="2" Background="#5B2C6F"
               Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid>
+            <Grid Margin="8 8 10 8" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
+            
+                <TextBlock Grid.Column="0" FontSize="12">
+                    <Run Text="計測中："/>
+                    <Run Text="{Binding ActiveGame.Title}" />
+                    <Run Text=" / "/>
+                    <Run Text="{Binding ActiveGame.Brand}" />
+                </TextBlock>
 
-                <Grid Grid.Column="0" Width="64" Height="64">
-                    <Image Stretch="UniformToFill" 
-                           VerticalAlignment="Center" HorizontalAlignment="Center"
-                           Source="{Binding ActiveGame.ImageUri, 
-                                Converter={StaticResource UriToBitmapImageConverter},
-                                ConverterParameter=100}"/>
-                </Grid>
-
-                <StackPanel Grid.Column="1" Margin="15 0 0 0" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding ActiveGame.Title}" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding ActiveGame.Brand}" FontSize="13"/>
-                </StackPanel>
-
-                <StackPanel Grid.Column="2" Margin="20 0" VerticalAlignment="Center">
-                    <TextBlock FontSize="13">
-                        <TextBlock.Inlines>
-                            <Run Text="計測中："/>
-                            <Run Text="{Binding CurrentPlayTime, StringFormat={}{0:hh\\:mm\\:ss}}"/>
-                        </TextBlock.Inlines>
-                    </TextBlock>
-                    <TextBlock FontSize="16">
-                        <TextBlock.Inlines>
-                            <Run Text="合計プレイ時間"/>
-                            <Run Text="{Binding TotalPlayTime, StringFormat={}{0:hh\\:mm\\:ss}}"/>
-                        </TextBlock.Inlines>
-                    </TextBlock>
-                </StackPanel>
+                <TextBlock Grid.Column="1" FontSize="12">
+                    <Run Text="合計プレイ時間："/>
+                    <Run Text="{Binding TotalPlayTime, StringFormat={}{0:hh\\:mm\\:ss}}"/>
+                </TextBlock>
             </Grid>
         </Grid>
     </Grid>
