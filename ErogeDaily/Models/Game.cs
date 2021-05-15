@@ -1,6 +1,8 @@
-﻿using Prism.Mvvm;
+﻿using ErogeDaily.Models.DataAnnotations;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ErogeDaily.Models
 {
-    public class Game : BindableBase
+    public class Game : VerifiableBindableBase
     {
         public Game()
         {
@@ -24,31 +26,52 @@ namespace ErogeDaily.Models
         }
 
         private string title;
+        [Required(ErrorMessage = "タイトルを入力してください。")]
         public string Title
         {
             get => title;
-            set { SetProperty(ref title, value); }
+            set
+            {
+                SetProperty(ref title, value);
+                ValidateProperty(value);
+            }
         }
 
         private string brand;
+        [Required(ErrorMessage = "ブランドを入力してください。")]
         public string Brand
         {
             get => brand;
-            set { SetProperty(ref brand, value); }
+            set
+            {
+                SetProperty(ref brand, value);
+                ValidateProperty(value);
+            }
         }
 
         private DateTime releaseDate;
+        [Required(ErrorMessage = "発売日を入力してください。")]
         public DateTime ReleaseDate
         {
             get => releaseDate;
-            set { SetProperty(ref releaseDate, value); }
+            set
+            {
+                SetProperty(ref releaseDate, value);
+                ValidateProperty(value);
+            }
         }
 
         private string imageUri;
+        [Required(ErrorMessage = "サムネイル画像の場所を入力してください。")]
+        [ValidExtensionRequired(ValidExtensions = new string[] { ".jpg", ".jpeg", ".png", ".bmp" })]
         public string ImageUri
         {
             get => imageUri;
-            set { SetProperty(ref imageUri, value); }
+            set
+            {
+                SetProperty(ref imageUri, value);
+                ValidateProperty(value);
+            }
         }
 
         private string erogameScapeGameId;
@@ -59,10 +82,16 @@ namespace ErogeDaily.Models
         }
 
         private string fileName;
+        [Required(ErrorMessage = "実行ファイルの場所を入力してください。")]
+        [FileExistRequired]
         public string FileName
         {
             get => fileName;
-            set { SetProperty(ref fileName, value); }
+            set
+            {
+                SetProperty(ref fileName, value);
+                ValidateProperty(value);
+            }
         }
 
         private DateTime registrationDate;
@@ -93,13 +122,12 @@ namespace ErogeDaily.Models
             set { SetProperty(ref isCleared, value); }
         }
 
-
-        public bool IsValid()
+        public bool HasNullOrWhiteSpaceProperties()
         {
-            return !String.IsNullOrWhiteSpace(title)
-                && !String.IsNullOrWhiteSpace(brand)
-                && !String.IsNullOrWhiteSpace(imageUri)
-                && File.Exists(FileName);
+            return String.IsNullOrWhiteSpace(Title)
+                || String.IsNullOrWhiteSpace(Brand)
+                || String.IsNullOrWhiteSpace(ImageUri)
+                || String.IsNullOrWhiteSpace(FileName);
         }
 
         public Game Clone()

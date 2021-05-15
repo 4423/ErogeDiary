@@ -27,6 +27,7 @@
 
                 <Image Grid.Column="0"
                        Source="{Binding Game.ImageUri, 
+                            ValidatesOnNotifyDataErrors=False,
                             Converter={StaticResource UriToBitmapImageConverter},
                             ConverterParameter=400}" 
                        Height="200"
@@ -38,9 +39,12 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0" Margin="15 0 0 0">
-                        <TextBlock Text="{Binding Game.Title}" Style="{StaticResource SubheaderTextBlockStyle}"/>
-                        <TextBlock Text="{Binding Game.Brand}" Style="{StaticResource BodyTextBlockStyle}"/>
-                        <TextBlock Text="{Binding Game.ReleaseDate, StringFormat=yyyy-MM-dd}" Style="{StaticResource BodyTextBlockStyle}"/>
+                        <TextBlock Text="{Binding Game.Title, ValidatesOnNotifyDataErrors=False}" 
+                                   Style="{StaticResource SubheaderTextBlockStyle}"/>
+                        <TextBlock Text="{Binding Game.Brand, ValidatesOnNotifyDataErrors=False}" 
+                                   Style="{StaticResource BodyTextBlockStyle}"/>
+                        <TextBlock Text="{Binding Game.ReleaseDate, StringFormat=yyyy-MM-dd, ValidatesOnNotifyDataErrors=False}"
+                                   Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                     <ui:CommandBar Grid.Row="1" HorizontalAlignment="Left" Background="Transparent">
                         <ui:AppBarButton Icon="Play" Label="ゲームを起動"

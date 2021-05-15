@@ -21,13 +21,18 @@ namespace ErogeDaily.ViewModels.Dialogs
         public DelegateCommand UpdateCommand { get; private set; }
 
         private IDatabaseAccess database;
+        private IMessageDialog messageDialog;
         private IOpenFileDialog openFileDialog;
         private Game originalGame;
 
 
-        public GameEditDialogViewModel(IDatabaseAccess database, IOpenFileDialog openFileDialog)
+        public GameEditDialogViewModel(
+            IDatabaseAccess database, 
+            IMessageDialog messageDialog, 
+            IOpenFileDialog openFileDialog)
         {
             this.database = database;
+            this.messageDialog = messageDialog;
             this.openFileDialog = openFileDialog;
 
             SelectThumbnailFileNameCommand = new DelegateCommand(SelectThumbnailFileName);
@@ -41,6 +46,12 @@ namespace ErogeDaily.ViewModels.Dialogs
         {
             originalGame = parameters.GetValue<Game>("game");
             Game = originalGame.Clone();
+        }
+
+        public virtual void OnDialogClosed()
+        {
+            Game.ClearAllErrors();
+            Game = null;
         }
 
 
@@ -80,16 +91,19 @@ namespace ErogeDaily.ViewModels.Dialogs
 
         private async void UpdateGame()
         {
-            if (!Game.IsValid())
-            {
-                return;
-            }
-
             if (Game.ImageUri != originalGame.ImageUri)
             {
-                Game.ImageUri = new Uri(Game.ImageUri).IsFile ?
-                    await ThumbnailHelper.CopyToThumbnailDirectoryAsync(Game.ImageUri) :
-                    await ThumbnailHelper.DownloadToThumbnailDirectoryAsync(Game.ImageUri);
+                try
+                {
+                    Game.ImageUri = new Uri(Game.ImageUri).IsFile ?
+                        await ThumbnailHelper.CopyToThumbnailDirectoryAsync(Game.ImageUri) :
+                        await ThumbnailHelper.DownloadToThumbnailDirectoryAsync(Game.ImageUri);
+                }
+                catch (Exception ex)
+                {
+                    await messageDialog.ShowErrorAsync($"サムネイル画像の取得に失敗しました。\n{ex.Message}");
+                    return;
+                }
             }
 
             originalGame.CopyFrom(Game);
@@ -104,8 +118,6 @@ namespace ErogeDaily.ViewModels.Dialogs
             => RequestClose?.Invoke(dialogResult);
 
         public virtual bool CanCloseDialog() => true;
-
-        public virtual void OnDialogClosed() { }
 
         private string title = "";
         public string Title

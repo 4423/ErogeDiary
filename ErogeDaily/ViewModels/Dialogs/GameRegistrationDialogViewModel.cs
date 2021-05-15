@@ -53,7 +53,7 @@ namespace ErogeDaily.ViewModels.Dialogs
 
         private async void RegisterGame()
         {
-            if (!Game.IsValid())
+            if (Game.HasNullOrWhiteSpaceProperties())
             {
                 return;
             }
