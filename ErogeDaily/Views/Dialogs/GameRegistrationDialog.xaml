@@ -70,16 +70,25 @@
                 </Button>
                 <TextBox x:Name="Title" 
                          ui:ControlHelper.Header="タイトル" 
-                         Text="{Binding Game.Title, Mode=TwoWay}"
+                         Text="{Binding Game.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           Text="{Binding ElementName=Title, Path=(Validation.Errors)[0].ErrorContent}"/>
+                
                 <TextBox x:Name="Brand" 
                          ui:ControlHelper.Header="ブランド" 
-                         Text="{Binding Game.Brand, Mode=TwoWay}"
-                         Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                         Text="{Binding Game.Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
+                <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           Text="{Binding ElementName=Brand, Path=(Validation.Errors)[0].ErrorContent}"/>
+                
                 <DatePicker x:Name="ReleaseDate"
                             ui:ControlHelper.Header="発売日" 
-                         Text="{Binding Game.ReleaseDate, Mode=TwoWay}"
-                            Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                            Text="{Binding Game.ReleaseDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
+                <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           Text="{Binding ElementName=ReleaseDate, Path=(Validation.Errors)[0].ErrorContent}"/>
+                
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -88,13 +97,16 @@
                     <TextBox Grid.Column="0"
                              x:Name="ImageUri" 
                              ui:ControlHelper.Header="サムネイル画像の場所（URLまたはファイルパス）" 
-                             Text="{Binding Game.ImageUri, Mode=TwoWay}"
-                             Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                             Text="{Binding Game.ImageUri, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                     <Button Grid.Column="1"
                             Content="参照"
                             Command="{Binding SelectThumbnailFileNameCommand}"
                             Margin="8 0 0 0" VerticalAlignment="Bottom"/>
                 </Grid>
+                <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           Text="{Binding ElementName=ImageUri, Path=(Validation.Errors)[0].ErrorContent}"/>
+                
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -103,23 +115,24 @@
                     <TextBox Grid.Column="0" 
                              x:Name="FileName" 
                              ui:ControlHelper.Header="実行ファイルの場所" 
-                             Text="{Binding Game.FileName, Mode=TwoWay}"
-                             Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                             Text="{Binding Game.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                     <Button Grid.Column="1"
                             Content="参照"
                             Command="{Binding SelectExecutionFileNameCommand}"
                             Margin="8 0 0 0" VerticalAlignment="Bottom"/>
                 </Grid>
+                <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           Text="{Binding ElementName=FileName, Path=(Validation.Errors)[0].ErrorContent}"/>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="0 12">
                     <Button Content="登録"
                             Command="{Binding RegisterCommand}"
-                            CommandParameter="{Binding ElementName=Window}"
-                            Margin="0 24"/>
+                            CommandParameter="{Binding ElementName=Window}"/>
                     <Button Content="キャンセル" 
                             Command="{Binding CancelCommand}"
                             CommandParameter="{Binding ElementName=Window}"
-                            Margin="24" />
+                            Margin="24 0 0 0"/>
                 </StackPanel>
             </StackPanel>
         </Grid>

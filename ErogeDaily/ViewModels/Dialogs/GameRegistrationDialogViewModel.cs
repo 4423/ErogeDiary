@@ -53,11 +53,6 @@ namespace ErogeDaily.ViewModels.Dialogs
 
         private async void RegisterGame()
         {
-            if (Game.HasNullOrWhiteSpaceProperties())
-            {
-                return;
-            }
-
             if (await database.FindGameByTitleAndBrandAsync(Game.Title, Game.Brand) == null)
             {
                 if (new Uri(Game.ImageUri).IsFile)
