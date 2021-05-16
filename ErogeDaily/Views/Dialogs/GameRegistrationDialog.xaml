@@ -7,6 +7,7 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ErogeDaily.Views.Dialogs"
+             xmlns:validations="clr-namespace:ErogeDaily.Views.Validations"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="430">
@@ -81,11 +82,22 @@
                          Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=Brand, Path=(Validation.Errors)[0].ErrorContent}"/>
-                
+
+                <!-- エラーの表示が崩れるため DatePicker の Header は使わない -->
+                <TextBlock Text="発売日" Margin="0 8 0 0" FontSize="14"/>
                 <DatePicker x:Name="ReleaseDate"
-                            ui:ControlHelper.Header="発売日" 
-                            Text="{Binding Game.ReleaseDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
+                            DisplayDateStart="1/1/1980"
+                            Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
+                            Margin="0 4 0 0" HorizontalAlignment="Stretch">
+                    <DatePicker.SelectedDate>
+                        <Binding Path="Game.ReleaseDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <!-- 未入力時のエラーを DatePicker 側ではなく Required 属性でハンドルする -->
+                                <validations:PassThroughValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=ReleaseDate, Path=(Validation.Errors)[0].ErrorContent}"/>
                 

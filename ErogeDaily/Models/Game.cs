@@ -14,6 +14,7 @@ namespace ErogeDaily.Models
     {
         public Game()
         {
+            ReleaseDate = DateTime.Now;
             RegistrationDate = DateTime.Now;
             LatestDate = null;
         }
@@ -49,9 +50,9 @@ namespace ErogeDaily.Models
             }
         }
 
-        private DateTime releaseDate;
+        private DateTime? releaseDate;
         [Required(ErrorMessage = "発売日を入力してください。")]
-        public DateTime ReleaseDate
+        public DateTime? ReleaseDate
         {
             get => releaseDate;
             set
