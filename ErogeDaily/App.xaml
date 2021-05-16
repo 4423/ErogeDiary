@@ -34,6 +34,8 @@
                 </ui:ThemeResources>
                 <ui:XamlControlsResources />
                 <ui:IntellisenseResources Source="/ModernWpf;component/DesignTime/DesignTimeResources.xaml" />
+
+                <ResourceDictionary Source="Views/Styles/DialogStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <converter:UriStringConverter x:Key="UriStringConverter"/>

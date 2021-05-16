@@ -20,13 +20,6 @@
             <Setter Property="ShowInTaskbar" Value="False"/>
         </Style>
     </prism:Dialog.WindowStyle>
-    <UserControl.Resources>
-        <Style x:Key="ValidationErrorStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Red"/>
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Height" Value="16"/>
-        </Style>
-    </UserControl.Resources>
     <ScrollViewer>
         <Grid Margin="24 0">
             <StackPanel>
