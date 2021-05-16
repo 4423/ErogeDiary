@@ -38,10 +38,12 @@ namespace ErogeDaily.ViewModels.Dialogs
             FlyoutCompleteCommand = new DelegateCommand(FlyoutComplete);
             SelectThumbnailFileNameCommand = new DelegateCommand(SelectThumbnailFileName);
             SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
-            RegisterCommand = new DelegateCommand(RegisterGame);
+            RegisterCommand = new DelegateCommand(RegisterGame, CanExecuteRegisterGame);
             CancelCommand = new DelegateCommand(CloseDialog);
-
+            
             Game = new Game();
+            Game.ErrorsChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
+
             IsOpen = false;
 
             this.database = database;
@@ -50,6 +52,9 @@ namespace ErogeDaily.ViewModels.Dialogs
             this.openFileDialog = openFileDialog;
         }
 
+
+        private bool CanExecuteRegisterGame()
+            => !Game.HasNullOrWhiteSpaceProperties() && !Game.HasErrors;
 
         private async void RegisterGame()
         {

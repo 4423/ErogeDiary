@@ -38,7 +38,7 @@ namespace ErogeDaily.ViewModels.Dialogs
             SelectThumbnailFileNameCommand = new DelegateCommand(SelectThumbnailFileName);
             SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
             CloseCommand = new DelegateCommand(CloseDialog);
-            UpdateCommand = new DelegateCommand(UpdateGame);
+            UpdateCommand = new DelegateCommand(UpdateGame, CanExecuteUpdateGame);
         }
 
 
@@ -46,6 +46,9 @@ namespace ErogeDaily.ViewModels.Dialogs
         {
             originalGame = parameters.GetValue<Game>("game");
             Game = originalGame.Clone();
+            // なぜか ErrorsChanged が発火しないので PropertyChanged を監視
+            Game.PropertyChanged += (_, __) => UpdateCommand.RaiseCanExecuteChanged();
+            UpdateCommand.RaiseCanExecuteChanged();
         }
 
         public virtual void OnDialogClosed()
@@ -88,6 +91,9 @@ namespace ErogeDaily.ViewModels.Dialogs
         {
             RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
         }
+
+        private bool CanExecuteUpdateGame()
+            => Game != null && !Game.HasErrors;
 
         private async void UpdateGame()
         {
