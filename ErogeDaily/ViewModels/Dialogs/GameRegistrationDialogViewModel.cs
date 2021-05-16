@@ -42,7 +42,7 @@ namespace ErogeDaily.ViewModels.Dialogs
             CancelCommand = new DelegateCommand(CloseDialog);
             
             Game = new Game();
-            Game.ErrorsChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
+            Game.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
 
             IsOpen = false;
 
@@ -96,6 +96,7 @@ namespace ErogeDaily.ViewModels.Dialogs
             {
                 var gameInfo = await erogameScape.GetGameInfoFromGamePageUrl(ErogameScapeUrl);
                 Game = gameInfo.ToGame();
+                Game.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
             }
             catch (Exception)
             {

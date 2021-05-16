@@ -46,7 +46,6 @@ namespace ErogeDaily.ViewModels.Dialogs
         {
             originalGame = parameters.GetValue<Game>("game");
             Game = originalGame.Clone();
-            // なぜか ErrorsChanged が発火しないので PropertyChanged を監視
             Game.PropertyChanged += (_, __) => UpdateCommand.RaiseCanExecuteChanged();
             UpdateCommand.RaiseCanExecuteChanged();
         }
