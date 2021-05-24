@@ -21,4 +21,8 @@
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ErogeDaily.Controls\ErogeDaily.Controls.csproj" />
+  </ItemGroup>
+
 </Project>
