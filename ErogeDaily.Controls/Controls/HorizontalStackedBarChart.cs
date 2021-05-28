@@ -74,6 +74,7 @@ namespace ErogeDaily.Controls
                 var textBlock = new TextBlock()
                 {
                     Text = chartData.Label,
+                    ToolTip = chartData.ToolTip,
                     Background = Colors[i],
                 };
                 Grid.SetColumn(textBlock, i);
