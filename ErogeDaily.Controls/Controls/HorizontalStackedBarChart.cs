@@ -67,7 +67,7 @@ namespace ErogeDaily.Controls
             {
                 var columnDefinition = new ColumnDefinition()
                 {
-                    Width = new GridLength(chartData.Value, GridUnitType.Star)
+                    Width = new GridLength((int)chartData.Value, GridUnitType.Star)
                 };
                 chartArea.ColumnDefinitions.Add(columnDefinition);
 
@@ -105,7 +105,7 @@ namespace ErogeDaily.Controls
     public class ChartData
     {
         public string Label { get; set; }
-        public int Value { get; set; }
+        public double Value { get; set; }
         public string ToolTip { get; set; }
     }
 }
