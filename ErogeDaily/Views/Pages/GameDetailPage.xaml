@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:controls="clr-namespace:ErogeDaily.Controls;assembly=ErogeDaily.Controls"
     xmlns:local="clr-namespace:ErogeDaily.Views.Pages"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800"
@@ -13,7 +14,7 @@
     Title="GameDetailPage">
 
     <ScrollViewer>
-        <Grid>
+        <Grid Margin="0 0 0 24">
             <Grid.RowDefinitions>
                 <RowDefinition Height="200"/>
                 <RowDefinition Height="*"/>
@@ -59,50 +60,41 @@
             </Grid>
             <Border Grid.Row="1" 
                     Margin="0 35 0 0"
-                    BorderThickness="0 2 0 0 " 
+                    BorderThickness="0 2 0 0" 
                     BorderBrush="{DynamicResource SystemBaseMediumLowColorBrush}">
-                <Grid Margin="35 25">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" FontSize="30">
-                        <TextBlock.Inlines>
-                            <Run Text="プレイ時間"/>
-                            <Run Text="{Binding Game.TotalPlayTime, StringFormat={}{0:hh\\:mm\\:ss}}"/>
-                        </TextBlock.Inlines>
-                    </TextBlock>
-                    <TextBlock Grid.Row="1">
-                        <TextBlock.Inlines>
-                            <Run Text="プレイ開始日"/>
-                            <Run Text="{Binding Game.RegistrationDate, StringFormat=yyyy-MM-dd}"/>
-                        </TextBlock.Inlines>
-                    </TextBlock>
-                    <TextBlock Grid.Row="2">
-                        <TextBlock.Inlines>
-                            <Run Text="最終プレイ日"/>
-                            <Run Text="{Binding Game.LatestDate, StringFormat=yyyy-MM-dd}"/>
-                        </TextBlock.Inlines>
-                    </TextBlock>
-                    <!--<StackPanel Grid.Row="3">
-                        <TextBlock Text="ルート別プレイ時間"/>
-                        <ListView SelectionMode="Single">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Name}"/>
-                                        <TextBlock Text="{Binding Time}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListViewItem Content="加藤恵"/>
-                            <ListViewItem Content="澤村・スペンサー・英梨々"/>
-                            <ListViewItem Content="霞ヶ丘詩羽"/>
-                        </ListView>
-                    </StackPanel>-->
-                </Grid>
+                <StackPanel Margin="35 16">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" FontSize="36"
+                                   Text="{Binding Game.TotalPlayTime, 
+                                        Converter={StaticResource PlayTimeToStringConverter},
+                                        ConverterParameter=未プレイ}"/>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 0 0 8">
+                            <TextBlock Foreground="#AAA">
+                                <TextBlock.Inlines>
+                                    <Run Text="{Binding Game.RegistrationDate, StringFormat=yyyy-MM-dd}"/>
+                                    <Run Text="～"/>
+                                    <Run Text="{Binding Game.LatestDate, StringFormat=yyyy-MM-dd}"/>
+                                </TextBlock.Inlines>
+                            </TextBlock>
+                        </StackPanel>
+                        <ui:CommandBar Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Bottom">
+                            <ui:AppBarButton Icon="Add" Label="ルート追加"/>
+                            <ui:CommandBar.SecondaryCommands>
+                                <ui:AppBarButton Icon="Edit" Label="ルート編集"/>
+                                <ui:AppBarButton Icon="Delete" Label="ルート削除"/>
+                            </ui:CommandBar.SecondaryCommands>
+                        </ui:CommandBar>
+                    </Grid>
+                    <controls:HorizontalStackedBarChart ItemsSource="{Binding RootChartDataList}"/>
+                </StackPanel>
             </Border>
         </Grid>
     </ScrollViewer>

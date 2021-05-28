@@ -1,4 +1,5 @@
-﻿using ErogeDaily.Dialogs;
+﻿using ErogeDaily.Controls;
+using ErogeDaily.Dialogs;
 using ErogeDaily.Models;
 using ErogeDaily.Models.Database;
 using Prism.Commands;
@@ -7,10 +8,12 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace ErogeDaily.ViewModels.Pages
 {
@@ -50,12 +53,47 @@ namespace ErogeDaily.ViewModels.Pages
             set { SetProperty(ref game, value); }
         }
 
+        private ObservableCollection<ChartData> rootChartDataList;
+        public ObservableCollection<ChartData> RootChartDataList
+        {
+            get => rootChartDataList;
+            set { SetProperty(ref rootChartDataList, value); }
+        }
+
+        private ObservableCollection<ChartData> ToChartDataList(IEnumerable<RootData> rootDataList)
+        {
+            if (rootDataList == null || rootDataList.Count() == 0)
+            {
+                var defaultData = new ChartData()
+                {
+                    Label = "（無題のルート）",
+                    Value = Game.TotalPlayTime.TotalSeconds,
+                    ToolTip = Game.TotalPlayTime.ToPlayTimeString(),
+                    Color = new SolidColorBrush(Colors.DimGray)
+                };
+                return new ObservableCollection<ChartData>() { defaultData };
+            }
+            return new ObservableCollection<ChartData>(rootDataList.Select(r => new ChartData()
+            {
+                Label = r.Name,
+                Value = Game.TotalPlayTime.TotalSeconds,
+                ToolTip = Game.TotalPlayTime.ToPlayTimeString()
+            }));
+        }
+
+        private void UpdateRootChartDataList()
+        {
+            RootChartDataList = ToChartDataList(Game.RootDataList);
+        }
+
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             var game = navigationContext.Parameters["Game"] as Game;
             if(game != null)
             {
                 Game = game;
+                Game.PropertyChanged += (_, __) => UpdateRootChartDataList();
+                UpdateRootChartDataList();
             }
         }
 
