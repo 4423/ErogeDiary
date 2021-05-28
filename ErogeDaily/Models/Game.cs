@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -116,6 +117,13 @@ namespace ErogeDaily.Models
             set { SetProperty(ref totalPlayTime, value); }
         }
 
+        private ObservableCollection<RootData> rootDataList;
+        public ObservableCollection<RootData> RootDataList
+        {
+            get => rootDataList;
+            set { SetProperty(ref rootDataList, value); }
+        }
+
         private bool isCleared;
         public bool IsCleared
         {
@@ -134,6 +142,7 @@ namespace ErogeDaily.Models
         public Game Clone()
         {
             var game = (Game)MemberwiseClone();
+            game.RootDataList = new ObservableCollection<RootData>(RootDataList.Clone());
             return game;
         }
 
