@@ -142,7 +142,10 @@ namespace ErogeDaily.Models
         public Game Clone()
         {
             var game = (Game)MemberwiseClone();
-            game.RootDataList = new ObservableCollection<RootData>(RootDataList.Clone());
+            if (RootDataList != null)
+            {
+                game.RootDataList = new ObservableCollection<RootData>(RootDataList.Clone());
+            }
             return game;
         }
 

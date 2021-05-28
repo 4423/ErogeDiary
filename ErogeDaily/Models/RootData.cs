@@ -56,7 +56,7 @@ namespace ErogeDaily.Models
     {
         public static IEnumerable<RootData> Clone(this IEnumerable<RootData> original)
         {
-            return original.Select(r => (RootData)r.Clone());
+            return original?.Select(r => (RootData)r.Clone());
         }
     }
 }
