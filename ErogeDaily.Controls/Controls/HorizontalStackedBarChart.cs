@@ -75,7 +75,7 @@ namespace ErogeDaily.Controls
                 {
                     Text = chartData.Label,
                     ToolTip = chartData.ToolTip,
-                    Background = Colors[i],
+                    Background = chartData.Color ?? Colors[i],
                 };
                 Grid.SetColumn(textBlock, i);
                 chartArea.Children.Add(textBlock);
@@ -108,5 +108,6 @@ namespace ErogeDaily.Controls
         public string Label { get; set; }
         public double Value { get; set; }
         public string ToolTip { get; set; }
+        public SolidColorBrush Color { get; set; }
     }
 }
