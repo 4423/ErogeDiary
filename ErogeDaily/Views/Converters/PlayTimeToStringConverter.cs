@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ErogeDaily.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -24,20 +25,7 @@ namespace ErogeDaily.Views.Converters
                 return parameter;
             }
 
-            var res = "";
-            if (((int)ts.TotalHours) > 0)
-            {
-                res += $"{(int)ts.TotalHours}時間";
-            }
-            if (ts.Minutes > 0)
-            {
-                res += $"{ts.Minutes}分";
-            }
-            if (ts.Seconds > 0)
-            {
-                res += $"{ts.Seconds}秒";
-            }
-            return res;
+            return ts.ToPlayTimeString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
