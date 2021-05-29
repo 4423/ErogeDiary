@@ -57,6 +57,9 @@ namespace ErogeDaily.ViewModels
             game.LatestDate = DateTime.Now;
             await database.UpdateAsync(game);
 
+            var playLog = new PlayLog(game.Id, playTime);
+            await database.AddPlayLogAsync(playLog);
+
             System.Diagnostics.Debug.WriteLine(game.Title);
             System.Diagnostics.Debug.WriteLine(playTime);
         }
