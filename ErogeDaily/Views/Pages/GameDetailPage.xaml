@@ -94,6 +94,22 @@
                         </ui:CommandBar>
                     </Grid>
                     <controls:HorizontalStackedBarChart ItemsSource="{Binding RootChartDataList}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0 8">
+                        <TextBlock Foreground="#AAA" FontSize="12">
+                            <TextBlock.Inlines>
+                                <Run Text="平均プレイ "/>
+                                <Run Text="{Binding Timeline.AveragePlayTime, Mode=OneWay,
+                                    Converter={StaticResource PlayTimeToStringConverter}}"/>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                        <TextBlock Foreground="#AAA" Margin="24 0" FontSize="12">
+                            <TextBlock.Inlines>
+                                <Run Text="最長プレイ "/>
+                                <Run Text="{Binding Timeline.MaximumPlayTime, Mode=OneWay,
+                                    Converter={StaticResource PlayTimeToStringConverter}}"/>
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
             </Border>
         </Grid>

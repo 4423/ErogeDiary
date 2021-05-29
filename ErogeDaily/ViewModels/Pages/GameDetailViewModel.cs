@@ -86,14 +86,37 @@ namespace ErogeDaily.ViewModels.Pages
             RootChartDataList = ToChartDataList(Game.RootDataList);
         }
 
+        private Timeline timeline;
+        public Timeline Timeline
+        {
+            get => timeline;
+            set { SetProperty(ref timeline, value); }
+        }
+
+        private void UpdateTimeline()
+        {
+            Timeline = new Timeline()
+            {
+                PlayLogs = new ObservableCollection<PlayLog>(database.FindPlayLogsByGameId(Game.Id))
+            };
+        }
+
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             var game = navigationContext.Parameters["Game"] as Game;
             if(game != null)
             {
                 Game = game;
-                Game.PropertyChanged += (_, __) => UpdateRootChartDataList();
+                Game.PropertyChanged += (s, e) =>
+                {
+                    UpdateRootChartDataList();
+                    if (e.PropertyName == nameof(Game.TotalPlayTime))
+                    {
+                        UpdateTimeline();
+                    }
+                };
                 UpdateRootChartDataList();
+                UpdateTimeline();
             }
         }
 
