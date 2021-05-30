@@ -41,6 +41,7 @@
             <converter:UriStringConverter x:Key="UriStringConverter"/>
             <converter:UriToBitmapImageConverter x:Key="UriToBitmapImageConverter"/>
             <converter:PlayTimeToStringConverter x:Key="PlayTimeToStringConverter"/>
+            <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
