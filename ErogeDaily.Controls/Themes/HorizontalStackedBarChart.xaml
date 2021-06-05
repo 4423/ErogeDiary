@@ -14,7 +14,7 @@
                                 <Style TargetType="TextBlock">
                                     <Setter Property="TextAlignment" Value="Center"/>
                                     <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                    <Setter Property="TextWrapping" Value="NoWrap"/>
                                     <Setter Property="Height" Value="50"/>
                                     <Setter Property="FontSize" Value="14"/>
                                     <Setter Property="Margin" Value="1"/>
