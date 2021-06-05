@@ -77,6 +77,12 @@ namespace ErogeDaily.Models.Database
             await SaveChangesAsync();
         }
 
+        public async Task RemoveRootAsync(RootData root)
+        {
+            Roots.Remove(root);
+            await SaveChangesAsync();
+        }
+
         #endregion
 
         #region PlayLog
