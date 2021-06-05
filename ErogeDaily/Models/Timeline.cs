@@ -35,7 +35,7 @@ namespace ErogeDaily.Models
 
         private void Update()
         {
-            if (PlayLogs == null)
+            if (PlayLogs == null || PlayLogs.Count == 0)
             {
                 return;
             }
