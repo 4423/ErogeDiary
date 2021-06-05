@@ -16,6 +16,8 @@ namespace ErogeDaily.Models.Database
         public Task<Game> FindGameByTitleAndBrandAsync(string title, string brand);
         public Task RemoveAsync(Game game);
 
+        public Task AddRootAsync(RootData root);
+
         public Task<ObservableCollection<PlayLog>> GetPlayLogsAsync();
         public Task AddPlayLogAsync(PlayLog playLog);
         public IEnumerable<PlayLog> FindPlayLogsByGameId(int gameId);

@@ -11,15 +11,26 @@ namespace ErogeDaily.Models.Database
     public class SQLiteDatabaseAccess : DbContext, IDatabaseAccess
     {
         public DbSet<Game> Games { get; set; }
+        public DbSet<RootData> Roots { get; set; }
         public DbSet<PlayLog> PlayLogs { get; set; }
 
-        #region Games
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=database.db");
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Game>()
+                .HasMany(g => g.Roots)
+                .WithOne();
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        #region Games
 
         public async Task AddGameAsync(Game game)
         {
@@ -46,6 +57,7 @@ namespace ErogeDaily.Models.Database
         public async Task<ObservableCollection<Game>> GetGamesAsync()
         {
             await Games.LoadAsync();
+            await Roots.LoadAsync();
             return Games.Local.ToObservableCollection();
         }
 
@@ -53,6 +65,16 @@ namespace ErogeDaily.Models.Database
         {
             Games.Remove(game);
             await this.SaveChangesAsync();
+        }
+
+        #endregion
+
+        #region Roots
+
+        public async Task AddRootAsync(RootData root)
+        {
+            Roots.Add(root);
+            await SaveChangesAsync();
         }
 
         #endregion

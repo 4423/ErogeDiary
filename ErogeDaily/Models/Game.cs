@@ -18,6 +18,7 @@ namespace ErogeDaily.Models
             ReleaseDate = DateTime.Now;
             RegistrationDate = DateTime.Now;
             LatestDate = null;
+            Roots = new List<RootData>();
         }
 
         private int id;
@@ -117,11 +118,11 @@ namespace ErogeDaily.Models
             set { SetProperty(ref totalPlayTime, value); }
         }
 
-        private ObservableCollection<RootData> rootDataList;
-        public ObservableCollection<RootData> RootDataList
+        private List<RootData> roots;
+        public List<RootData> Roots
         {
-            get => rootDataList;
-            set { SetProperty(ref rootDataList, value); }
+            get => roots;
+            set { SetProperty(ref roots, value); }
         }
 
         private bool isCleared;
@@ -142,9 +143,9 @@ namespace ErogeDaily.Models
         public Game Clone()
         {
             var game = (Game)MemberwiseClone();
-            if (RootDataList != null)
+            if (Roots != null)
             {
-                game.RootDataList = new ObservableCollection<RootData>(RootDataList.Clone());
+                game.Roots = new List<RootData>(Roots.Clone());
             }
             return game;
         }
