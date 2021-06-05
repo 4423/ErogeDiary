@@ -49,6 +49,7 @@ namespace ErogeDaily.ViewModels.Pages
                 new GameOrder("最近プレイした順", "LatestDate", ListSortDirection.Descending),
                 new GameOrder("プレイ時間が長い順", "TotalPlayTime", ListSortDirection.Descending),
                 new GameOrder("発売日が新しい順", "ReleaseDate", ListSortDirection.Descending),
+                new GameOrder("最近登録した順", "RegistrationDate", ListSortDirection.Descending),
                 new GameOrder("ブランド順", "Brand", ListSortDirection.Ascending),
             };
             OrderSelectedItem = OrderItems[0];
