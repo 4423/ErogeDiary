@@ -86,7 +86,8 @@
                             </TextBlock>
                         </StackPanel>
                         <ui:CommandBar Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Bottom">
-                            <ui:AppBarButton Icon="Add" Label="ルート追加"/>
+                            <ui:AppBarButton Icon="Add" Label="ルートを追加"
+                                             Command="{Binding AddRootCommand}"/>
                             <ui:CommandBar.SecondaryCommands>
                                 <ui:AppBarButton Icon="Edit" Label="ルート編集"/>
                                 <ui:AppBarButton Icon="Delete" Label="ルート削除"/>

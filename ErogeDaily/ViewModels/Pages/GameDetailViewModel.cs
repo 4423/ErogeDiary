@@ -22,6 +22,7 @@ namespace ErogeDaily.ViewModels.Pages
         public DelegateCommand StartGameCommand { get; private set; }
         public DelegateCommand EditGameCommand { get; private set; }
         public DelegateCommand DeleteGameCommand { get; private set; }
+        public DelegateCommand AddRootCommand { get; private set; }
 
         private IDatabaseAccess database;
         private IRegionManager regionManager;
@@ -43,6 +44,7 @@ namespace ErogeDaily.ViewModels.Pages
             StartGameCommand = new DelegateCommand(StartGame);
             EditGameCommand = new DelegateCommand(EditGame);
             DeleteGameCommand = new DelegateCommand(DeleteGame);
+            AddRootCommand = new DelegateCommand(AddRoot);
         }
 
 
@@ -60,30 +62,35 @@ namespace ErogeDaily.ViewModels.Pages
             set { SetProperty(ref rootChartDataList, value); }
         }
 
-        private ObservableCollection<ChartData> ToChartDataList(IEnumerable<RootData> rootDataList)
+        private ObservableCollection<ChartData> ToChartDataList(IEnumerable<RootData> roots)
         {
-            if (rootDataList == null || rootDataList.Count() == 0)
+            var unallocatedTime = Game.GetUnallocatedTime();
+            var unallocatedData = new ChartData()
             {
-                var defaultData = new ChartData()
-                {
-                    Label = "（無題のルート）",
-                    Value = Game.TotalPlayTime.TotalSeconds,
-                    ToolTip = Game.TotalPlayTime.ToPlayTimeString(),
-                    Color = new SolidColorBrush(Colors.DimGray)
-                };
-                return new ObservableCollection<ChartData>() { defaultData };
+                Label = "（未割り当てのルート）",
+                Value = unallocatedTime.TotalSeconds,
+                ToolTip = unallocatedTime.ToPlayTimeString(),
+                Color = new SolidColorBrush(Colors.DimGray)
+            };
+
+            if (roots == null || roots.Count() == 0)
+            {
+                return new ObservableCollection<ChartData>() { unallocatedData };
             }
-            return new ObservableCollection<ChartData>(rootDataList.Select(r => new ChartData()
+
+            var charts = new ObservableCollection<ChartData>(roots.Select(r => new ChartData()
             {
                 Label = r.Name,
-                Value = Game.TotalPlayTime.TotalSeconds,
-                ToolTip = Game.TotalPlayTime.ToPlayTimeString()
+                Value = r.PlayTime.TotalSeconds,
+                ToolTip = r.PlayTime.ToPlayTimeString()
             }));
+            charts.Add(unallocatedData);
+            return charts;
         }
 
         private void UpdateRootChartDataList()
         {
-            RootChartDataList = ToChartDataList(Game.RootDataList);
+            RootChartDataList = ToChartDataList(Game.Roots);
         }
 
         private Timeline timeline;
@@ -171,6 +178,16 @@ namespace ErogeDaily.ViewModels.Pages
                 });
                 NavigationHelper.GetNavigationService(regionManager)?.Journal?.GoBack();
             }
+        }
+
+        private void AddRoot()
+        {
+            var dialogParams = new DialogParameters()
+            {
+                { "game", Game }
+            };
+            dialogService.ShowDialog(nameof(Views.Dialogs.RootRegistrationDialog), dialogParams, null);
+            UpdateRootChartDataList();
         }
     }
 }
