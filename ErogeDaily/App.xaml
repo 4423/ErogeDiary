@@ -42,6 +42,7 @@
             <converter:UriToBitmapImageConverter x:Key="UriToBitmapImageConverter"/>
             <converter:PlayTimeToStringConverter x:Key="PlayTimeToStringConverter"/>
             <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <converter:RemoveDaysTimeSpanConverter x:Key="RemoveDaysTimeSpanConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
