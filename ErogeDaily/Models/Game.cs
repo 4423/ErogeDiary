@@ -158,6 +158,17 @@ namespace ErogeDaily.Models
             ImageUri = game.ImageUri;
             FileName = game.FileName;
         }
+
+        public TimeSpan GetUnallocatedTime()
+        {
+            if (Roots == null || Roots.Count == 0)
+            {
+                return TotalPlayTime;
+            }
+            var sumOfRootMilliseconds = Roots.Sum(r => r.PlayTime.TotalMilliseconds);
+            var unallocatedMilliseconds = Math.Max(0, TotalPlayTime.TotalMilliseconds - sumOfRootMilliseconds);
+            return TimeSpan.FromMilliseconds(unallocatedMilliseconds);
+        }
     }
 
     public static class GameExtensions
