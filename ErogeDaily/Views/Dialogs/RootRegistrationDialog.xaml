@@ -6,15 +6,16 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:controls="clr-namespace:ErogeDaily.Controls;assembly=ErogeDaily.Controls"
              xmlns:validations="clr-namespace:ErogeDaily.Views.Validations"
              xmlns:local="clr-namespace:ErogeDaily.Views.Dialogs"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
-             d:Width="430" d:Height="450">
+             d:Width="430" d:Height="460">
     
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
-            <Setter Property="Height" Value="450"/>
+            <Setter Property="Height" Value="460"/>
             <Setter Property="Width" Value="430"/>
             <Setter Property="MaxHeight" Value="560"/>
             <Setter Property="MinHeight" Value="300"/>
@@ -49,8 +50,8 @@
                 <CheckBox Content="ルート攻略済み"
                           IsChecked="{Binding RootData.IsCleared}"/>
                 
-                <TextBlock Text="ルート攻略日" Margin="0 8 0 0" FontSize="14"
-                           IsEnabled="{Binding RootData.IsCleared}"/>
+                <Label Content="ルート攻略日" Margin="0 8 0 0" FontSize="14"
+                       IsEnabled="{Binding RootData.IsCleared}"/>
                 <DatePicker x:Name="ClearDate"
                             Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
                             IsEnabled="{Binding RootData.IsCleared}"
