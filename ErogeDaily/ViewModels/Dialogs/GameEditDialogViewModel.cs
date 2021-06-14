@@ -111,6 +111,11 @@ namespace ErogeDaily.ViewModels.Dialogs
                 }
             }
 
+            if (!Game.IsCleared)
+            {
+                Game.ClearedAt = null;
+            }
+
             originalGame.CopyFrom(Game);
             await database.UpdateAsync(originalGame);
             RaiseRequestClose(new DialogResult(ButtonResult.OK));

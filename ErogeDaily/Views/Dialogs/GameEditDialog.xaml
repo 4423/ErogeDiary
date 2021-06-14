@@ -10,12 +10,12 @@
              xmlns:validations="clr-namespace:ErogeDaily.Views.Validations"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
-             d:Width="430" d:Height="560">
+             d:Width="430" d:Height="660">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
-            <Setter Property="Height" Value="560"/>
+            <Setter Property="Height" Value="660"/>
             <Setter Property="Width" Value="430"/>
-            <Setter Property="MaxHeight" Value="560"/>
+            <Setter Property="MaxHeight" Value="660"/>
             <Setter Property="MinHeight" Value="300"/>
             <Setter Property="MinWidth" Value="300"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
@@ -90,6 +90,25 @@
                 </Grid>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=FileName, Path=(Validation.Errors)[0].ErrorContent}"/>
+
+                <CheckBox Content="攻略済み" IsChecked="{Binding Game.IsCleared}" />
+                <Label Content="攻略日" Margin="0 8 0 0" FontSize="14"
+                       IsEnabled="{Binding Game.IsCleared}"/>
+                <DatePicker x:Name="ClearedAt"
+                            Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
+                            IsEnabled="{Binding Game.IsCleared}"
+                            Margin="0 4 0 0" HorizontalAlignment="Stretch">
+                    <DatePicker.SelectedDate>
+                        <Binding Path="Game.ClearedAt" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validations:PassThroughValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
+                <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           IsEnabled="{Binding Game.IsCleared}"
+                           Text="{Binding ElementName=ClearedAt, Path=(Validation.Errors)[0].ErrorContent}"/>
 
                 <StackPanel Orientation="Horizontal" Margin="0 12">
                     <Button Content="更新"

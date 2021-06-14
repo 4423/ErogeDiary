@@ -132,6 +132,13 @@ namespace ErogeDaily.Models
             set { SetProperty(ref isCleared, value); }
         }
 
+        private DateTime? clearedAt;
+        public DateTime? ClearedAt
+        {
+            get => clearedAt;
+            set { SetProperty(ref clearedAt, value); }
+        }
+
         public bool HasNullOrWhiteSpaceProperties()
         {
             return String.IsNullOrWhiteSpace(Title)
@@ -157,6 +164,8 @@ namespace ErogeDaily.Models
             ReleaseDate = game.ReleaseDate;
             ImageUri = game.ImageUri;
             FileName = game.FileName;
+            IsCleared = game.IsCleared;
+            ClearedAt = game.ClearedAt;
         }
 
         public TimeSpan GetUnallocatedTime()
