@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="http://schemas.modernwpf.com/2019"
-             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:controls="clr-namespace:ErogeDaily.Controls;assembly=ErogeDaily.Controls"
              xmlns:validations="clr-namespace:ErogeDaily.Views.Validations"
              xmlns:local="clr-namespace:ErogeDaily.Views.Dialogs"
              mc:Ignorable="d" 
