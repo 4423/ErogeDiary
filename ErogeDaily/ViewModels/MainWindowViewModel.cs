@@ -128,7 +128,7 @@ namespace ErogeDaily.ViewModels
             FrameHeight = WindowHeight - h;
         }
 
-        public int windowHeight = 450;
+        public int windowHeight = 470;
         public int WindowHeight
         {
             get => windowHeight;
