@@ -77,6 +77,12 @@ namespace ErogeDaily.Models.Database
             await SaveChangesAsync();
         }
 
+        public async Task UpdateRootAsync(RootData root)
+        {
+            Roots.Update(root);
+            await SaveChangesAsync();
+        }
+
         public async Task RemoveRootAsync(RootData root)
         {
             Roots.Remove(root);

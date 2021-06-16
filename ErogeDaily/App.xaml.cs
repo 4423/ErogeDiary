@@ -53,6 +53,7 @@ namespace ErogeDaily
             containerRegistry.RegisterDialog<GameEditDialog, GameEditDialogViewModel>();
             containerRegistry.RegisterDialog<GameRegistrationDialog, GameRegistrationDialogViewModel>();
             containerRegistry.RegisterDialog<RootRegistrationDialog, RootRegistrationDialogViewModel>();
+            containerRegistry.RegisterDialog<RootEditDialog, RootEditDialogViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

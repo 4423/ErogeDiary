@@ -72,6 +72,19 @@ namespace ErogeDaily.Models
         {
             return MemberwiseClone();
         }
+
+        public void CopyFrom(RootData other)
+        {
+            if (Id != other.Id)
+            {
+                throw new ArgumentException();
+            }
+            Name = other.Name;
+            PlayTime = other.PlayTime;
+            IsCleared = other.IsCleared;
+            ClearedAt = other.ClearedAt;
+            UpdatedAt = other.UpdatedAt;
+        }
     }
 
     public static class RootDataExtensions

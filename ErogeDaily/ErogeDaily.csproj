@@ -25,4 +25,17 @@
     <ProjectReference Include="..\ErogeDaily.Controls\ErogeDaily.Controls.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\Dialogs\RootEditDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Dialogs\RootEditDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

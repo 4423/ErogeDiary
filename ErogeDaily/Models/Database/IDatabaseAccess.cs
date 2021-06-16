@@ -17,6 +17,7 @@ namespace ErogeDaily.Models.Database
         public Task RemoveAsync(Game game);
 
         public Task AddRootAsync(RootData root);
+        public Task UpdateRootAsync(RootData root);
         public Task RemoveRootAsync(RootData root);
 
         public Task<ObservableCollection<PlayLog>> GetPlayLogsAsync();
