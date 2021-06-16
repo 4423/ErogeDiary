@@ -89,8 +89,10 @@
                             <ui:AppBarButton Icon="Add" Label="ルートを追加"
                                              Command="{Binding AddRootCommand}"/>
                             <ui:CommandBar.SecondaryCommands>
-                                <ui:AppBarButton Icon="Edit" Label="ルート編集"/>
-                                <ui:AppBarButton Icon="Delete" Label="ルート削除"/>
+                                <ui:AppBarButton Icon="Edit" Label="ルート編集"
+                                                 Command="{Binding EditRootCommand}"/>
+                                <ui:AppBarButton Icon="Delete" Label="ルート削除"
+                                                 Command="{Binding RemoveRootCommand}"/>
                             </ui:CommandBar.SecondaryCommands>
                         </ui:CommandBar>
                     </Grid>

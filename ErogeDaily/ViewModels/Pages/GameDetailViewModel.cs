@@ -23,6 +23,8 @@ namespace ErogeDaily.ViewModels.Pages
         public DelegateCommand EditGameCommand { get; private set; }
         public DelegateCommand DeleteGameCommand { get; private set; }
         public DelegateCommand AddRootCommand { get; private set; }
+        public DelegateCommand EditRootCommand { get; private set; }
+        public DelegateCommand RemoveRootCommand { get; private set; }
 
         private IDatabaseAccess database;
         private IRegionManager regionManager;
@@ -45,6 +47,8 @@ namespace ErogeDaily.ViewModels.Pages
             EditGameCommand = new DelegateCommand(EditGame);
             DeleteGameCommand = new DelegateCommand(DeleteGame);
             AddRootCommand = new DelegateCommand(AddRoot);
+            EditRootCommand = new DelegateCommand(EditRoot);
+            RemoveRootCommand = new DelegateCommand(RemoveRoot);
         }
 
 
@@ -187,6 +191,27 @@ namespace ErogeDaily.ViewModels.Pages
                 { "game", Game }
             };
             dialogService.ShowDialog(nameof(Views.Dialogs.RootRegistrationDialog), dialogParams, null);
+            UpdateRootChartDataList();
+        }
+
+        private void EditRoot()
+        {
+            var dialogParams = new DialogParameters()
+            {
+                { "game", Game }
+            };
+            dialogService.ShowDialog(nameof(Views.Dialogs.RootEditDialog), dialogParams, null);
+            UpdateRootChartDataList();
+        }
+
+
+        private void RemoveRoot()
+        {
+            var dialogParams = new DialogParameters()
+            {
+                { "game", Game }
+            };
+            dialogService.ShowDialog(nameof(Views.Dialogs.RootRemoveDialog), dialogParams, null);
             UpdateRootChartDataList();
         }
     }
