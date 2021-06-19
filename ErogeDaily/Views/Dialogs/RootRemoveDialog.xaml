@@ -9,15 +9,15 @@
              xmlns:local="clr-namespace:ErogeDaily.Views.Dialogs"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
-             d:Width="430" d:Height="200">
+             d:Width="430" d:Height="240">
     
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
-            <Setter Property="Height" Value="200"/>
+            <Setter Property="Height" Value="240"/>
             <Setter Property="Width" Value="430"/>
-            <Setter Property="MaxHeight" Value="200"/>
-            <Setter Property="MinHeight" Value="300"/>
-            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="MaxHeight" Value="240"/>
+            <Setter Property="MinHeight" Value="240"/>
+            <Setter Property="MinWidth" Value="210"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
         </Style>
     </prism:Dialog.WindowStyle>
