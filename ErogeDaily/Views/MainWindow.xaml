@@ -8,6 +8,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
         xmlns:local="clr-namespace:ErogeDaily.Views"
+        xmlns:input="clr-namespace:ErogeDaily.Views.Input"
         mc:Ignorable="d"
         fw:AcrylicWindow.Enabled="True"
         Background="#1f2022"
@@ -20,7 +21,11 @@
         ui:TitleBar.BackButtonStyle="{DynamicResource AppTitleBarBackButtonStyle}"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="ErogeDaily" Height="{Binding WindowHeight, Mode=TwoWay}" Width="800" 
-        MinWidth="450" MinHeight="350">
+        MinWidth="450" MinHeight="350"
+        MouseUp="WindowMouseUp">
+    <Window.InputBindings>
+        <input:XButtonMouseBinding Gesture="XButton1" Command="{Binding GoBackCommand}"/>
+    </Window.InputBindings>
 
     <Window.Resources>
         <Style x:Key="AppTitleBarBackButtonStyle" TargetType="ui:TitleBarButton" BasedOn="{StaticResource TitleBarBackButtonStyle}">

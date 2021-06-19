@@ -29,5 +29,15 @@ namespace ErogeDaily.Views
         {
             InitializeComponent();
         }
+
+        private void WindowMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.XButton1)
+            {
+                // XButtonMouseGesture で inputEventArgs を Handled しても
+                // ここの Handled には反映されない
+                e.Handled = true;
+            }
+        }
     }
 }
