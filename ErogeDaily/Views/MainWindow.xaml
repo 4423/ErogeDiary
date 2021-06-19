@@ -19,7 +19,7 @@
         ui:TitleBar.BackButtonStyle="{DynamicResource AppTitleBarBackButtonStyle}"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="ErogeDaily" Height="{Binding WindowHeight, Mode=TwoWay}" Width="800" 
-        MinWidth="450" MinHeight="350"
+        MinWidth="640" MinHeight="350"
         MouseUp="WindowMouseUp">
     <Window.InputBindings>
         <input:XButtonMouseBinding Gesture="XButton1" Command="{Binding GoBackCommand}"/>
