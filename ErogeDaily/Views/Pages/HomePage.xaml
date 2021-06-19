@@ -100,7 +100,6 @@
                     <ComboBox SelectedValue="{Binding OrderSelectedItem, Mode=TwoWay}" 
                               ItemsSource="{Binding OrderItems}"
                               DisplayMemberPath="DisplayName"
-                              BorderBrush="{DynamicResource SystemBaseMediumLowColorBrush}"
                               FontSize="12" Width="140"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -108,7 +107,6 @@
                     <ComboBox SelectedValue="{Binding FilterSelectedItem, Mode=TwoWay}"
                               ItemsSource="{Binding FilterItems}"
                               DisplayMemberPath="DisplayName"
-                              BorderBrush="{DynamicResource SystemBaseMediumLowColorBrush}" 
                               FontSize="12" Width="90"/>
                 </StackPanel>
             </StackPanel>
