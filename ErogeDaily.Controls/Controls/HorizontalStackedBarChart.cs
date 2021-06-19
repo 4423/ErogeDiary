@@ -18,14 +18,6 @@ namespace ErogeDaily.Controls
                 new FrameworkPropertyMetadata(typeof(HorizontalStackedBarChart)));
         }
 
-        public List<SolidColorBrush> Colors { get; set; } = new List<SolidColorBrush>()
-        {
-            new SolidColorBrush(Color.FromRgb(0x66, 0x51, 0x91)),
-            new SolidColorBrush(Color.FromRgb(0xa0, 0x51, 0x95)),
-            new SolidColorBrush(Color.FromRgb(0xd4, 0x50, 0x87)),
-            new SolidColorBrush(Color.FromRgb(0xf9, 0x5d, 0x6a)),
-        };
-
         public IEnumerable<ChartData> ItemsSource
         {
             get { return (IEnumerable<ChartData>)GetValue(ItemsSourceProperty); }
@@ -63,7 +55,8 @@ namespace ErogeDaily.Controls
             chartArea.ColumnDefinitions.Clear();
             chartArea.Children.Clear();
 
-            foreach (var (chartData, i) in ItemsSource.Select((e, i) => (e, i)))
+            var colors = ColorGenerator.Generate(ItemsSource.Count());
+            foreach (var ((chartData, color), i) in ItemsSource.Zip(colors, (x, y) => (x, y)).WithIndex())
             {
                 var columnDefinition = new ColumnDefinition()
                 {
@@ -75,7 +68,7 @@ namespace ErogeDaily.Controls
                 {
                     Text = chartData.Label,
                     ToolTip = chartData.ToolTip,
-                    Background = chartData.Color ?? Colors[i],
+                    Background = chartData.Color ?? color,
                 };
                 Grid.SetColumn(textBlock, i);
                 chartArea.Children.Add(textBlock);
@@ -101,6 +94,40 @@ namespace ErogeDaily.Controls
         {
             UpdateChart();
         }
+
+
+        private static class ColorGenerator
+        {
+            private static List<SolidColorBrush> colors = new List<SolidColorBrush>();
+
+            private static List<SolidColorBrush> pallet = new List<SolidColorBrush>()
+            {
+                (SolidColorBrush)new BrushConverter().ConvertFromString("#665191"),
+                (SolidColorBrush)new BrushConverter().ConvertFromString("#a05195"),
+                (SolidColorBrush)new BrushConverter().ConvertFromString("#d45087"),
+                (SolidColorBrush)new BrushConverter().ConvertFromString("#f95d6a"),
+                (SolidColorBrush)new BrushConverter().ConvertFromString("#ff7c43"),
+                (SolidColorBrush)new BrushConverter().ConvertFromString("#ffa600"),
+                (SolidColorBrush)new BrushConverter().ConvertFromString("#003f5c"),
+                (SolidColorBrush)new BrushConverter().ConvertFromString("#2f4b7c"),
+            };
+
+            public static IEnumerable<SolidColorBrush> Generate(int count)
+            {
+                if (colors.Count < count)
+                {
+                    colors.AddRange(pallet);
+                }
+
+                return colors.Take(count);
+            }
+        }
+    }
+
+    internal static class Ext
+    {
+        public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> source)
+            => source.Select((x, i) => (x, i));
     }
 
     public class ChartData
