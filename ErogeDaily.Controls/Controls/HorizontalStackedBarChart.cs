@@ -46,6 +46,11 @@ namespace ErogeDaily.Controls
 
         private void UpdateChart()
         {
+            if (ItemsSource == null)
+            {
+                return;
+            }
+
             var chartArea = GetTemplateChild("ChartAreaGrid") as Grid;
             if (chartArea == null)
             {
