@@ -18,7 +18,7 @@
         ui:TitleBar.BackButtonCommand="{Binding GoBackCommand}"
         ui:TitleBar.BackButtonStyle="{DynamicResource AppTitleBarBackButtonStyle}"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="ErogeDaily" Height="{Binding WindowHeight, Mode=TwoWay}" Width="800" 
+        Title="ErogeDaily" Height="495" Width="830" 
         MinWidth="640" MinHeight="350"
         MouseUp="WindowMouseUp">
     <Window.InputBindings>
@@ -47,9 +47,8 @@
             <!--<ui:HyperlinkButton Content="設定" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>-->
         </StackPanel>
 
-        <ui:SimpleStackPanel Grid.Row="1">
+        <Grid Grid.Row="1">
             <ui:Frame x:Name="RootFrame"
-                      Height="{Binding FrameHeight, Mode=TwoWay}"
                       prism:RegionManager.RegionName="FrameRegion">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Navigated">
@@ -64,7 +63,7 @@
                     </ui:TransitionCollection>
                 </ui:Frame.ContentTransitions>
             </ui:Frame>
-        </ui:SimpleStackPanel>
+        </Grid>
 
         <Grid Grid.Row="2" Background="#5B2C6F"
               Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}}">

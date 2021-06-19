@@ -14,7 +14,7 @@
     Title="GameDetailPage">
 
     <ScrollViewer>
-        <Grid Margin="0 0 0 24">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="200"/>
                 <RowDefinition Height="*"/>
