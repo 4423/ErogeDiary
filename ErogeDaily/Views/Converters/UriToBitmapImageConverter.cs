@@ -26,9 +26,9 @@ namespace ErogeDaily.Views.Converters
 
             var bmp = new BitmapImage();
             bmp.BeginInit();
-            if (int.TryParse((string)parameter, out int decodePixelWidth))
+            if (int.TryParse((string)parameter, out int decodePixelHeight))
             {
-                bmp.DecodePixelWidth = decodePixelWidth;
+                bmp.DecodePixelHeight = decodePixelHeight;
             }
             bmp.UriSource = uri;
             bmp.EndInit();

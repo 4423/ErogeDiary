@@ -30,7 +30,7 @@
                        Source="{Binding Game.ImageUri, 
                             ValidatesOnNotifyDataErrors=False,
                             Converter={StaticResource UriToBitmapImageConverter},
-                            ConverterParameter=400}" 
+                            ConverterParameter=200}" 
                        Height="200"
                        Stretch="UniformToFill"/>
                 <Grid Grid.Column="1" Margin="15 0 0 0">
