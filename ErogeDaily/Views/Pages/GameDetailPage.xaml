@@ -41,7 +41,8 @@
 
                     <StackPanel Grid.Row="0" Margin="15 0 0 0">
                         <TextBlock Text="{Binding Game.Title, ValidatesOnNotifyDataErrors=False}" 
-                                   Style="{StaticResource SubheaderTextBlockStyle}"/>
+                                   Style="{StaticResource SubheaderTextBlockStyle}"
+                                   MaxHeight="90"/>
                         <TextBlock Text="{Binding Game.Brand, ValidatesOnNotifyDataErrors=False}" 
                                    Style="{StaticResource BodyTextBlockStyle}"/>
                         <TextBlock Text="{Binding Game.ReleaseDate, StringFormat=yyyy-MM-dd, ValidatesOnNotifyDataErrors=False}"
