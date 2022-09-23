@@ -19,7 +19,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Unity;
-using Windows.UI.Core;
 
 namespace ErogeDaily.Views
 {
