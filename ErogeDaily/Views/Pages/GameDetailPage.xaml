@@ -53,7 +53,7 @@
                                          Command="{Binding StartGameCommand}"/>
                         <ui:AppBarButton Icon="Edit" Label="編集"
                                          Command="{Binding EditGameCommand}"/>
-                        <ui:AppBarButton Icon="Delete" Label="プレイデータを削除" 
+                        <ui:AppBarButton Icon="Delete" Label="ゲームの登録を解除" 
                                          Command="{Binding DeleteGameCommand}"/>
                         <!--<ui:AppBarButton Icon="Save" Label="セーブデータをアップロード"/>-->
                     </ui:CommandBar>
