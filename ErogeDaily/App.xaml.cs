@@ -8,6 +8,7 @@ using ErogeDaily.ViewModels.Pages;
 using ErogeDaily.Views;
 using ErogeDaily.Views.Dialogs;
 using ErogeDaily.Views.Pages;
+using Microsoft.EntityFrameworkCore;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
@@ -40,7 +41,7 @@ namespace ErogeDaily
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             var sqldb = new SQLiteDatabaseAccess();
-            sqldb.Database.EnsureCreated();
+            sqldb.Database.Migrate();
             containerRegistry.RegisterInstance<IDatabaseAccess>(sqldb);
 
             var gameMonitor = new GameMonitor(sqldb);
