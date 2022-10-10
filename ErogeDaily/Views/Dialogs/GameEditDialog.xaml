@@ -10,12 +10,12 @@
              xmlns:validations="clr-namespace:ErogeDaily.Views.Validations"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
-             d:Width="430" d:Height="660">
+             d:Width="430" d:Height="710">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
-            <Setter Property="Height" Value="660"/>
+            <Setter Property="Height" Value="710"/>
             <Setter Property="Width" Value="430"/>
-            <Setter Property="MaxHeight" Value="660"/>
+            <Setter Property="MaxHeight" Value="710"/>
             <Setter Property="MinHeight" Value="300"/>
             <Setter Property="MinWidth" Value="300"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
@@ -31,7 +31,7 @@
                          Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=Title, Path=(Validation.Errors)[0].ErrorContent}"/>
-                
+
                 <TextBox x:Name="Brand" 
                          ui:ControlHelper.Header="ブランド" 
                          Text="{Binding Game.Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -54,7 +54,7 @@
                 </DatePicker>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=ReleaseDate, Path=(Validation.Errors)[0].ErrorContent}"/>
-                
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -72,25 +72,48 @@
                 </Grid>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=ImageUri, Path=(Validation.Errors)[0].ErrorContent}"/>
+                
+                <CheckBox Grid.Column="0" 
+                          x:Name="InstalledViaDmmGamePlayerCheckBox" 
+                          Content="DMM GAME PLAYER でインストール"
+                          IsChecked="{Binding Game.InstallationType, Converter={StaticResource InstallationTypeToBooleanConverter}}"
+                          Margin="0 8" HorizontalAlignment="Stretch"/>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" 
-                             x:Name="FileName" 
-                             ui:ControlHelper.Header="実行ファイルの場所" 
-                             Text="{Binding Game.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <StackPanel Visibility="{Binding 
+                    ElementName=InstalledViaDmmGamePlayerCheckBox,
+                    Path=IsChecked,
+                    Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBox x:Name="WindowTitle" 
+                             ui:ControlHelper.Header="ゲームウィンドウに表示されるタイトル" 
+                             Text="{Binding Game.WindowTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
-                    <Button Grid.Column="1"
-                            Content="参照"
-                            Command="{Binding SelectExecutionFileNameCommand}"
-                            Margin="8 0 0 0" VerticalAlignment="Bottom"/>
-                </Grid>
-                <TextBlock Style="{StaticResource ValidationErrorStyle}"
-                           Text="{Binding ElementName=FileName, Path=(Validation.Errors)[0].ErrorContent}"/>
+                    <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                               Text="{Binding ElementName=WindowTitle, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </StackPanel>
 
+                <StackPanel Visibility="{Binding 
+                    ElementName=InstalledViaDmmGamePlayerCheckBox,
+                    Path=IsChecked,
+                    Converter={StaticResource NegativeBooleanToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" 
+                                 x:Name="FileName" 
+                                 ui:ControlHelper.Header="実行ファイルの場所" 
+                                 Text="{Binding Game.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
+                        <Button Grid.Column="1"
+                                Content="参照"
+                                Command="{Binding SelectExecutionFileNameCommand}"
+                                Margin="8 0 0 0" VerticalAlignment="Bottom"/>
+                    </Grid>
+                    <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           Text="{Binding ElementName=FileName, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </StackPanel>
+                
                 <CheckBox Content="攻略済み" IsChecked="{Binding Game.IsCleared}" />
                 <Label Content="攻略日" Margin="0 8 0 0" FontSize="14"
                        IsEnabled="{Binding Game.IsCleared}"/>

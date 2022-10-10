@@ -55,16 +55,30 @@ namespace ErogeDaily.Models
             }
         }
 
-        private async Task<Game> FindRegisteredGame(Process process)
+        private static readonly string DMM_GAME_PLAYER_EXTENSION = ".tmp";
+
+        private async Task<Game?> FindRegisteredGame(Process process)
         {
             try
             {
-                return await database.FindGameByFileNameAsync(process.MainModule.FileName);
+                var installedViaDmm = process.ProcessName.EndsWith(DMM_GAME_PLAYER_EXTENSION);
+                if (installedViaDmm && !String.IsNullOrWhiteSpace(process.MainWindowTitle))
+                {
+                    return await database.FindGameByWindowTitleAsync(process.MainWindowTitle);
+                }
+
+                var fileName = process.MainModule?.FileName;
+                if (fileName != null)
+                {
+                    return await database.FindGameByFileNameAsync(fileName);
+                }
             }
             catch (Win32Exception)
             {
                 return null;
             }
+
+            return null;
         }
 
         private void TimerTick(object sender, EventArgs e)

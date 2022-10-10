@@ -54,10 +54,12 @@ namespace ErogeDaily.ViewModels.Dialogs
 
 
         private bool CanExecuteRegisterGame()
-            => !Game.HasNullOrWhiteSpaceProperties() && !Game.HasErrors;
+            => Game.Valid();
 
         private async void RegisterGame()
         {
+            Game.Pretty();
+
             if (await database.FindGameByTitleAndBrandAsync(Game.Title, Game.Brand) == null)
             {
                 if (new Uri(Game.ImageUri).IsFile)
@@ -166,7 +168,6 @@ namespace ErogeDaily.ViewModels.Dialogs
             get { return erogameScapeUrl; }
             set { SetProperty(ref erogameScapeUrl, value); }
         }
-
 
 
         public event Action<IDialogResult> RequestClose;

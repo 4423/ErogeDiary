@@ -13,6 +13,7 @@ namespace ErogeDaily.Models.Database
         public Task UpdateAsync(Game game);
         public Task<ObservableCollection<Game>> GetGamesAsync();
         public Task<Game> FindGameByFileNameAsync(string fileName);
+        public Task<Game> FindGameByWindowTitleAsync(string windowTitle);
         public Task<Game> FindGameByTitleAndBrandAsync(string title, string brand);
         public Task RemoveAsync(Game game);
 

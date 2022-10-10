@@ -13,7 +13,7 @@ namespace ErogeDaily.Models
 {
     public abstract class VerifiableBindableBase : BindableBase, INotifyDataErrorInfo
     {
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
         private ErrorsContainer<ValidationResult> errorsContainer;
 
         public VerifiableBindableBase()
@@ -21,23 +21,26 @@ namespace ErogeDaily.Models
             errorsContainer = new ErrorsContainer<ValidationResult>(RaiseErrorsChanged);
         }
 
-        private void RaiseErrorsChanged([CallerMemberName] string propertyName = null)
+        private void RaiseErrorsChanged([CallerMemberName] string? propertyName = null)
             => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
 
         public bool HasErrors
             => errorsContainer.HasErrors;
 
-        public IEnumerable GetErrors(string propertyName)
+        public IEnumerable GetErrors(string? propertyName)
             => errorsContainer.GetErrors(propertyName);
 
-        protected void ValidateProperty(object value, [CallerMemberName] string propertyName = null)
+        protected void ClearErrors(string? propertyName)
+            => errorsContainer.ClearErrors(propertyName);
+
+        protected void ValidateProperty(object? value, [CallerMemberName] string? propertyName = null)
         {
             var context = new ValidationContext(this) { MemberName = propertyName };
             var validationErrors = new List<ValidationResult>();
             if (!Validator.TryValidateProperty(value, context, validationErrors))
             {
                 errorsContainer.SetErrors(propertyName, validationErrors);
-            }
+             }
             else
             {
                 errorsContainer.ClearErrors(propertyName);

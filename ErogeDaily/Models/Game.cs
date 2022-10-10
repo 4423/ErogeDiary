@@ -77,17 +77,52 @@ namespace ErogeDaily.Models
             }
         }
 
-        private string erogameScapeGameId;
-        public string ErogameScapeGameId
+        private string? erogameScapeGameId;
+        public string? ErogameScapeGameId
         {
             get => erogameScapeGameId;
             set { SetProperty(ref erogameScapeGameId, value); }
         }
 
-        private string fileName;
-        [Required(ErrorMessage = "実行ファイルの場所を入力してください。")]
-        [FileExistRequired]
-        public string FileName
+        private InstallationType installationType;
+        public InstallationType InstallationType
+        {
+            get => installationType;
+            set
+            {
+                SetProperty(ref installationType, value);
+
+                // InstallationType に依存する validation を再評価
+                switch (installationType)
+                {
+                    case InstallationType.Default:
+                        ValidateProperty(fileName, nameof(FileName));
+                        ClearErrors(nameof(WindowTitle));
+                        break;
+                    case InstallationType.DmmGamePlayer:
+                        ValidateProperty(windowTitle, nameof(WindowTitle));
+                        ClearErrors(nameof(FileName));
+                        break;
+                };
+            }
+        }
+
+        private string? windowTitle;
+        [RequiredIf(nameof(InstallationType), InstallationType.DmmGamePlayer, ErrorMessage = "ウィンドウタイトルを入力してください。")]
+        public string? WindowTitle
+        {
+            get => windowTitle;
+            set
+            {
+                SetProperty(ref windowTitle, value);
+                ValidateProperty(value);
+            }
+        }
+
+        private string? fileName;
+        [RequiredIf(nameof(InstallationType), InstallationType.Default, ErrorMessage = "実行ファイルの場所を入力してください。")]
+        [FileExistRequiredIf(nameof(InstallationType), InstallationType.Default)]
+        public string? FileName
         {
             get => fileName;
             set
@@ -139,31 +174,63 @@ namespace ErogeDaily.Models
             set { SetProperty(ref clearedAt, value); }
         }
 
-        public bool HasNullOrWhiteSpaceProperties()
+        public bool Valid()
         {
-            return String.IsNullOrWhiteSpace(Title)
+            var hasNullOrWhiteSpaceProperties = 
+                String.IsNullOrWhiteSpace(Title)
                 || String.IsNullOrWhiteSpace(Brand)
                 || String.IsNullOrWhiteSpace(ImageUri)
-                || String.IsNullOrWhiteSpace(FileName);
+                || InstallationType switch
+                {
+                    InstallationType.Default => String.IsNullOrWhiteSpace(FileName),
+                    InstallationType.DmmGamePlayer => String.IsNullOrWhiteSpace(WindowTitle),
+                };
+
+            return !hasNullOrWhiteSpaceProperties && !HasErrors;
+        }
+
+        public void Pretty()
+        {
+            // 整合性を取る
+            switch (InstallationType)
+            {
+                case InstallationType.Default:
+                    WindowTitle = null;
+                    break;
+                case InstallationType.DmmGamePlayer:
+                    FileName = null;
+                    break;
+            }
+
+            if (!IsCleared)
+            {
+                ClearedAt = null;
+            }
         }
 
         public Game Clone()
         {
-            var game = (Game)MemberwiseClone();
-            if (Roots != null)
-            {
-                game.Roots = new List<RootData>(Roots.Clone());
-            }
+            // MemberwiseClone を使うと constructor が呼ばれず ErrorsChanged が正しく発火しない
+            var game = new Game();
+            game.CopyFrom(this);
             return game;
         }
 
         public void CopyFrom(Game game)
         {
-            Title = game.Title;
-            Brand = game.Brand;
+            Id = game.Id;
+            Title = (string)game.Title.Clone();
+            Brand = (string)game.Brand.Clone();
             ReleaseDate = game.ReleaseDate;
-            ImageUri = game.ImageUri;
-            FileName = game.FileName;
+            ImageUri = (string)game.ImageUri.Clone();
+            ErogameScapeGameId = (string?)game.ErogameScapeGameId?.Clone();
+            InstallationType = game.InstallationType;
+            WindowTitle = (string?)game.WindowTitle?.Clone();
+            FileName = (string?)game.FileName?.Clone();
+            RegistrationDate = game.RegistrationDate;
+            LatestDate = game.LatestDate;
+            TotalPlayTime = game.TotalPlayTime;
+            Roots = new List<RootData>(game.Roots.Clone());
             IsCleared = game.IsCleared;
             ClearedAt = game.ClearedAt;
         }
@@ -193,5 +260,11 @@ namespace ErogeDaily.Models
                 ImageUri = gameInfo.ImageUri
             };
         }
+    }
+
+    public enum InstallationType
+    {
+        Default,
+        DmmGamePlayer,
     }
 }

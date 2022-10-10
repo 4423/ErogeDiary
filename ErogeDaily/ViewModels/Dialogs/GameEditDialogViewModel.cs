@@ -92,7 +92,9 @@ namespace ErogeDaily.ViewModels.Dialogs
         }
 
         private bool CanExecuteUpdateGame()
-            => Game != null && !Game.HasErrors;
+        {
+            return Game != null && Game.Valid();
+        }
 
         private async void UpdateGame()
         {
@@ -111,10 +113,7 @@ namespace ErogeDaily.ViewModels.Dialogs
                 }
             }
 
-            if (!Game.IsCleared)
-            {
-                Game.ClearedAt = null;
-            }
+            Game.Pretty();
 
             originalGame.CopyFrom(Game);
             await database.UpdateAsync(originalGame);

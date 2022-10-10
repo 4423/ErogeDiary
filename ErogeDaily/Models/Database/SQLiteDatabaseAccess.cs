@@ -49,6 +49,13 @@ namespace ErogeDaily.Models.Database
             return await Games.SingleOrDefaultAsync(x => x.FileName == fileName);            
         }
 
+        public async Task<Game> FindGameByWindowTitleAsync(string windowTitle)
+        {
+            // 複数件該当する可能性はあるが最初の1件を返しておく 
+            return await Games.Where(x => x.WindowTitle != null)
+                .FirstOrDefaultAsync(x => windowTitle.Contains(x.WindowTitle!));
+        }
+
         public async Task<Game> FindGameByTitleAndBrandAsync(string title, string brand)
         {
             return await Games.SingleOrDefaultAsync(x => x.Title == title && x.Brand == brand);
