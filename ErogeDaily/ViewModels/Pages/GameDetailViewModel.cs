@@ -167,7 +167,7 @@ namespace ErogeDaily.ViewModels.Pages
             var result = await messageDialog.ShowAsync(new MessageDialogParameters()
             {
                 Title = "確認",
-                Message = "プレイデータを削除しますか？\nセーブデータやゲーム本体は削除されません。",
+                Message = "ゲームの登録を解除しますか？\nセーブデータやゲーム本体は削除されません。",
                 PrimaryButtonText = "削除",
                 CloseButtonText = "キャンセル",
             });
