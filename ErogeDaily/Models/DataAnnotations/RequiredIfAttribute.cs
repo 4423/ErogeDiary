@@ -21,7 +21,11 @@ public class RequiredIfAttribute : ValidationAttribute
 
     protected virtual bool IsValidIfShouldValidate(object? value)
     {
-        return value != null && !String.IsNullOrEmpty(value as string);
+        if (value is string stringValue)
+        {
+            return !String.IsNullOrEmpty(stringValue);
+        }
+        return value != null;
     }
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)

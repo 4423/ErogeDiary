@@ -164,14 +164,24 @@ namespace ErogeDaily.Models
         public bool IsCleared
         {
             get => isCleared;
-            set { SetProperty(ref isCleared, value); }
+            set
+            {
+                SetProperty(ref isCleared, value);
+                // IsCleared に依存する validation を再評価
+                ValidateProperty(clearedAt, nameof(ClearedAt));
+            }
         }
 
         private DateTime? clearedAt;
+        [RequiredIf(nameof(IsCleared), true, ErrorMessage = "攻略日を入力してください。")]
         public DateTime? ClearedAt
         {
             get => clearedAt;
-            set { SetProperty(ref clearedAt, value); }
+            set
+            {
+                SetProperty(ref clearedAt, value);
+                ValidateProperty(value);
+            }
         }
 
         public bool Valid()

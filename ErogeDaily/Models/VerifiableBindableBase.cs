@@ -40,7 +40,7 @@ namespace ErogeDaily.Models
             if (!Validator.TryValidateProperty(value, context, validationErrors))
             {
                 errorsContainer.SetErrors(propertyName, validationErrors);
-             }
+            }
             else
             {
                 errorsContainer.ClearErrors(propertyName);
