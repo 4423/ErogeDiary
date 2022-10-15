@@ -39,7 +39,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converter:UriStringConverter x:Key="UriStringConverter"/>
-            <converter:UriToBitmapImageConverter x:Key="UriToBitmapImageConverter"/>
             <converter:PlayTimeToStringConverter x:Key="PlayTimeToStringConverter"/>
             <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
             <converter:BooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>

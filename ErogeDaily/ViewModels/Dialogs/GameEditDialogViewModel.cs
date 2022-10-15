@@ -103,8 +103,8 @@ namespace ErogeDaily.ViewModels.Dialogs
                 try
                 {
                     Game.ImageUri = new Uri(Game.ImageUri).IsFile ?
-                        await ThumbnailHelper.CopyToThumbnailDirectoryAsync(Game.ImageUri) :
-                        await ThumbnailHelper.DownloadToThumbnailDirectoryAsync(Game.ImageUri);
+                        await ThumbnailHelper.CopyAndResize(Game.ImageUri) :
+                        await ThumbnailHelper.DownloadAndResizeAsync(Game.ImageUri);
                 }
                 catch (Exception ex)
                 {

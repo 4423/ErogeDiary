@@ -62,14 +62,9 @@ namespace ErogeDaily.ViewModels.Dialogs
 
             if (await database.FindGameByTitleAndBrandAsync(Game.Title, Game.Brand) == null)
             {
-                if (new Uri(Game.ImageUri).IsFile)
-                {
-                    Game.ImageUri = await ThumbnailHelper.CopyToThumbnailDirectoryAsync(Game.ImageUri);
-                }
-                else
-                {
-                    Game.ImageUri = await ThumbnailHelper.DownloadToThumbnailDirectoryAsync(Game.ImageUri);
-                }
+                Game.ImageUri = new Uri(Game.ImageUri).IsFile ?
+                    await ThumbnailHelper.CopyAndResize(Game.ImageUri):
+                    await ThumbnailHelper.DownloadAndResizeAsync(Game.ImageUri);
 
                 await database.AddGameAsync(Game);
                 RaiseRequestClose(new DialogResult(ButtonResult.OK));

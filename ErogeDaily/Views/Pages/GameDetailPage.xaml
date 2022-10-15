@@ -27,10 +27,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Image Grid.Column="0"
-                       Source="{Binding Game.ImageUri, 
-                            ValidatesOnNotifyDataErrors=False,
-                            Converter={StaticResource UriToBitmapImageConverter},
-                            ConverterParameter=200}" 
+                       Source="{Binding Game.ImageUri, ValidatesOnNotifyDataErrors=False}" 
                        Height="200"
                        Stretch="UniformToFill"/>
                 <Grid Grid.Column="1" Margin="15 0 0 0">
