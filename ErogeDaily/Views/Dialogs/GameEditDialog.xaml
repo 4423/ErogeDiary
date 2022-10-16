@@ -135,9 +135,11 @@
 
                 <StackPanel Orientation="Horizontal" Margin="0 12">
                     <Button Content="更新"
-                            Command="{Binding UpdateCommand}"/>
+                            Command="{Binding UpdateCommand}"
+                            IsEnabled="{Binding IsUpdating, Converter={StaticResource InverseBooleanConverter}}"/>
                     <Button Content="キャンセル" 
                             Command="{Binding CloseCommand}"
+                            IsEnabled="{Binding IsUpdating, Converter={StaticResource InverseBooleanConverter}}"
                             Margin="24 0 0 0" />
                 </StackPanel>
             </StackPanel>

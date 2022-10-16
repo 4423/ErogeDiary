@@ -163,10 +163,10 @@
                 <StackPanel Orientation="Horizontal" Margin="0 12">
                     <Button Content="登録"
                             Command="{Binding RegisterCommand}"
-                            CommandParameter="{Binding ElementName=Window}"/>
+                            IsEnabled="{Binding IsRegistering, Converter={StaticResource InverseBooleanConverter}}"/>
                     <Button Content="キャンセル" 
                             Command="{Binding CancelCommand}"
-                            CommandParameter="{Binding ElementName=Window}"
+                            IsEnabled="{Binding IsRegistering, Converter={StaticResource InverseBooleanConverter}}"
                             Margin="24 0 0 0"/>
                 </StackPanel>
             </StackPanel>

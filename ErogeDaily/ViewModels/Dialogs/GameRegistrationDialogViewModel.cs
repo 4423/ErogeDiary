@@ -58,14 +58,27 @@ namespace ErogeDaily.ViewModels.Dialogs
 
         private async void RegisterGame()
         {
-            Game.Pretty();
+            try
+            {
+                IsRegistering = true;
+                await Task.Delay(2000);
+                await RegisterGameCore();
+            }
+            finally
+            {
+                IsRegistering = false;
+            }
+        }
 
+        private async Task RegisterGameCore()
+        {
             if (await database.FindGameByTitleAndBrandAsync(Game.Title, Game.Brand) == null)
             {
                 Game.ImageUri = new Uri(Game.ImageUri).IsFile ?
-                    await ThumbnailHelper.CopyAndResize(Game.ImageUri):
+                    await ThumbnailHelper.CopyAndResize(Game.ImageUri) :
                     await ThumbnailHelper.DownloadAndResizeAsync(Game.ImageUri);
 
+                Game.Pretty();
                 await database.AddGameAsync(Game);
                 RaiseRequestClose(new DialogResult(ButtonResult.OK));
             }
@@ -164,6 +177,12 @@ namespace ErogeDaily.ViewModels.Dialogs
             set { SetProperty(ref erogameScapeUrl, value); }
         }
 
+        private bool isRegistering;
+        public bool IsRegistering
+        {
+            get { return isRegistering; }
+            set { SetProperty(ref isRegistering, value); }
+        }
 
         public event Action<IDialogResult> RequestClose;
 

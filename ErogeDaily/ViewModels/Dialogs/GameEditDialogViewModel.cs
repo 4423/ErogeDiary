@@ -64,6 +64,13 @@ namespace ErogeDaily.ViewModels.Dialogs
             set { SetProperty(ref game, value); }
         }
 
+        private bool isUpdating;
+        public bool IsUpdating
+        {
+            get { return isUpdating; }
+            set { SetProperty(ref isUpdating, value); }
+        }
+
         private void SelectThumbnailFileName()
         {
             var imageUri = openFileDialog.Show(
@@ -98,6 +105,19 @@ namespace ErogeDaily.ViewModels.Dialogs
 
         private async void UpdateGame()
         {
+            IsUpdating = true;
+            try
+            {
+                await UpdateGameCore();
+            } 
+            finally
+            {
+                IsUpdating = false;
+            }
+        }
+
+        private async Task UpdateGameCore()
+        {
             if (Game.ImageUri != originalGame.ImageUri)
             {
                 try
@@ -117,6 +137,7 @@ namespace ErogeDaily.ViewModels.Dialogs
 
             originalGame.CopyFrom(Game);
             await database.UpdateAsync(originalGame);
+
             RaiseRequestClose(new DialogResult(ButtonResult.OK));
         }
 
