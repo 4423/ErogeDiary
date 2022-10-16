@@ -143,6 +143,7 @@
                         
                         <Grid Grid.Row="0">
                             <Button x:Name="PlayButton" 
+                                    Visibility="{Binding CanLaunch, Converter={StaticResource BooleanToVisibilityConverter}}"
                                     Opacity="1"
                                     Background="#88000000"
                                     Foreground="White"

@@ -255,6 +255,11 @@ namespace ErogeDaily.Models
             var unallocatedMilliseconds = Math.Max(0, TotalPlayTime.TotalMilliseconds - sumOfRootMilliseconds);
             return TimeSpan.FromMilliseconds(unallocatedMilliseconds);
         }
+
+        public bool CanLaunch
+        {
+            get => InstallationType == InstallationType.Default;
+        }
     }
 
     public static class GameExtensions
