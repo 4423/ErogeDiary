@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ErogeDaily.Controls\ErogeDaily.Controls.csproj" />
+    <ProjectReference Include="..\ErogeDiary.Controls\ErogeDiary.Controls.csproj" />
   </ItemGroup>
 
   <ItemGroup>

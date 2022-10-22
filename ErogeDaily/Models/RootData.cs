@@ -1,4 +1,4 @@
-﻿using ErogeDaily.Controls;
+﻿using ErogeDiary.Controls;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;

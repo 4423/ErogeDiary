@@ -1,4 +1,4 @@
-﻿using ErogeDaily.Controls;
+﻿using ErogeDiary.Controls;
 using ErogeDaily.Dialogs;
 using ErogeDaily.Models;
 using ErogeDaily.Models.Database;

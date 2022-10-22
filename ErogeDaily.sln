@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErogeDaily", "ErogeDaily\ErogeDaily.csproj", "{229D192A-5691-44CB-B784-CB72EBEA9B5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeDaily.Controls", "ErogeDaily.Controls\ErogeDaily.Controls.csproj", "{B1D3D602-E198-4C58-9CFA-AB39F4BD9999}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeDiary.Controls", "ErogeDiary.Controls\ErogeDiary.Controls.csproj", "{DD94729A-5FFD-4B8D-9EF3-B092C3F34FE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{229D192A-5691-44CB-B784-CB72EBEA9B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{229D192A-5691-44CB-B784-CB72EBEA9B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{229D192A-5691-44CB-B784-CB72EBEA9B5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1D3D602-E198-4C58-9CFA-AB39F4BD9999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1D3D602-E198-4C58-9CFA-AB39F4BD9999}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1D3D602-E198-4C58-9CFA-AB39F4BD9999}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1D3D602-E198-4C58-9CFA-AB39F4BD9999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD94729A-5FFD-4B8D-9EF3-B092C3F34FE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD94729A-5FFD-4B8D-9EF3-B092C3F34FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD94729A-5FFD-4B8D-9EF3-B092C3F34FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD94729A-5FFD-4B8D-9EF3-B092C3F34FE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
