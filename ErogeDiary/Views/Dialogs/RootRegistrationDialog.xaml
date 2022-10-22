@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="ErogeDiary.Views.Dialogs.RootRegistrationDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:validations="clr-namespace:ErogeDiary.Views.Validations"
+             xmlns:local="clr-namespace:ErogeDiary.Views.Dialogs"
+             mc:Ignorable="d" 
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:Width="430" d:Height="460">
+    
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="Height" Value="460"/>
+            <Setter Property="Width" Value="430"/>
+            <Setter Property="MaxHeight" Value="560"/>
+            <Setter Property="MinHeight" Value="300"/>
+            <Setter Property="MinWidth" Value="300"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+
+    <ScrollViewer>
+        <Grid Margin="24 0">
+            <StackPanel>
+                <TextBlock Text="ルートの追加" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBox x:Name="Name" 
+                         ui:ControlHelper.Header="ルート名" 
+                         Text="{Binding RootData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
+                <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           Text="{Binding ElementName=Name, Path=(Validation.Errors)[0].ErrorContent}"/>
+
+                <CheckBox Content="未割り当てのプレイ時間すべてをルートに割り当てる"
+                          IsChecked="{Binding IsAllocatedAutomatically}"/>
+                <TextBox x:Name="PlayTime" 
+                         ui:ControlHelper.Header="ルートに割り当てるプレイ時間"
+                         Text="{Binding PlayTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         IsEnabled="{Binding IsAllocatedAutomatically, 
+                            Converter={StaticResource InverseBooleanConverter}}"
+                         Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
+                <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           Text="{Binding ElementName=PlayTime, Path=(Validation.Errors)[0].ErrorContent}"/>
+
+                <CheckBox Content="ルート攻略済み"
+                          IsChecked="{Binding RootData.IsCleared}"/>
+                
+                <Label Content="ルート攻略日" Margin="0 8 0 0" FontSize="14"
+                       IsEnabled="{Binding RootData.IsCleared}"/>
+                <DatePicker x:Name="ClearDate"
+                            Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
+                            IsEnabled="{Binding RootData.IsCleared}"
+                            Margin="0 4 0 0" HorizontalAlignment="Stretch">
+                    <DatePicker.SelectedDate>
+                        <Binding Path="RootData.ClearedAt" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validations:PassThroughValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
+                </DatePicker>
+                <TextBlock Style="{StaticResource ValidationErrorStyle}"
+                           IsEnabled="{Binding RootData.IsCleared}"
+                           Text="{Binding ElementName=ClearDate, Path=(Validation.Errors)[0].ErrorContent}"/>
+
+                <StackPanel Orientation="Horizontal" Margin="0 12">
+                    <Button Content="追加"
+                            Command="{Binding RegisterCommand}"/>
+                    <Button Content="キャンセル" 
+                            Command="{Binding CancelCommand}"
+                            Margin="24 0 0 0" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+    
+</UserControl>
