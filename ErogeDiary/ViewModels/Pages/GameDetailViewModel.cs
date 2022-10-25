@@ -2,19 +2,14 @@
 using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
+using ErogeDiary.ViewModels.Contents;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-
 namespace ErogeDiary.ViewModels.Pages
 {
     public class GameDetailViewModel : BindableBase, INavigationAware
@@ -22,9 +17,6 @@ namespace ErogeDiary.ViewModels.Pages
         public DelegateCommand StartGameCommand { get; private set; }
         public DelegateCommand EditGameCommand { get; private set; }
         public DelegateCommand DeleteGameCommand { get; private set; }
-        public DelegateCommand AddRootCommand { get; private set; }
-        public DelegateCommand EditRootCommand { get; private set; }
-        public DelegateCommand RemoveRootCommand { get; private set; }
 
         private IDatabaseAccess database;
         private IRegionManager regionManager;
@@ -46,55 +38,25 @@ namespace ErogeDiary.ViewModels.Pages
             StartGameCommand = new DelegateCommand(StartGame);
             EditGameCommand = new DelegateCommand(EditGame);
             DeleteGameCommand = new DelegateCommand(DeleteGame);
-            AddRootCommand = new DelegateCommand(AddRoot);
-            EditRootCommand = new DelegateCommand(EditRoot);
-            RemoveRootCommand = new DelegateCommand(RemoveRoot);
         }
 
 
-        private Game game;
-        public Game Game
+        private Game? game;
+        public Game? Game
         {
-            get => game; 
-            set { SetProperty(ref game, value); }
-        }
-
-        private ObservableCollection<ChartData> rootChartDataList;
-        public ObservableCollection<ChartData> RootChartDataList
-        {
-            get => rootChartDataList;
-            set { SetProperty(ref rootChartDataList, value); }
-        }
-
-        private ObservableCollection<ChartData> ToChartDataList(IEnumerable<RootData> roots)
-        {
-            var unallocatedTime = Game.GetUnallocatedTime();
-            var unallocatedData = new ChartData()
+            get => game;
+            set
             {
-                Label = "（未割り当てのルート）",
-                Value = unallocatedTime.TotalSeconds,
-                ToolTip = unallocatedTime.ToPlayTimeString(),
-                Color = new SolidColorBrush(Colors.DimGray)
-            };
-
-            if (roots == null || roots.Count() == 0)
-            {
-                return new ObservableCollection<ChartData>() { unallocatedData };
+                SetProperty(ref game, value);
+                Roots = game == null ? null : new RootsViewModel(dialogService, game);
             }
-
-            var charts = new ObservableCollection<ChartData>(roots.Select(r => new ChartData()
-            {
-                Label = r.Name,
-                Value = r.PlayTime.TotalSeconds,
-                ToolTip = r.PlayTime.ToPlayTimeString()
-            }));
-            charts.Add(unallocatedData);
-            return charts;
         }
 
-        private void UpdateRootChartDataList()
+        private RootsViewModel? roots;
+        public RootsViewModel? Roots
         {
-            RootChartDataList = ToChartDataList(Game.Roots);
+            get => roots;
+            set { SetProperty(ref roots, value); }
         }
 
         private Timeline timeline;
@@ -120,13 +82,11 @@ namespace ErogeDiary.ViewModels.Pages
                 Game = game;
                 Game.PropertyChanged += (s, e) =>
                 {
-                    UpdateRootChartDataList();
                     if (e.PropertyName == nameof(Game.TotalPlayTime))
                     {
                         UpdateTimeline();
                     }
                 };
-                UpdateRootChartDataList();
                 UpdateTimeline();
             }
         }
@@ -182,37 +142,6 @@ namespace ErogeDiary.ViewModels.Pages
                 });
                 NavigationHelper.GetNavigationService(regionManager)?.Journal?.GoBack();
             }
-        }
-
-        private void AddRoot()
-        {
-            var dialogParams = new DialogParameters()
-            {
-                { "game", Game }
-            };
-            dialogService.ShowDialog(nameof(Views.Dialogs.RootRegistrationDialog), dialogParams, null);
-            UpdateRootChartDataList();
-        }
-
-        private void EditRoot()
-        {
-            var dialogParams = new DialogParameters()
-            {
-                { "game", Game }
-            };
-            dialogService.ShowDialog(nameof(Views.Dialogs.RootEditDialog), dialogParams, null);
-            UpdateRootChartDataList();
-        }
-
-
-        private void RemoveRoot()
-        {
-            var dialogParams = new DialogParameters()
-            {
-                { "game", Game }
-            };
-            dialogService.ShowDialog(nameof(Views.Dialogs.RootRemoveDialog), dialogParams, null);
-            UpdateRootChartDataList();
         }
     }
 }

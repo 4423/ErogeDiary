@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ErogeDiary.Views.Contents.Roots"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:controls="clr-namespace:ErogeDiary.Controls;assembly=ErogeDiary.Controls"
+             xmlns:local="clr-namespace:ErogeDiary.Views.Contents"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="600">
+    <StackPanel>
+        <ui:CommandBar>
+            <ui:AppBarButton Icon="Add" Label="ルートを追加" Command="{Binding AddRootCommand}"/>
+            <ui:CommandBar.SecondaryCommands>
+                <ui:AppBarButton Icon="Edit" Label="ルート編集" Command="{Binding EditRootCommand}"/>
+                <ui:AppBarButton Icon="Delete" Label="ルート削除" Command="{Binding RemoveRootCommand}"/>
+            </ui:CommandBar.SecondaryCommands>
+        </ui:CommandBar>
+        <controls:HorizontalStackedBarChart ItemsSource="{Binding RootChartDataList}"/>
+    </StackPanel>
+</UserControl>

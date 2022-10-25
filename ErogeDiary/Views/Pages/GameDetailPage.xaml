@@ -7,6 +7,7 @@
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:controls="clr-namespace:ErogeDiary.Controls;assembly=ErogeDiary.Controls"
+    xmlns:contents="clr-namespace:ErogeDiary.Views.Contents"
     xmlns:local="clr-namespace:ErogeDiary.Views.Pages"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800"
@@ -62,21 +63,14 @@
                     BorderThickness="0 2 0 0" 
                     BorderBrush="{DynamicResource SystemBaseMediumLowColorBrush}">
                 <StackPanel Margin="35 16">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" FontSize="36"
+                    <!-- 右にルートのボタンが回り込む & 押せるように調整 -->
+                    <StackPanel HorizontalAlignment="Left" Panel.ZIndex="1" Width="350" Margin="0 0 0 -40">
+                        <TextBlock FontSize="36"
                                    Text="{Binding Game.TotalPlayTime, 
                                         Converter={StaticResource PlayTimeToStringConverter},
                                         ConverterParameter=未プレイ}"/>
-                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 0 0 8">
-                            <TextBlock Foreground="#AAA">
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                            <TextBlock Foreground="#AAA" FontSize="12">
                                 <TextBlock.Inlines>
                                     <Run Text="{Binding Game.RegistrationDate, StringFormat=yyyy-MM-dd}"/>
                                     <Run Text="～"/>
@@ -84,18 +78,8 @@
                                 </TextBlock.Inlines>
                             </TextBlock>
                         </StackPanel>
-                        <ui:CommandBar Grid.Column="1" Grid.RowSpan="2" VerticalAlignment="Bottom">
-                            <ui:AppBarButton Icon="Add" Label="ルートを追加"
-                                             Command="{Binding AddRootCommand}"/>
-                            <ui:CommandBar.SecondaryCommands>
-                                <ui:AppBarButton Icon="Edit" Label="ルート編集"
-                                                 Command="{Binding EditRootCommand}"/>
-                                <ui:AppBarButton Icon="Delete" Label="ルート削除"
-                                                 Command="{Binding RemoveRootCommand}"/>
-                            </ui:CommandBar.SecondaryCommands>
-                        </ui:CommandBar>
-                    </Grid>
-                    <controls:HorizontalStackedBarChart ItemsSource="{Binding RootChartDataList}"/>
+                    </StackPanel>
+                    <contents:Roots DataContext="{Binding Roots}"/>
                     <StackPanel Orientation="Horizontal" Margin="0 8">
                         <TextBlock Foreground="#AAA" FontSize="12">
                             <TextBlock.Inlines>
