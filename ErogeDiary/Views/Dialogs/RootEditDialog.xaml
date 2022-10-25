@@ -45,6 +45,7 @@
                 
                 <TextBox x:Name="PlayTime" 
                          ui:ControlHelper.Header="ルートに割り当てるプレイ時間"
+                         ui:ControlHelper.PlaceholderText="HH:mm:ss"
                          Text="{Binding PlayTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"

@@ -37,6 +37,7 @@
                           IsChecked="{Binding IsAllocatedAutomatically}"/>
                 <TextBox x:Name="PlayTime" 
                          ui:ControlHelper.Header="ルートに割り当てるプレイ時間"
+                         ui:ControlHelper.PlaceholderText="HH:mm:ss"
                          Text="{Binding PlayTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsAllocatedAutomatically, 
                             Converter={StaticResource InverseBooleanConverter}}"
