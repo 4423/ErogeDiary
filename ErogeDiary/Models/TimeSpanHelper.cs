@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ErogeDiary.Models
@@ -34,17 +35,22 @@ namespace ErogeDiary.Models
             return $"{hours:00}:{minutes:00}:{seconds:00}";
         }
 
+        private static readonly Regex timeSpanRegex = new Regex(
+            @"^(?<hours>\d+):(?<minutes>[0-5][0-9]):(?<seconds>[0-5][0-9])$",
+            RegexOptions.Compiled
+        );
+
         public static TimeSpan ParseWithoutDays(this string s)
         {
-            var d = s.Split(":");
-            if (d.Length != 3)
+            var match = timeSpanRegex.Match(s);
+            if (!match.Success)
             {
                 throw new FormatException(s);
             }
 
-            var hours = int.Parse(d[0]);
-            var minutes = int.Parse(d[1]);
-            var seconds = int.Parse(d[2]);
+            var hours = int.Parse(match.Groups["hours"].Value);
+            var minutes = int.Parse(match.Groups["minutes"].Value);
+            var seconds = int.Parse(match.Groups["seconds"].Value);
             return new TimeSpan(hours, minutes, seconds);
         }
 

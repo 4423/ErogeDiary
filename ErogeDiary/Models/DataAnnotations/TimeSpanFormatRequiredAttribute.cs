@@ -12,13 +12,12 @@ namespace ErogeDiary.Models.DataAnnotations
             ErrorMessage = "不正な時間の形式です。";
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (value != null)
             {
                 var s = value.ToString();
-                return TimeSpan.TryParse(s, out _)
-                    || TimeSpanHelper.TryParseWithoutDays(s, out _);
+                return TimeSpanHelper.TryParseWithoutDays(s, out _);
             }
             return false;
         }

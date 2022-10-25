@@ -102,8 +102,15 @@ namespace ErogeDiary.ViewModels.Dialogs
             if (t > allocableTime)
             {
                 var s = allocableTime.ToZeroPaddingStringWithoutDays();
-                var m = $"ルートに割り当てるプレイ時間は {s} よりも大きくできません。";
+                var m = $"ルートに割り当てるプレイ時間は {s} 以下を指定してください。";
                 await messageDialog.ShowErrorAsync(m);
+                return;
+            }
+            if (t.TotalSeconds < 1)
+            {
+                await messageDialog.ShowErrorAsync(
+                    "ルートに割り当てるプレイ時間は1秒以上を指定してください。"
+                );
                 return;
             }
             SelectedRoot.PlayTime = t;
