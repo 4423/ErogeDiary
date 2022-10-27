@@ -83,7 +83,7 @@ public class RootsViewModel : BindableBase
         return charts;
     }
 
-    private bool HasPlayTime() => game.TotalPlayTime.TotalSeconds > 0;
+    private bool HasPlayTime() => game.GetUnallocatedTime().TotalSeconds > 0;
 
     private bool HasRoot() => game.Roots.Count > 0;
 
