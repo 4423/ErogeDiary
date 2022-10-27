@@ -23,7 +23,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
         private IDatabaseAccess database;
         private IMessageDialog messageDialog;
-        private Game game;
+        private Game? game;
 
 
         public RootRegistrationDialogViewModel(
@@ -52,12 +52,19 @@ namespace ErogeDiary.ViewModels.Dialogs
         public bool IsAllocatedAutomatically
         {
             get { return isAllocatedAutomatically; }
-            set { SetProperty(ref isAllocatedAutomatically, value); }
+            set
+            {
+                SetProperty(ref isAllocatedAutomatically, value);
+                if (isAllocatedAutomatically)
+                {
+                    PlayTime = game?.GetUnallocatedTime().ToZeroPaddingStringWithoutDays();
+                }
+            }
         }
 
-        private string playTime;
+        private string? playTime;
         [TimeSpanFormatRequired]
-        public string PlayTime
+        public string? PlayTime
         {
             get { return playTime; }
             set
@@ -75,17 +82,17 @@ namespace ErogeDiary.ViewModels.Dialogs
         }
 
         private bool CanExecuteRegisterRootData()
-            => !String.IsNullOrWhiteSpace(RootData.Name) && !RootData.HasErrors && !HasErrors;
+            => RootData.Valid() && !HasErrors;
 
         private async void RegisterRootData()
         {
             if (IsAllocatedAutomatically)
             {
-                RootData.PlayTime = game.GetUnallocatedTime();
+                RootData.PlayTime = game!.GetUnallocatedTime();
             }
             else
             {
-                var t = PlayTime.ParseWithoutDays();
+                var t = PlayTime!.ParseWithoutDays();
                 var u = game.GetUnallocatedTime();
                 if (t > u)
                 {
@@ -104,10 +111,7 @@ namespace ErogeDiary.ViewModels.Dialogs
                 RootData.PlayTime = t;
             }
 
-            if (!RootData.IsCleared)
-            {
-                RootData.ClearedAt = null;
-            }
+            RootData.Pretty();
             var now = DateTime.Now;
             RootData.UpdatedAt = now;
             RootData.CreatedAt = now;
