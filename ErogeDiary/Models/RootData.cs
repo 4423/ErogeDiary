@@ -1,16 +1,12 @@
-﻿using ErogeDiary.Controls;
-using Prism.Mvvm;
+﻿using ErogeDiary.Models.DataAnnotations;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ErogeDiary.Models
 {
-    public class RootData : VerifiableBindableBase, ICloneable
+    public class RootData : VerifiableBindableBase
     {
         private int id;
         public int Id
@@ -36,21 +32,35 @@ namespace ErogeDiary.Models
         public TimeSpan PlayTime
         {
             get => playTime;
-            set { SetProperty(ref playTime, value); }
+            set
+            {
+                SetProperty(ref playTime, value);
+                ValidateProperty(value);
+            }
         }
 
         private bool isCleared;
         public bool IsCleared
         {
             get => isCleared;
-            set { SetProperty(ref isCleared, value); }
+            set
+            {
+                SetProperty(ref isCleared, value);
+                // IsCleared に依存する validation を再評価
+                ValidateProperty(ClearedAt, nameof(ClearedAt));
+            }
         }
 
         private DateTime? clearedAt;
+        [RequiredIf(nameof(IsCleared), true, ErrorMessage = "攻略日を入力してください。")]
         public DateTime? ClearedAt
         {
             get => clearedAt;
-            set { SetProperty(ref clearedAt, value); }
+            set
+            {
+                SetProperty(ref clearedAt, value);
+                ValidateProperty(value);
+            }
         }
 
         private DateTime createdAt;
@@ -67,31 +77,41 @@ namespace ErogeDiary.Models
             set { SetProperty(ref updatedAt, value); }
         }
 
-
-        public object Clone()
+        public void Pretty()
         {
-            return MemberwiseClone();
+            // 整合性を取る
+            if (!IsCleared)
+            {
+                ClearedAt = null;
+            }
+        }
+
+        public RootData Clone()
+        {
+            var root = new RootData();
+            root.CopyFrom(this);
+            return root;
         }
 
         public void CopyFrom(RootData other)
         {
-            if (Id != other.Id)
-            {
-                throw new ArgumentException();
-            }
-            Name = other.Name;
+            Id = other.Id;
+            Name = (string)other.Name.Clone();
             PlayTime = other.PlayTime;
             IsCleared = other.IsCleared;
             ClearedAt = other.ClearedAt;
             UpdatedAt = other.UpdatedAt;
         }
+
+        public bool Valid() 
+            => !String.IsNullOrWhiteSpace(Name) && !HasErrors;
     }
 
     public static class RootDataExtensions
     {
         public static IEnumerable<RootData> Clone(this IEnumerable<RootData> original)
         {
-            return original?.Select(r => (RootData)r.Clone());
+            return original.Select(r => r.Clone());
         }
     }
 }

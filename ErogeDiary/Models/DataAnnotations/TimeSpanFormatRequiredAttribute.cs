@@ -16,7 +16,7 @@ namespace ErogeDiary.Models.DataAnnotations
         {
             if (value != null)
             {
-                var s = value.ToString();
+                var s = value.ToString()!;
                 return TimeSpanHelper.TryParseWithoutDays(s, out _);
             }
             return false;

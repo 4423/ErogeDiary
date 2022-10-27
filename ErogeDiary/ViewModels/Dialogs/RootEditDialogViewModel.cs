@@ -2,19 +2,12 @@
 using ErogeDiary.Models;
 using ErogeDiary.Models.DataAnnotations;
 using ErogeDiary.Models.Database;
-using ErogeDiary.Models.ErogameScape;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
@@ -25,7 +18,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
         private IDatabaseAccess database;
         private IMessageDialog messageDialog;
-        private Game game;
+        private Game? game;
 
 
         public RootEditDialogViewModel(
@@ -39,40 +32,46 @@ namespace ErogeDiary.ViewModels.Dialogs
             this.messageDialog = messageDialog;
         }
 
-        private ObservableCollection<RootData> roots;
-        public ObservableCollection<RootData> Roots
+        private ObservableCollection<RootData>? roots;
+        public ObservableCollection<RootData>? Roots
         {
             get { return roots; }
             set { SetProperty(ref roots, value); }
         }
 
-        private RootData selectedRoot;
-        public RootData SelectedRoot
+        private RootData? selectedRoot;
+        public RootData? SelectedRoot
         {
             get { return selectedRoot; }
             set
             {
-                if (value != null)
-                {
-                    value.PropertyChanged += SelectedRootPropertyChanged;
-                }
+                // 元の値から event を解除
                 if (selectedRoot != null)
                 {
                     selectedRoot.PropertyChanged -= SelectedRootPropertyChanged;
                 }
-                SetProperty(ref selectedRoot, value);
+
+                // 新しい名前に変更したときに ComboBox の表示も変わらないよう clone する
+                SetProperty(ref selectedRoot, value?.Clone());
+
+                // clone された値に対して event を登録
+                if (selectedRoot != null)
+                {
+                    selectedRoot.PropertyChanged += SelectedRootPropertyChanged;
+                }
                 PlayTime = selectedRoot?.PlayTime.ToZeroPaddingStringWithoutDays();
             }
         }
 
-        private void SelectedRootPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            UpdateCommand.RaiseCanExecuteChanged();
-        }
+        private void SelectedRootPropertyChanged(object? sender, PropertyChangedEventArgs e)
+            => UpdateCommand.RaiseCanExecuteChanged();
 
-        private string playTime;
+        // Converter を使って SelectedRoot.PlayTime の TimeSpan を直接ダイアログ上で編集することも可能だが、
+        // 012:34:56 のような文字を入力したときに、012 が Convert → ConvertBack で一度 TimeSpan を経由することで
+        // 12 として表示されるという挙動が心地よくないので、あえてここでは単に string で受けている
+        private string? playTime;
         [TimeSpanFormatRequired]
-        public string PlayTime
+        public string? PlayTime
         {
             get { return playTime; }
             set
@@ -87,18 +86,15 @@ namespace ErogeDiary.ViewModels.Dialogs
         {
             game = parameters.GetValue<Game>("game");
             Roots = new ObservableCollection<RootData>(game.Roots.Clone());
-            SelectedRoot = Roots.FirstOrDefault();
         }
 
         private bool CanExecuteUpdateRoot()
-            => !String.IsNullOrWhiteSpace(SelectedRoot?.Name) 
-                && (!SelectedRoot?.HasErrors ?? false) 
-                && !HasErrors;
+            => SelectedRoot != null && SelectedRoot.Valid() && !HasErrors;
 
         private async void UpdateRoot()
         {
-            var t = PlayTime.ParseWithoutDays();
-            var allocableTime = game.GetUnallocatedTime() + SelectedRoot.PlayTime;
+            var t = PlayTime!.ParseWithoutDays();
+            var allocableTime = game!.GetUnallocatedTime() + SelectedRoot!.PlayTime;
             if (t > allocableTime)
             {
                 var s = allocableTime.ToZeroPaddingStringWithoutDays();
@@ -115,10 +111,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             }
             SelectedRoot.PlayTime = t;
 
-            if (!SelectedRoot.IsCleared)
-            {
-                SelectedRoot.ClearedAt = null;
-            }
+            SelectedRoot.Pretty();
 
             SelectedRoot.UpdatedAt = DateTime.Now;
 

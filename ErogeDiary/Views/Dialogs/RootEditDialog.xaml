@@ -31,7 +31,7 @@
                           ItemsSource="{Binding Roots}"
                           SelectedItem="{Binding SelectedRoot}"
                           DisplayMemberPath="Name"
-                          Text="{Binding RootData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedIndex="0"
                           Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=Name, Path=(Validation.Errors)[0].ErrorContent}"/>
