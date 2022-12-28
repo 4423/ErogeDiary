@@ -4,6 +4,7 @@
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/ErogeDiary.Controls;component/Themes/HorizontalStackedBarChart.xaml"/>
+        <ResourceDictionary Source="/ErogeDiary.Controls;component/Themes/CalendarHeatmap.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>

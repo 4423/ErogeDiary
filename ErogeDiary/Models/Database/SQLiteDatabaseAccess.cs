@@ -117,6 +117,11 @@ namespace ErogeDiary.Models.Database
             return PlayLogs.Where(p => p.GameId == gameId);
         }
 
+        public IEnumerable<PlayLog> FindPlayLogsByGameId(int gameId, DateTime since)
+        {
+            return PlayLogs.Where(p => p.GameId == gameId && since <= p.StartDateTime);
+        }
+
         #endregion
     }
 }

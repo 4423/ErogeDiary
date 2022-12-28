@@ -1,9 +1,7 @@
-﻿using System;
+﻿using ErogeDiary.Controls.Helpers;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -98,34 +96,6 @@ public class HorizontalStackedBarChart : Control
     private void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         UpdateChart();
-    }
-
-
-    private static class ColorGenerator
-    {
-        private static List<SolidColorBrush> colors = new List<SolidColorBrush>();
-
-        private static List<SolidColorBrush> pallet = new List<SolidColorBrush>()
-        {
-            (SolidColorBrush)new BrushConverter().ConvertFromString("#665191"),
-            (SolidColorBrush)new BrushConverter().ConvertFromString("#a05195"),
-            (SolidColorBrush)new BrushConverter().ConvertFromString("#d45087"),
-            (SolidColorBrush)new BrushConverter().ConvertFromString("#f95d6a"),
-            (SolidColorBrush)new BrushConverter().ConvertFromString("#ff7c43"),
-            (SolidColorBrush)new BrushConverter().ConvertFromString("#ffa600"),
-            (SolidColorBrush)new BrushConverter().ConvertFromString("#003f5c"),
-            (SolidColorBrush)new BrushConverter().ConvertFromString("#2f4b7c"),
-        };
-
-        public static IEnumerable<SolidColorBrush> Generate(int count)
-        {
-            if (colors.Count < count)
-            {
-                colors.AddRange(pallet);
-            }
-
-            return colors.Take(count);
-        }
     }
 }
 

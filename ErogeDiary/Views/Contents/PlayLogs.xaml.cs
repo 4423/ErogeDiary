@@ -2,9 +2,9 @@
 
 namespace ErogeDiary.Views.Contents;
 
-public partial class Roots : UserControl
+public partial class PlayLogs : UserControl
 {
-    public Roots()
+    public PlayLogs()
     {
         InitializeComponent();
     }

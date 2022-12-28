@@ -80,6 +80,7 @@
                         </StackPanel>
                     </StackPanel>
                     <contents:Roots DataContext="{Binding Roots}"/>
+                    <contents:PlayLogs DataContext="{Binding PlayLogs}"/>
                     <StackPanel Orientation="Horizontal" Margin="0 8">
                         <TextBlock Foreground="#AAA" FontSize="12">
                             <TextBlock.Inlines>

@@ -24,5 +24,6 @@ namespace ErogeDiary.Models.Database
         public Task<ObservableCollection<PlayLog>> GetPlayLogsAsync();
         public Task AddPlayLogAsync(PlayLog playLog);
         public IEnumerable<PlayLog> FindPlayLogsByGameId(int gameId);
+        public IEnumerable<PlayLog> FindPlayLogsByGameId(int gameId, DateTime since);
     }
 }

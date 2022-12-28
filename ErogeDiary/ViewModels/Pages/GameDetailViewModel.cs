@@ -49,6 +49,7 @@ namespace ErogeDiary.ViewModels.Pages
             {
                 SetProperty(ref game, value);
                 Roots = game == null ? null : new RootsViewModel(dialogService, game);
+                PlayLogs = game == null ? null : new PlayLogsViewModel(game, database);
             }
         }
 
@@ -57,6 +58,13 @@ namespace ErogeDiary.ViewModels.Pages
         {
             get => roots;
             set { SetProperty(ref roots, value); }
+        }
+
+        private PlayLogsViewModel? playLogs;
+        public PlayLogsViewModel? PlayLogs
+        {
+            get => playLogs;
+            set { SetProperty(ref playLogs, value); }
         }
 
         private Timeline timeline;
