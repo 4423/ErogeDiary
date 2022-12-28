@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace ErogeDiary.Models.Helpers;
+namespace ErogeDiary.Helpers;
 
 public static class SolidColorBrushHelpers
 {
@@ -8,5 +8,5 @@ public static class SolidColorBrushHelpers
     {
         var converter = new BrushConverter();
         return (SolidColorBrush)converter.ConvertFromString(colorCode)!;
-    }   
+    }
 }

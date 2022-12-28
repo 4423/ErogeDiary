@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
-using static ErogeDiary.Models.Helpers.MathHelpers;
-using static ErogeDiary.Models.Helpers.SolidColorBrushHelpers;
+using static ErogeDiary.Helpers.MathHelpers;
+using static ErogeDiary.Helpers.SolidColorBrushHelpers;
 
 namespace ErogeDiary.ViewModels.Contents;
 
