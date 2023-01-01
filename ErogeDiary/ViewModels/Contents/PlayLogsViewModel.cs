@@ -16,9 +16,9 @@ namespace ErogeDiary.ViewModels.Contents;
 public class PlayLogsViewModel : BindableBase
 {
     private Game game;
-    private SQLiteDatabaseAccess database;
+    private ErogeDiaryDbContext database;
 
-    public PlayLogsViewModel(Game game, SQLiteDatabaseAccess database)
+    public PlayLogsViewModel(Game game, ErogeDiaryDbContext database)
     {
         this.game = game;
         this.database = database;

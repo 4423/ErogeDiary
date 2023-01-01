@@ -22,14 +22,14 @@ namespace ErogeDiary.ViewModels.Pages
         public DelegateCommand<Game> StartGameCommand { get; private set; }
         public DelegateCommand GameRegistrationCommand { get; private set; }
 
-        private SQLiteDatabaseAccess database;
+        private ErogeDiaryDbContext database;
         private IRegionManager regionManager;
         private IDialogService dialogService;
         private IMessageDialog messageDialog;
 
 
         public HomeViewModel(
-            SQLiteDatabaseAccess database, 
+            ErogeDiaryDbContext database, 
             IRegionManager regionManager,
             IDialogService dialogService,
             IMessageDialog messageDialog)

@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ErogeDiary.Migrations
 {
-    [DbContext(typeof(SQLiteDatabaseAccess))]
-    partial class SQLiteDatabaseAccessModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ErogeDiaryDbContext))]
+    partial class ErogeDiaryDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

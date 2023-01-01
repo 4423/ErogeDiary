@@ -21,13 +21,13 @@ namespace ErogeDiary.ViewModels.Dialogs
         public DelegateCommand RegisterCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
 
-        private SQLiteDatabaseAccess database;
+        private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
         private Game? game;
 
 
         public RootRegistrationDialogViewModel(
-            SQLiteDatabaseAccess database,
+            ErogeDiaryDbContext database,
             IMessageDialog messageDialog)
         {
             RegisterCommand = new DelegateCommand(RegisterRootData, CanExecuteRegisterRootData);

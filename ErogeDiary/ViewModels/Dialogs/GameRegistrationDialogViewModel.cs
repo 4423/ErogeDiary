@@ -23,14 +23,14 @@ namespace ErogeDiary.ViewModels.Dialogs
         public DelegateCommand CancelCommand { get; private set; }
         public Action HideFlyout { get; set; }
 
-        private SQLiteDatabaseAccess database;
+        private ErogeDiaryDbContext database;
         private IErogameScapeAccess erogameScape;
         private IMessageDialog messageDialog;
         private IOpenFileDialog openFileDialog;
 
 
         public GameRegistrationDialogViewModel(
-            SQLiteDatabaseAccess database,
+            ErogeDiaryDbContext database,
             IErogameScapeAccess erogameScape,
             IMessageDialog messageDialog,
             IOpenFileDialog openFileDialog)

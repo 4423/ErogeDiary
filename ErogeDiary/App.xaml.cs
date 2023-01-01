@@ -40,7 +40,7 @@ namespace ErogeDiary
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            var sqldb = new SQLiteDatabaseAccess();
+            var sqldb = new ErogeDiaryDbContext();
             sqldb.Database.Migrate();
             containerRegistry.RegisterInstance(sqldb);
 

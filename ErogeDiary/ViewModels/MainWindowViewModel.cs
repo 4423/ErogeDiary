@@ -16,14 +16,14 @@ namespace ErogeDiary.ViewModels
         public DelegateCommand GoBackCommand { get; private set; }
         public DelegateCommand RootFrameNavigatedCommand { get; private set; }
 
-        private SQLiteDatabaseAccess database;
+        private ErogeDiaryDbContext database;
         private GameMonitor gameMonitor;
         private IRegionManager regionManager;
         private IRegionNavigationService navigationService { get =>
             NavigationHelper.GetNavigationService(regionManager); }
 
 
-        public MainWindowViewModel(SQLiteDatabaseAccess database, GameMonitor gameMonitor, IRegionManager regionManager)
+        public MainWindowViewModel(ErogeDiaryDbContext database, GameMonitor gameMonitor, IRegionManager regionManager)
         {
             this.database = database;
             this.gameMonitor = gameMonitor;

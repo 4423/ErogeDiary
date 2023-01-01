@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ErogeDiary.Migrations
 {
-    [DbContext(typeof(SQLiteDatabaseAccess))]
+    [DbContext(typeof(ErogeDiaryDbContext))]
     [Migration("20221010124311_Init")]
     partial class Init
     {

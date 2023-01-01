@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ErogeDiary.Models.Database
 {
-    public class SQLiteDatabaseAccess : DbContext
+    public class ErogeDiaryDbContext : DbContext
     {
         public DbSet<Game> Games { get; set; }
         public DbSet<RootData> Roots { get; set; }

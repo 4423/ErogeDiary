@@ -18,14 +18,14 @@ namespace ErogeDiary.ViewModels.Pages
         public DelegateCommand EditGameCommand { get; private set; }
         public DelegateCommand DeleteGameCommand { get; private set; }
 
-        private SQLiteDatabaseAccess database;
+        private ErogeDiaryDbContext database;
         private IRegionManager regionManager;
         private IMessageDialog messageDialog;
         private IDialogService dialogService;
 
 
         public GameDetailViewModel(
-            SQLiteDatabaseAccess database,
+            ErogeDiaryDbContext database,
             IRegionManager regionManager,
             IMessageDialog messageDialog,
             IDialogService dialogService)

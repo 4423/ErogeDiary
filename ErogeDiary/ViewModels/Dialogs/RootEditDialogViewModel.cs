@@ -16,13 +16,13 @@ namespace ErogeDiary.ViewModels.Dialogs
         public DelegateCommand UpdateCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
 
-        private SQLiteDatabaseAccess database;
+        private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
         private Game? game;
 
 
         public RootEditDialogViewModel(
-            SQLiteDatabaseAccess database,
+            ErogeDiaryDbContext database,
             IMessageDialog messageDialog)
         {
             UpdateCommand = new DelegateCommand(UpdateRoot, CanExecuteUpdateRoot);
