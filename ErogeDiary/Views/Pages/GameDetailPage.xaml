@@ -49,7 +49,10 @@
                     <ui:CommandBar Grid.Row="1" HorizontalAlignment="Left" Background="Transparent">
                         <ui:AppBarButton Icon="Play" Label="ゲームを起動"
                                          Command="{Binding StartGameCommand}"
-                                         IsEnabled="{Binding Game.CanLaunch}"/>
+                                         IsEnabled="{Binding Game.CanLaunch}"
+                                         ToolTipService.IsEnabled="{Binding Game.CanLaunch, Converter={StaticResource InverseBooleanConverter}}"
+                                         ToolTipService.ShowOnDisabled="True"
+                                         ToolTip="DMM GAME PLAYER でインストールされたゲームはここから起動できません。"/>
                         <ui:AppBarButton Icon="Edit" Label="編集"
                                          Command="{Binding EditGameCommand}"/>
                         <ui:AppBarButton Icon="Delete" Label="ゲームの登録を解除" 
