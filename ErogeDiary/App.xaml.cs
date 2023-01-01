@@ -42,7 +42,7 @@ namespace ErogeDiary
         {
             var sqldb = new SQLiteDatabaseAccess();
             sqldb.Database.Migrate();
-            containerRegistry.RegisterInstance<IDatabaseAccess>(sqldb);
+            containerRegistry.RegisterInstance(sqldb);
 
             var gameMonitor = new GameMonitor(sqldb);
             containerRegistry.RegisterInstance<GameMonitor>(gameMonitor);

@@ -20,14 +20,14 @@ namespace ErogeDiary.ViewModels.Dialogs
         public DelegateCommand CloseCommand { get; private set; }
         public DelegateCommand UpdateCommand { get; private set; }
 
-        private IDatabaseAccess database;
+        private SQLiteDatabaseAccess database;
         private IMessageDialog messageDialog;
         private IOpenFileDialog openFileDialog;
         private Game originalGame;
 
 
         public GameEditDialogViewModel(
-            IDatabaseAccess database, 
+            SQLiteDatabaseAccess database, 
             IMessageDialog messageDialog, 
             IOpenFileDialog openFileDialog)
         {

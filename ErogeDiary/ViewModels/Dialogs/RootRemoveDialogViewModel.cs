@@ -23,13 +23,13 @@ namespace ErogeDiary.ViewModels.Dialogs
         public DelegateCommand RemoveCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
 
-        private IDatabaseAccess database;
+        private SQLiteDatabaseAccess database;
         private IMessageDialog messageDialog;
         private Game game;
 
 
         public RootRemoveDialogViewModel(
-            IDatabaseAccess database,
+            SQLiteDatabaseAccess database,
             IMessageDialog messageDialog)
         {
             RemoveCommand = new DelegateCommand(RemoveRoot, CanExecuteRemoveRoot);

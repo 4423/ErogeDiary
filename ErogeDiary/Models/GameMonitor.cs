@@ -22,10 +22,10 @@ namespace ErogeDiary.Models
 
         private Game previousGame;
         private DateTime previousGameStartDate;
-        private IDatabaseAccess database;
+        private SQLiteDatabaseAccess database;
         private DispatcherTimer timer;
 
-        public GameMonitor(IDatabaseAccess database)
+        public GameMonitor(SQLiteDatabaseAccess database)
         {
             this.database = database;
             ProcessMonitor.Instance.OnActiveProcessChanged += OnActiveProcessChanged;
