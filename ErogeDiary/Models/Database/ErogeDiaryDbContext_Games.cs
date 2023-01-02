@@ -33,12 +33,12 @@ public partial class ErogeDiaryDbContext
         return Games.Local.ToObservableCollection();
     }
 
-    public async Task<Game> FindGameByFileNameAsync(string fileName)
+    public async Task<Game?> FindGameByFileNameAsync(string fileName)
     {
         return await Games.SingleOrDefaultAsync(x => x.FileName == fileName);
     }
 
-    public async Task<Game> FindGameByWindowTitleAsync(string windowTitle)
+    public async Task<Game?> FindGameByWindowTitleAsync(string windowTitle)
     {
         // 複数件該当する可能性はあるが最初の1件を返しておく 
         return await Games.Where(x => x.WindowTitle != null)

@@ -1,4 +1,6 @@
-﻿using ErogeDiary.Models.Database;
+﻿using ErogeDiary.Helpers;
+using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -67,10 +69,21 @@ namespace ErogeDiary.Models
                     return await database.FindGameByWindowTitleAsync(process.MainWindowTitle);
                 }
 
-                var fileName = process.MainModule?.FileName;
-                if (fileName != null)
+                var fileNames = new[]
                 {
-                    return await database.FindGameByFileNameAsync(fileName);
+                    process.MainModule?.FileName,
+                    // 主に DL 版ではゲーム本体を子プロセスとして起動する場合があるため、親プロセスも一応確認している
+                    // ただ、直接の親だけ確認するので足りるのかは不明（手元の10作品では問題ないが）
+                    // いっそディレクトリ名で一致を取ってもいいかも？
+                    GetParentProcessFileName(process),
+                };
+                foreach (var fileName in fileNames.WhereNotNull())
+                {
+                    var game = await database.FindGameByFileNameAsync(fileName);
+                    if (game != null)
+                    {
+                        return game;
+                    }
                 }
             }
             catch (Win32Exception)
@@ -79,6 +92,20 @@ namespace ErogeDiary.Models
             }
 
             return null;
+        }
+
+        private string? GetParentProcessFileName(Process childProcess)
+        {
+            try
+            {
+                var parent = ParentProcess.GetParentProcess(childProcess);
+                return parent.MainModule?.FileName;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return null;
+            }
         }
 
         private void TimerTick(object sender, EventArgs e)
