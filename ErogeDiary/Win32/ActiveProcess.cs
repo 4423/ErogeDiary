@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace ErogeDiary.Models.Win32;
+namespace ErogeDiary.Win32;
 
 public static class ActiveProcess
 {

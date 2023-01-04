@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace ErogeDiary.Models.Win32;
+namespace ErogeDiary.Win32;
 
 // https://stackoverflow.com/questions/394816/how-to-get-parent-process-in-net-in-managed-way
 // https://learn.microsoft.com/ja-jp/windows/win32/api/winternl/nf-winternl-ntqueryinformationprocess
@@ -32,9 +32,9 @@ public static class ParentProcess
     [DllImport("ntdll.dll")]
     private static extern int NtQueryInformationProcess(
         IntPtr processHandle,
-        ProcessInformationClass processInformationClass, 
-        ref ProcessBasicInformation processInformation, 
-        int processInformationLength, 
+        ProcessInformationClass processInformationClass,
+        ref ProcessBasicInformation processInformation,
+        int processInformationLength,
         out int returnLength
     );
 

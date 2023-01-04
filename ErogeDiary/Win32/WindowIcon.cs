@@ -5,7 +5,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
 
-namespace ErogeDiary.Models.Win32;
+namespace ErogeDiary.Win32;
 
 public static class WindowIcon
 {
