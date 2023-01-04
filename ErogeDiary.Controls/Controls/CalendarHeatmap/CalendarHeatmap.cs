@@ -100,7 +100,7 @@ public class CalendarHeatmap : Control
         var cells = ConvertToCells(ItemsSource);
 
         RenderMonthLabels(cells);
-        RenderChart(cells);
+        RenderHeatmap(cells);
     }
 
     // 各ゲームの CalendarHeatmapPoint を Grid のどの点に配置するかを表す内部構造
@@ -186,29 +186,29 @@ public class CalendarHeatmap : Control
         }
     }
 
-    private void RenderChart(IEnumerable<Cell> cells)
+    private void RenderHeatmap(IEnumerable<Cell> cells)
     {
-        var chartArea = GetTemplateChild("ChartAreaGrid") as Grid;
-        if (chartArea == null)
+        var heatmapArea = GetTemplateChild("HeatmapAreaGrid") as Grid;
+        if (heatmapArea == null)
         {
             return;
         }
 
-        chartArea.ColumnDefinitions.Clear();
-        chartArea.RowDefinitions.Clear();
-        chartArea.Children.Clear();
+        heatmapArea.ColumnDefinitions.Clear();
+        heatmapArea.RowDefinitions.Clear();
+        heatmapArea.Children.Clear();
 
         // 7×53 の枠を定義
         for (int i = 0; i < NUM_OF_WEEKS_IN_YEAR; i++)
         {
-            chartArea.ColumnDefinitions.Add(new ColumnDefinition()
+            heatmapArea.ColumnDefinitions.Add(new ColumnDefinition()
             {
                 Width = new GridLength(CELL_SIZE, GridUnitType.Pixel)
             });
         }
         for (int i = 0; i < NUM_OF_DAYS_IN_WEEK; i++)
         {
-            chartArea.RowDefinitions.Add(new RowDefinition()
+            heatmapArea.RowDefinitions.Add(new RowDefinition()
             {
                 Height = new GridLength(CELL_SIZE, GridUnitType.Pixel)
             });
@@ -225,7 +225,7 @@ public class CalendarHeatmap : Control
             Grid.SetRow(border, cell.Row);
             Grid.SetColumn(border, cell.Col);
 
-            chartArea.Children.Add(border);
+            heatmapArea.Children.Add(border);
         }
     }
 }

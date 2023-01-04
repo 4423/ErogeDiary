@@ -47,7 +47,7 @@
                             </Grid>
                             
                             <!-- 日の値（code behind で描画する） -->
-                            <Grid x:Name="ChartAreaGrid" Grid.Column="1" Grid.Row="1">
+                            <Grid x:Name="HeatmapAreaGrid" Grid.Column="1" Grid.Row="1">
                                 <Grid.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="Margin" Value="1"/>
