@@ -26,6 +26,16 @@ namespace ErogeDiary
 {
     public partial class App : PrismApplication
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            using (var dbContext = new ErogeDiaryDbContext())
+            {
+                dbContext.Database.Migrate();
+            }
+        }
+
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
@@ -40,14 +50,10 @@ namespace ErogeDiary
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            var sqldb = new ErogeDiaryDbContext();
-            sqldb.Database.Migrate();
-            containerRegistry.RegisterInstance(sqldb);
-
-            var gameMonitor = new GameMonitor(sqldb);
-            containerRegistry.RegisterInstance<GameMonitor>(gameMonitor);
-
+            containerRegistry.Register<ErogeDiaryDbContext>();
+            containerRegistry.Register<GameMonitor>();
             containerRegistry.Register<IErogameScapeAccess, WebScrapingErogameScapeAccess>();
+
             containerRegistry.Register<IMessageDialog, MessageDialog>();
             containerRegistry.Register<IOpenFileDialog, OpenFileDialog>();
 
