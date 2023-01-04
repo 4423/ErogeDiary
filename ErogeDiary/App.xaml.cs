@@ -12,6 +12,8 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
+using System;
+using System.Threading;
 using System.Windows;
 using Unity;
 
@@ -19,14 +21,29 @@ namespace ErogeDiary;
 
 public partial class App : PrismApplication
 {
+    // 二重起動させない
+    private static Mutex singleInstanceMutex = new Mutex(false, "ErogeDiary");
+    private static bool isNewInstance = false;
+
     protected override void OnStartup(StartupEventArgs e)
     {
-        base.OnStartup(e);
+        AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
+
+        isNewInstance = singleInstanceMutex.WaitOne(0, false);
+        if (!isNewInstance)
+        {
+            // TODO: MessageBox を出したいが表示されない
+            singleInstanceMutex.Close();
+            Shutdown();
+            return;
+        }
 
         using (var dbContext = new ErogeDiaryDbContext())
         {
             dbContext.Database.Migrate();
         }
+
+        base.OnStartup(e);
     }
 
     protected override void ConfigureViewModelLocator()
@@ -61,5 +78,25 @@ public partial class App : PrismApplication
     protected override Window CreateShell()
     {
         return Container.Resolve<MainWindow>();
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        base.OnExit(e);
+        CloseMutex();
+    }
+
+    private void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        CloseMutex();
+    }
+
+    private void CloseMutex()
+    {
+        if (isNewInstance)
+        {
+            singleInstanceMutex.ReleaseMutex();
+        }
+        singleInstanceMutex.Close();
     }
 }
