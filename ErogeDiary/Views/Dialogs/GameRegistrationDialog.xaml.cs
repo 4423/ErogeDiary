@@ -27,7 +27,7 @@ namespace ErogeDiary.Views.Dialogs
         private void GameRegistrationDialogLoaded(object sender, RoutedEventArgs e)
         {
             var window = Window.GetWindow(this);
-            NativeMethods.RemoveIcon(window);
+            WindowIcon.RemoveIcon(window);
 
             ((ViewModels.Dialogs.GameRegistrationDialogViewModel)DataContext).HideFlyout =
                 () => InputFlyout.Hide();

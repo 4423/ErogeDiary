@@ -25,7 +25,7 @@ namespace ErogeDiary.Views.Dialogs
         private void GameEditDialogLoaded(object sender, RoutedEventArgs e)
         {
             var window = Window.GetWindow(this);
-            NativeMethods.RemoveIcon(window);
+            WindowIcon.RemoveIcon(window);
         }
     }
 }

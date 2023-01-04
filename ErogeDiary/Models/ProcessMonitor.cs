@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ErogeDiary.Models.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -37,8 +38,12 @@ namespace ErogeDiary.Models
 
         private void Update()
         {
-            var activeProcess = Win32.NativeMethods.GetActiveProcess();
-            if (activeProcess == null)
+            Process activeProcess;
+            try
+            {
+                activeProcess = ActiveProcess.GetActiveProcess();
+            }
+            catch (Exception)
             {
                 return;
             }

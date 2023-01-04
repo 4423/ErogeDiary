@@ -24,7 +24,7 @@ namespace ErogeDiary.Views.Dialogs
             Loaded += (_, __) =>
             {
                 var window = Window.GetWindow(this);
-                NativeMethods.RemoveIcon(window);
+                WindowIcon.RemoveIcon(window);
             };
         }
     }
