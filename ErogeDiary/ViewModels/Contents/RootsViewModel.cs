@@ -3,6 +3,7 @@ using ErogeDiary.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -73,11 +74,18 @@ public class RootsViewModel : BindableBase
             return new ObservableCollection<ChartData>() { unallocatedData };
         }
 
-        var charts = new ObservableCollection<ChartData>(roots.Select(r => new ChartData()
-        {
-            Label = r.Name,
-            Value = r.PlayTime.TotalSeconds,
-            ToolTip = r.PlayTime.ToPlayTimeString()
+        var charts = new ObservableCollection<ChartData>(roots.Select(r => {
+            var tooltip = r.PlayTime.ToPlayTimeString();
+            if (r.IsCleared)
+            {
+                tooltip += Environment.NewLine + $"{r.ClearedAt?.ToLongDateString()}に攻略";
+            }
+            return new ChartData()
+            {
+                Label = r.Name,
+                Value = r.PlayTime.TotalSeconds,
+                ToolTip = tooltip
+            };
         }));
         charts.Add(unallocatedData);
         return charts;
