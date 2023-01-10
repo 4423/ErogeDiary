@@ -38,12 +38,12 @@
                 <ResourceDictionary Source="Views/Styles/DialogStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <converter:UriStringConverter x:Key="UriStringConverter"/>
-            <converter:PlayTimeToStringConverter x:Key="PlayTimeToStringConverter"/>
-            <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
             <converter:BooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
             <converter:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter"/>
             <converter:InstallationTypeToBooleanConverter x:Key="InstallationTypeToBooleanConverter"/>
+            <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <converter:PlayTimeToStringConverter x:Key="PlayTimeToStringConverter"/>
+            <converter:UriStringConverter x:Key="UriStringConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
