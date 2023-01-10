@@ -1,7 +1,7 @@
 ﻿using ErogeDiary.Dialogs;
+using ErogeDiary.ErogameScape;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
-using ErogeDiary.Models.ErogameScape;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -24,14 +24,14 @@ namespace ErogeDiary.ViewModels.Dialogs
         public Action HideFlyout { get; set; }
 
         private ErogeDiaryDbContext database;
-        private IErogameScapeAccess erogameScape;
+        private ErogameScapeClient erogameScapeClient;
         private IMessageDialog messageDialog;
         private IOpenFileDialog openFileDialog;
 
 
         public GameRegistrationDialogViewModel(
             ErogeDiaryDbContext database,
-            IErogameScapeAccess erogameScape,
+            ErogameScapeClient erogameScapeClient,
             IMessageDialog messageDialog,
             IOpenFileDialog openFileDialog)
         {
@@ -47,7 +47,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             IsOpen = false;
 
             this.database = database;
-            this.erogameScape = erogameScape;
+            this.erogameScapeClient = erogameScapeClient;
             this.messageDialog = messageDialog;
             this.openFileDialog = openFileDialog;
         }
@@ -104,7 +104,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
             try
             {
-                var gameInfo = await erogameScape.GetGameInfoFromGamePageUrl(ErogameScapeUrl);
+                var gameInfo = await erogameScapeClient.FetchGameInfoAsync(ErogameScapeUrl);
                 Game = gameInfo.ToGame();
                 Game.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
             }

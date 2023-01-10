@@ -1,4 +1,5 @@
-﻿using ErogeDiary.Models.DataAnnotations;
+﻿using ErogeDiary.ErogameScape;
+using ErogeDiary.Models.DataAnnotations;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -265,7 +266,7 @@ namespace ErogeDiary.Models
 
     public static class GameExtensions
     {
-        public static Game ToGame(this ErogameScape.GameInfo gameInfo)
+        public static Game ToGame(this GameInfo gameInfo)
         {
             return new Game()
             {

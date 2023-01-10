@@ -1,7 +1,7 @@
 ﻿using ErogeDiary.Dialogs;
+using ErogeDiary.ErogameScape;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
-using ErogeDiary.Models.ErogameScape;
 using ErogeDiary.ViewModels.Dialogs;
 using ErogeDiary.ViewModels.Pages;
 using ErogeDiary.Views;
@@ -57,7 +57,7 @@ public partial class App : PrismApplication
     {
         containerRegistry.Register<ErogeDiaryDbContext>();
         containerRegistry.Register<GameMonitor>();
-        containerRegistry.Register<IErogameScapeAccess, WebScrapingErogameScapeAccess>();
+        containerRegistry.Register<ErogameScapeClient>();
 
         containerRegistry.Register<IMessageDialog, MessageDialog>();
         containerRegistry.Register<IOpenFileDialog, OpenFileDialog>();

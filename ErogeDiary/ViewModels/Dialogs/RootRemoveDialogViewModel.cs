@@ -2,7 +2,6 @@
 using ErogeDiary.Models;
 using ErogeDiary.Models.DataAnnotations;
 using ErogeDiary.Models.Database;
-using ErogeDiary.Models.ErogameScape;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErogeDiary", "ErogeDiary\Er
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErogeDiary.Controls", "ErogeDiary.Controls\ErogeDiary.Controls.csproj", "{DD94729A-5FFD-4B8D-9EF3-B092C3F34FE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeDiary.ErogameScape", "ErogeDiary.ErogameScape\ErogeDiary.ErogameScape.csproj", "{F4F6837C-B9E0-4A22-BCCD-ED11A0E2BAE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DD94729A-5FFD-4B8D-9EF3-B092C3F34FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD94729A-5FFD-4B8D-9EF3-B092C3F34FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD94729A-5FFD-4B8D-9EF3-B092C3F34FE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4F6837C-B9E0-4A22-BCCD-ED11A0E2BAE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4F6837C-B9E0-4A22-BCCD-ED11A0E2BAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4F6837C-B9E0-4A22-BCCD-ED11A0E2BAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4F6837C-B9E0-4A22-BCCD-ED11A0E2BAE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

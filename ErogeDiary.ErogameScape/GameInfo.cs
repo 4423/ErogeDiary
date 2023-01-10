@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ErogeDiary.Models.ErogameScape;
+﻿namespace ErogeDiary.ErogameScape;
 
 public record GameInfo(
     string Id,
