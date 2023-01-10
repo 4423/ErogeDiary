@@ -15,8 +15,9 @@ namespace ErogeDiary.Models
     {
         public Game()
         {
-            ReleaseDate = DateTime.Now;
-            RegistrationDate = DateTime.Now;
+            var now = DateTime.Now;
+            ReleaseDate = DateOnly.FromDateTime(now);
+            RegistrationDate = now;
             LatestDate = null;
             Roots = new List<RootData>();
         }
@@ -52,9 +53,9 @@ namespace ErogeDiary.Models
             }
         }
 
-        private DateTime? releaseDate;
+        private DateOnly? releaseDate;
         [Required(ErrorMessage = "発売日を入力してください。")]
-        public DateTime? ReleaseDate
+        public DateOnly? ReleaseDate
         {
             get => releaseDate;
             set

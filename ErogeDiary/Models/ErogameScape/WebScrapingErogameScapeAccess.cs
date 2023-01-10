@@ -31,7 +31,7 @@ namespace ErogeDiary.Models.ErogameScape
                 Id: id,
                 Title: title,
                 Brand: brand,
-                ReleaseDate: DateTime.Parse(releaseDate),
+                ReleaseDate: DateOnly.Parse(releaseDate),
                 ImageUri: imageUrl
             );
         }

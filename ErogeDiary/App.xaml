@@ -42,6 +42,7 @@
             <converter:PlayTimeToStringConverter x:Key="PlayTimeToStringConverter"/>
             <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
             <converter:BooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
+            <converter:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter"/>
             <converter:InstallationTypeToBooleanConverter x:Key="InstallationTypeToBooleanConverter"/>
         </ResourceDictionary>
     </Application.Resources>

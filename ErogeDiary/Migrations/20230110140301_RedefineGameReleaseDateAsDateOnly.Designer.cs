@@ -3,6 +3,7 @@ using System;
 using ErogeDiary.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ErogeDiary.Migrations
 {
     [DbContext(typeof(ErogeDiaryDbContext))]
-    partial class ErogeDiaryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230110140301_RedefineGameReleaseDateAsDateOnly")]
+    partial class RedefineGameReleaseDateAsDateOnly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");

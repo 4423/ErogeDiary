@@ -90,7 +90,8 @@
                             Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
                             Margin="0 4 0 0" HorizontalAlignment="Stretch">
                     <DatePicker.SelectedDate>
-                        <Binding Path="Game.ReleaseDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Game.ReleaseDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
+                                 Converter="{StaticResource DateOnlyToDateTimeConverter}">
                             <Binding.ValidationRules>
                                 <!-- 未入力時のエラーを DatePicker 側ではなく Required 属性でハンドルする -->
                                 <validations:PassThroughValidationRule/>

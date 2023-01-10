@@ -45,7 +45,8 @@
                             Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
                             Margin="0 4 0 0" HorizontalAlignment="Stretch">
                     <DatePicker.SelectedDate>
-                        <Binding Path="Game.ReleaseDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="Game.ReleaseDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
+                                 Converter="{StaticResource DateOnlyToDateTimeConverter}">
                             <Binding.ValidationRules>
                                 <validations:PassThroughValidationRule/>
                             </Binding.ValidationRules>

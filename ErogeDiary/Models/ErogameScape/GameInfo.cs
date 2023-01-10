@@ -6,6 +6,6 @@ public record GameInfo(
     string Id,
     string Title,
     string Brand,
-    DateTime ReleaseDate,
+    DateOnly ReleaseDate,
     string ImageUri
 );
