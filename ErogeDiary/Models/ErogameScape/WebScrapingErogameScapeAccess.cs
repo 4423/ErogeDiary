@@ -1,10 +1,7 @@
 ﻿using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -30,14 +27,13 @@ namespace ErogeDiary.Models.ErogameScape
             var releaseDate = html.QuerySelector("#sellday > td > a").TextContent;
             var imageUrl = ((IHtmlImageElement)html.QuerySelector("#main_image img")).Source;
             
-            return new GameInfo()
-            {
-                Id = id,
-                Title = title,
-                Brand = brand,
-                ReleaseDate = DateTime.Parse(releaseDate),
-                ImageUri = imageUrl
-            };
+            return new GameInfo(
+                Id: id,
+                Title: title,
+                Brand: brand,
+                ReleaseDate: DateTime.Parse(releaseDate),
+                ImageUri: imageUrl
+            );
         }
     }
 }
