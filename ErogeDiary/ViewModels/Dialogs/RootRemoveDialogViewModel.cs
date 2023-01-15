@@ -2,6 +2,7 @@
 using ErogeDiary.Models;
 using ErogeDiary.Models.DataAnnotations;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -24,7 +25,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
         private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
-        private Game game;
+        private Game? game;
 
 
         public RootRemoveDialogViewModel(
@@ -39,15 +40,15 @@ namespace ErogeDiary.ViewModels.Dialogs
         }
 
 
-        private ObservableCollection<RootData> roots;
-        public ObservableCollection<RootData> Roots
+        private ICollection<Root>? roots;
+        public ICollection<Root>? Roots
         {
             get { return roots; }
             set { SetProperty(ref roots, value); }
         }
 
-        private RootData selectedRoot;
-        public RootData SelectedRoot
+        private Root? selectedRoot;
+        public Root? SelectedRoot
         {
             get { return selectedRoot; }
             set 
@@ -61,8 +62,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
             game = parameters.GetValue<Game>("game");
-            Roots = new ObservableCollection<RootData>(game.Roots);
-            SelectedRoot = Roots.FirstOrDefault();
+            Roots = game.Roots;
+            SelectedRoot = game.Roots.FirstOrDefault();
         }
 
         private bool CanExecuteRemoveRoot()
@@ -72,8 +73,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         {
             try
             {
-                await database.RemoveRootAsync(SelectedRoot);
-                await database.UpdateAsync(game);
+                await database.RemoveRootAsync(SelectedRoot!);
                 RaiseRequestClose(new DialogResult(ButtonResult.OK));
             }
             catch (Exception)

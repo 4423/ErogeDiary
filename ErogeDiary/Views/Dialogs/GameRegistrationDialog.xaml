@@ -71,14 +71,14 @@
                 </Button>
                 <TextBox x:Name="Title" 
                          ui:ControlHelper.Header="タイトル" 
-                         Text="{Binding Game.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding VerifiableGame.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=Title, Path=(Validation.Errors)[0].ErrorContent}"/>
                 
                 <TextBox x:Name="Brand" 
                          ui:ControlHelper.Header="ブランド" 
-                         Text="{Binding Game.Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding VerifiableGame.Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=Brand, Path=(Validation.Errors)[0].ErrorContent}"/>
@@ -90,7 +90,7 @@
                             Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
                             Margin="0 4 0 0" HorizontalAlignment="Stretch">
                     <DatePicker.SelectedDate>
-                        <Binding Path="Game.ReleaseDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
+                        <Binding Path="VerifiableGame.ReleaseDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
                                  Converter="{StaticResource DateOnlyToDateTimeConverter}">
                             <Binding.ValidationRules>
                                 <!-- 未入力時のエラーを DatePicker 側ではなく Required 属性でハンドルする -->
@@ -110,7 +110,7 @@
                     <TextBox Grid.Column="0"
                              x:Name="ImageUri" 
                              ui:ControlHelper.Header="サムネイル画像の場所（URLまたはファイルパス）" 
-                             Text="{Binding Game.ImageUri, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{Binding VerifiableGame.ImageUri, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                     <Button Grid.Column="1"
                             Content="参照"
@@ -123,7 +123,7 @@
                 <CheckBox Grid.Column="0" 
                           x:Name="InstalledViaDmmGamePlayerCheckBox" 
                           Content="DMM GAME PLAYER でインストール"
-                          IsChecked="{Binding Game.InstallationType, Converter={StaticResource InstallationTypeToBooleanConverter}}"
+                          IsChecked="{Binding VerifiableGame.InstallationType, Converter={StaticResource InstallationTypeToBooleanConverter}}"
                           Margin="0 8" HorizontalAlignment="Stretch"/>
 
                 <StackPanel Visibility="{Binding 
@@ -132,7 +132,7 @@
                     Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBox x:Name="WindowTitle" 
                              ui:ControlHelper.Header="ゲームウィンドウに表示されるタイトル" 
-                             Text="{Binding Game.WindowTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Text="{Binding VerifiableGame.WindowTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                     <TextBlock Style="{StaticResource ValidationErrorStyle}"
                                Text="{Binding ElementName=WindowTitle, Path=(Validation.Errors)[0].ErrorContent}"/>
@@ -150,7 +150,7 @@
                         <TextBox Grid.Column="0" 
                                  x:Name="FileName" 
                                  ui:ControlHelper.Header="実行ファイルの場所" 
-                                 Text="{Binding Game.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding VerifiableGame.ExecutableFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                         <Button Grid.Column="1"
                                 Content="参照"

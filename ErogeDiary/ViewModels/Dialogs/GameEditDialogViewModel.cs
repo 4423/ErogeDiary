@@ -1,6 +1,7 @@
 ﻿using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -23,7 +24,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
         private IOpenFileDialog openFileDialog;
-        private Game originalGame;
+        private Game? originalGame;
 
 
         public GameEditDialogViewModel(
@@ -45,23 +46,36 @@ namespace ErogeDiary.ViewModels.Dialogs
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
             originalGame = parameters.GetValue<Game>("game");
-            Game = originalGame.Clone();
-            Game.PropertyChanged += (_, __) => UpdateCommand.RaiseCanExecuteChanged();
+            VerifiableGame = new VerifiableGame()
+            {
+                Title = originalGame.Title,
+                Brand = originalGame.Brand,
+                ReleaseDate = originalGame.ReleaseDate,
+                // TODO: Thumbnail の path を毎回組み立てるのをどうにかしたい
+                ImageUri = Path.Combine(ThumbnailHelper.ThumbnailDir, originalGame.ImageFileName),
+                ErogameScapeGameId = originalGame.ErogameScapeGameId,
+                InstallationType = originalGame.InstallationType,
+                WindowTitle = originalGame.WindowTitle,
+                ExecutableFilePath = originalGame.ExecutableFilePath,
+                IsCleared= originalGame.IsCleared,
+                ClearedAt= originalGame.ClearedAt,
+            };
+            VerifiableGame.PropertyChanged += (_, __) => UpdateCommand.RaiseCanExecuteChanged();
             UpdateCommand.RaiseCanExecuteChanged();
         }
 
         public virtual void OnDialogClosed()
         {
-            Game.ClearAllErrors();
-            Game = null;
+            VerifiableGame!.ClearAllErrors();
+            VerifiableGame = null;
         }
 
 
-        private Game game;
-        public Game Game
+        private VerifiableGame? verifiableGame;
+        public VerifiableGame? VerifiableGame
         {
-            get { return game; }
-            set { SetProperty(ref game, value); }
+            get { return verifiableGame; }
+            set { SetProperty(ref verifiableGame, value); }
         }
 
         private bool isUpdating;
@@ -78,7 +92,7 @@ namespace ErogeDiary.ViewModels.Dialogs
                 "画像ファイル(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp");
             if (imageUri != null)
             {
-                Game.ImageUri = imageUri;
+                VerifiableGame!.ImageUri = imageUri;
             }
         }
 
@@ -88,7 +102,7 @@ namespace ErogeDiary.ViewModels.Dialogs
                 "ゲームの実行ファイルを選択してください", "実行ファイル(*.exe)|*.exe");
             if (fileName != null)
             {
-                Game.FileName = fileName;
+                VerifiableGame!.ExecutableFilePath = fileName;
             }
         }
 
@@ -99,9 +113,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         }
 
         private bool CanExecuteUpdateGame()
-        {
-            return Game != null && Game.Valid();
-        }
+            => VerifiableGame?.Valid() == true;
 
         private async void UpdateGame()
         {
@@ -118,13 +130,14 @@ namespace ErogeDiary.ViewModels.Dialogs
 
         private async Task UpdateGameCore()
         {
-            if (Game.ImageUri != originalGame.ImageUri)
+            // TODO: refacotr
+            if (VerifiableGame!.ImageUri != Path.Combine(ThumbnailHelper.ThumbnailDir, originalGame!.ImageFileName))
             {
                 try
                 {
-                    Game.ImageUri = new Uri(Game.ImageUri).IsFile ?
-                        await ThumbnailHelper.CopyAndResize(Game.ImageUri) :
-                        await ThumbnailHelper.DownloadAndResizeAsync(Game.ImageUri);
+                    VerifiableGame.ImageUri = new Uri(VerifiableGame.ImageUri!).IsFile ?
+                        await ThumbnailHelper.CopyAndResize(VerifiableGame.ImageUri!) :
+                        await ThumbnailHelper.DownloadAndResizeAsync(VerifiableGame.ImageUri!);
                 }
                 catch (Exception ex)
                 {
@@ -133,9 +146,18 @@ namespace ErogeDiary.ViewModels.Dialogs
                 }
             }
 
-            Game.Pretty();
+            VerifiableGame.Pretty();
 
-            originalGame.CopyFrom(Game);
+            originalGame.Title = VerifiableGame.Title!;
+            originalGame.Brand = VerifiableGame.Brand!;
+            originalGame.ReleaseDate = VerifiableGame.ReleaseDate!.Value;
+            originalGame.ImageFileName = Path.GetFileName(VerifiableGame.ImageUri);
+            originalGame.ErogameScapeGameId = VerifiableGame.ErogameScapeGameId;
+            originalGame.InstallationType = VerifiableGame.InstallationType;
+            originalGame.WindowTitle = VerifiableGame.WindowTitle;
+            originalGame.ExecutableFilePath = VerifiableGame.ExecutableFilePath;
+            originalGame.ClearedAt = VerifiableGame.ClearedAt;
+
             await database.UpdateAsync(originalGame);
 
             RaiseRequestClose(new DialogResult(ButtonResult.OK));

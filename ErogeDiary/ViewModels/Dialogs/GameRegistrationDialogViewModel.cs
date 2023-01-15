@@ -2,11 +2,13 @@
 using ErogeDiary.ErogameScape;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,8 +43,8 @@ namespace ErogeDiary.ViewModels.Dialogs
             RegisterCommand = new DelegateCommand(RegisterGame, CanExecuteRegisterGame);
             CancelCommand = new DelegateCommand(CloseDialog);
             
-            Game = new Game();
-            Game.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
+            VerifiableGame = new VerifiableGame();
+            VerifiableGame.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
 
             IsOpen = false;
 
@@ -54,13 +56,14 @@ namespace ErogeDiary.ViewModels.Dialogs
 
 
         private bool CanExecuteRegisterGame()
-            => Game.Valid();
+            => VerifiableGame.Valid();
 
         private async void RegisterGame()
         {
             try
             {
                 IsRegistering = true;
+                // TODO: 消す
                 await Task.Delay(2000);
                 await RegisterGameCore();
             }
@@ -72,14 +75,28 @@ namespace ErogeDiary.ViewModels.Dialogs
 
         private async Task RegisterGameCore()
         {
-            if (await database.FindGameByTitleAndBrandAsync(Game.Title, Game.Brand) == null)
+            // TODO: ExecutableFilePath も重複確認
+            if (await database.FindGameByTitleAndBrandAsync(VerifiableGame.Title!, VerifiableGame.Brand!) == null)
             {
-                Game.ImageUri = new Uri(Game.ImageUri).IsFile ?
-                    await ThumbnailHelper.CopyAndResize(Game.ImageUri) :
-                    await ThumbnailHelper.DownloadAndResizeAsync(Game.ImageUri);
+                var imageUri = new Uri(VerifiableGame.ImageUri!).IsFile ?
+                    await ThumbnailHelper.CopyAndResize(VerifiableGame.ImageUri!) :
+                    await ThumbnailHelper.DownloadAndResizeAsync(VerifiableGame.ImageUri!);
 
-                Game.Pretty();
-                await database.AddGameAsync(Game);
+                VerifiableGame.Pretty();
+
+                var game = new Game()
+                {
+                    Title = VerifiableGame.Title!,
+                    Brand = VerifiableGame.Brand!,
+                    ReleaseDate = VerifiableGame.ReleaseDate!.Value,
+                    ImageFileName = Path.GetFileName(imageUri),
+                    ErogameScapeGameId = VerifiableGame.ErogameScapeGameId,
+                    InstallationType = VerifiableGame.InstallationType,
+                    WindowTitle = VerifiableGame.WindowTitle,
+                    ExecutableFilePath = VerifiableGame.ExecutableFilePath,
+                    ClearedAt = VerifiableGame.ClearedAt,
+                };
+                await database.AddGameAsync(game);
                 RaiseRequestClose(new DialogResult(ButtonResult.OK));
             }
             else
@@ -105,8 +122,8 @@ namespace ErogeDiary.ViewModels.Dialogs
             try
             {
                 var gameInfo = await erogameScapeClient.FetchGameInfoAsync(ErogameScapeUrl);
-                Game = gameInfo.ToGame();
-                Game.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
+                VerifiableGame = new VerifiableGame(gameInfo);
+                VerifiableGame.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
             }
             catch (Exception)
             {
@@ -127,26 +144,26 @@ namespace ErogeDiary.ViewModels.Dialogs
                 "画像ファイル(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp");
             if (imageUri != null)
             {
-                Game.ImageUri = imageUri;
+                VerifiableGame.ImageUri = imageUri;
             }
         }
 
         private void SelectExecutionFileName()
         {
-            var fileName = openFileDialog.Show(
+            var filePath = openFileDialog.Show(
                 "ゲームの実行ファイルを選択してください", "実行ファイル(*.exe)|*.exe");
-            if (fileName != null)
+            if (filePath != null)
             {
-                Game.FileName = fileName;
+                VerifiableGame.ExecutableFilePath = filePath;
             }
         }
 
 
-        private Game game;
-        public Game Game
+        private VerifiableGame verifiableGame;
+        public VerifiableGame VerifiableGame
         {
-            get { return game; }
-            set { SetProperty(ref game, value); }
+            get { return verifiableGame; }
+            set { SetProperty(ref verifiableGame, value); }
         }
 
         private bool isInvalidErogameScapeUrl;

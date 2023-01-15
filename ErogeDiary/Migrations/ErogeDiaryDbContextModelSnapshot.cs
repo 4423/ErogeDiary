@@ -15,11 +15,15 @@ namespace ErogeDiary.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true);
 
-            modelBuilder.Entity("ErogeDiary.Models.Game", b =>
+            modelBuilder.Entity("ErogeDiary.Models.Database.Entities.Game", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("GameId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -30,30 +34,29 @@ namespace ErogeDiary.Migrations
                     b.Property<DateTime?>("ClearedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ErogameScapeGameId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("FileName")
+                    b.Property<string>("ExecutableFilePath")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ImageUri")
+                    b.Property<string>("ImageFileName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("InstallationType")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("IsCleared")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("LatestDate")
+                    b.Property<DateTime?>("LastPlayedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("RegistrationDate")
+                    b.Property<DateTime>("RegisteredAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly?>("ReleaseDate")
-                        .IsRequired()
+                    b.Property<DateOnly>("ReleaseDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
@@ -63,21 +66,27 @@ namespace ErogeDiary.Migrations
                     b.Property<TimeSpan>("TotalPlayTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("WindowTitle")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("GameId");
 
                     b.ToTable("Games");
                 });
 
-            modelBuilder.Entity("ErogeDiary.Models.PlayLog", b =>
+            modelBuilder.Entity("ErogeDiary.Models.Database.Entities.PlayLog", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PlayLogId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("EndDateTime")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("EndedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("GameId")
@@ -86,17 +95,22 @@ namespace ErogeDiary.Migrations
                     b.Property<TimeSpan>("PlayTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("StartDateTime")
+                    b.Property<DateTime>("StartedAt")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PlayLogId");
+
+                    b.HasIndex("GameId");
 
                     b.ToTable("PlayLogs");
                 });
 
-            modelBuilder.Entity("ErogeDiary.Models.RootData", b =>
+            modelBuilder.Entity("ErogeDiary.Models.Database.Entities.Root", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("RootId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -106,10 +120,7 @@ namespace ErogeDiary.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("GameId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsCleared")
+                    b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -122,22 +133,39 @@ namespace ErogeDiary.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("RootId");
 
                     b.HasIndex("GameId");
 
                     b.ToTable("Roots");
                 });
 
-            modelBuilder.Entity("ErogeDiary.Models.RootData", b =>
+            modelBuilder.Entity("ErogeDiary.Models.Database.Entities.PlayLog", b =>
                 {
-                    b.HasOne("ErogeDiary.Models.Game", null)
-                        .WithMany("Roots")
-                        .HasForeignKey("GameId");
+                    b.HasOne("ErogeDiary.Models.Database.Entities.Game", "Game")
+                        .WithMany("PlayLogs")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("ErogeDiary.Models.Game", b =>
+            modelBuilder.Entity("ErogeDiary.Models.Database.Entities.Root", b =>
                 {
+                    b.HasOne("ErogeDiary.Models.Database.Entities.Game", "Game")
+                        .WithMany("Roots")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("ErogeDiary.Models.Database.Entities.Game", b =>
+                {
+                    b.Navigation("PlayLogs");
+
                     b.Navigation("Roots");
                 });
 #pragma warning restore 612, 618

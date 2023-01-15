@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using ErogeDiary.Models.Database.Entities;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

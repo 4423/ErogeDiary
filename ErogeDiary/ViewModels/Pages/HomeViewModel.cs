@@ -1,6 +1,7 @@
 ﻿using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -73,7 +74,7 @@ namespace ErogeDiary.ViewModels.Pages
         {
             try
             {
-                Process.Start(game.FileName);
+                Process.Start(game.ExecutableFilePath!);
             }
             catch (Exception ex)
             {

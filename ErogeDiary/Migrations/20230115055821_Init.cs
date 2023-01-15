@@ -1,77 +1,94 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace ErogeDiary.Migrations
 {
+    /// <inheritdoc />
     public partial class Init : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
                 name: "Games",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    GameId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
                     Brand = table.Column<string>(type: "TEXT", nullable: false),
-                    ReleaseDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ImageUri = table.Column<string>(type: "TEXT", nullable: false),
+                    ReleaseDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    ImageFileName = table.Column<string>(type: "TEXT", nullable: false),
                     ErogameScapeGameId = table.Column<string>(type: "TEXT", nullable: true),
                     InstallationType = table.Column<int>(type: "INTEGER", nullable: false),
+                    ExecutableFilePath = table.Column<string>(type: "TEXT", nullable: true),
                     WindowTitle = table.Column<string>(type: "TEXT", nullable: true),
-                    FileName = table.Column<string>(type: "TEXT", nullable: true),
-                    RegistrationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LatestDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    RegisteredAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LastPlayedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ClearedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
                     TotalPlayTime = table.Column<TimeSpan>(type: "TEXT", nullable: false),
-                    IsCleared = table.Column<bool>(type: "INTEGER", nullable: false),
-                    ClearedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Games", x => x.Id);
+                    table.PrimaryKey("PK_Games", x => x.GameId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PlayLogs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    PlayLogId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    StartedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EndedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    PlayTime = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     GameId = table.Column<int>(type: "INTEGER", nullable: false),
-                    StartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    PlayTime = table.Column<TimeSpan>(type: "TEXT", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PlayLogs", x => x.Id);
+                    table.PrimaryKey("PK_PlayLogs", x => x.PlayLogId);
+                    table.ForeignKey(
+                        name: "FK_PlayLogs_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "GameId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Roots",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    RootId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     PlayTime = table.Column<TimeSpan>(type: "TEXT", nullable: false),
-                    IsCleared = table.Column<bool>(type: "INTEGER", nullable: false),
                     ClearedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    GameId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    GameId = table.Column<int>(type: "INTEGER", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roots", x => x.Id);
+                    table.PrimaryKey("PK_Roots", x => x.RootId);
                     table.ForeignKey(
                         name: "FK_Roots_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "GameId",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlayLogs_GameId",
+                table: "PlayLogs",
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Roots_GameId",
@@ -79,6 +96,7 @@ namespace ErogeDiary.Migrations
                 column: "GameId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

@@ -1,5 +1,6 @@
 ﻿using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -53,11 +54,19 @@ namespace ErogeDiary.ViewModels
             CurrentPlayTime = TimeSpan.Zero;
             TotalPlayTime = TimeSpan.Zero;
 
+            var now = DateTime.Now;
             game.TotalPlayTime += playTime;
-            game.LatestDate = DateTime.Now;
+            game.LastPlayedAt = now;
             await database.UpdateAsync(game);
 
-            var playLog = new PlayLog(game.Id, playTime);
+            var playLog = new PlayLog()
+            {
+                StartedAt = now - playTime,
+                EndedAt = now,
+                Game = game,
+                GameId = game.GameId,
+            };
+            // TODO: game.PlayLogs に Add したほうがいい？ EF の best practice を見直す
             await database.AddPlayLogAsync(playLog);
 
             System.Diagnostics.Debug.WriteLine(game.Title);

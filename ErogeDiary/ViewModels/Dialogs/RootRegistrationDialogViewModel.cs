@@ -1,7 +1,7 @@
 ﻿using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
-using ErogeDiary.Models.DataAnnotations;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -32,19 +32,16 @@ namespace ErogeDiary.ViewModels.Dialogs
             RegisterCommand = new DelegateCommand(RegisterRootData, CanExecuteRegisterRootData);
             CancelCommand = new DelegateCommand(CloseDialog);
 
-            RootData = new RootData();
-            RootData.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
-
             this.database = database;
             this.messageDialog = messageDialog;
         }
 
 
-        private RootData rootData;
-        public RootData RootData
+        private VerifiableRoot? verifiableRoot;
+        public VerifiableRoot? VerifiableRoot
         {
-            get { return rootData; }
-            set { SetProperty(ref rootData, value); }
+            get { return verifiableRoot; }
+            set { SetProperty(ref verifiableRoot, value); }
         }
 
         private bool isAllocatedAutomatically = true;
@@ -54,75 +51,67 @@ namespace ErogeDiary.ViewModels.Dialogs
             set
             {
                 SetProperty(ref isAllocatedAutomatically, value);
-                if (isAllocatedAutomatically)
+                if (isAllocatedAutomatically && VerifiableRoot != null)
                 {
-                    PlayTime = game?.GetUnallocatedTime().ToZeroPaddingStringWithoutDays();
+                    VerifiableRoot.PlayTime = game?.GetUnallocatedTime().ToZeroPaddingStringWithoutDays();
                 }
-            }
-        }
-
-        private string? playTime;
-        [TimeSpanFormatRequired]
-        public string? PlayTime
-        {
-            get { return playTime; }
-            set
-            {
-                SetProperty(ref playTime, value);
-                ValidateProperty(value);
-                RegisterCommand.RaiseCanExecuteChanged();
             }
         }
 
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
             game = parameters.GetValue<Game>("game");
-            PlayTime = game.GetUnallocatedTime().ToZeroPaddingStringWithoutDays();
+
+            VerifiableRoot = new VerifiableRoot()
+            {
+                PlayTime = game.GetUnallocatedTime().ToZeroPaddingStringWithoutDays()
+            };
+            VerifiableRoot.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
         }
 
         private bool CanExecuteRegisterRootData()
-            => RootData.Valid() && !HasErrors;
+            => VerifiableRoot?.Valid() == true && game != null;
 
         private async void RegisterRootData()
         {
+            TimeSpan playTime;
             if (IsAllocatedAutomatically)
             {
-                RootData.PlayTime = game!.GetUnallocatedTime();
+                playTime = game!.GetUnallocatedTime();
             }
             else
             {
-                var t = PlayTime!.ParseWithoutDays();
-                var u = game.GetUnallocatedTime();
-                if (t > u)
+                playTime = VerifiableRoot!.PlayTime!.ParseWithoutDays();
+                var u = game!.GetUnallocatedTime();
+                if (playTime > u)
                 {
                     var s = u.ToZeroPaddingStringWithoutDays();
                     var m = $"ルートに割り当てるプレイ時間は {s} 以下を指定してください。";
                     await messageDialog.ShowErrorAsync(m);
                     return;
                 }
-                if (t.TotalSeconds < 1)
+                if (playTime.TotalSeconds < 1)
                 {
                     await messageDialog.ShowErrorAsync(
                         "ルートに割り当てるプレイ時間は1秒以上を指定してください。"
                     );
                     return;
                 }
-                RootData.PlayTime = t;
             }
 
-            RootData.Pretty();
-            var now = DateTime.Now;
-            RootData.UpdatedAt = now;
-            RootData.CreatedAt = now;
+            VerifiableRoot!.Pretty();
 
-            await database.AddRootAsync(rootData);
-
-            if (game.Roots == null)
+            var root = new Root()
             {
-                game.Roots = new List<RootData>();
-            }
-            game.Roots.Add(RootData);
-            await database.UpdateAsync(game);
+                Name = VerifiableRoot.Name!,
+                PlayTime = playTime,
+                ClearedAt = VerifiableRoot.ClearedAt,
+                GameId = game.GameId,
+            };
+            await database.AddRootAsync(root);
+            // TODO: 追加時に同期する
+            // game.Roots.Add(root);
+            // await database.UpdateAsync(game);
 
             RaiseRequestClose(new DialogResult(ButtonResult.OK));
         }

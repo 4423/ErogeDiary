@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ErogeDiary.Models.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -35,7 +36,7 @@ public partial class ErogeDiaryDbContext
 
     public async Task<Game?> FindGameByFileNameAsync(string fileName)
     {
-        return await Games.SingleOrDefaultAsync(x => x.FileName == fileName);
+        return await Games.SingleOrDefaultAsync(x => x.ExecutableFilePath == fileName);
     }
 
     public async Task<Game?> FindGameByWindowTitleAsync(string windowTitle)

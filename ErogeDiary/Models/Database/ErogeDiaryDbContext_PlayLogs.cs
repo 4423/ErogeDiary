@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ErogeDiary.Models.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,6 +29,6 @@ public partial class ErogeDiaryDbContext
 
     public IEnumerable<PlayLog> FindPlayLogsByGameId(int gameId, DateTime since)
     {
-        return PlayLogs.Where(p => p.GameId == gameId && since <= p.StartDateTime);
+        return PlayLogs.Where(p => p.GameId == gameId && since <= p.StartedAt);
     }
 }

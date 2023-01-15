@@ -1,7 +1,7 @@
 ﻿using ErogeDiary.Controls.CalendarHeatmap;
 using ErogeDiary.Controls.Controls.CalendarHeatmap;
-using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ public class PlayLogsViewModel : BindableBase
     private void Update()
     {
         var oneYearAgo = DateTime.Now.AddDays(-380); // 1年ちょい前からのデータだけ取得
-        var playLogs = database.FindPlayLogsByGameId(game.Id, oneYearAgo);
+        var playLogs = database.FindPlayLogsByGameId(game.GameId, oneYearAgo);
         Series = new ObservableCollection<CalendarHeatmapSeries>
         {
             new CalendarHeatmapSeries(
@@ -48,8 +48,8 @@ public class PlayLogsViewModel : BindableBase
 
     private IEnumerable<CalendarHeatmapPoint> Convert(PlayLog playLog)
     {
-        var startDate = DateOnly.FromDateTime(playLog.StartDateTime);
-        var endDate = DateOnly.FromDateTime(playLog.EndDateTime);
+        var startDate = DateOnly.FromDateTime(playLog.StartedAt);
+        var endDate = DateOnly.FromDateTime(playLog.EndedAt);
 
         if (startDate == endDate)
         {
@@ -58,7 +58,7 @@ public class PlayLogsViewModel : BindableBase
         }
 
         var lastDateTimeInStartDate = startDate.ToDateTime(TimeOnly.MaxValue);
-        var timeSpanOfStart = lastDateTimeInStartDate - playLog.StartDateTime;
+        var timeSpanOfStart = lastDateTimeInStartDate - playLog.StartedAt;
         yield return new CalendarHeatmapPoint(startDate, timeSpanOfStart.TotalHours);
 
         for (var dayNumber = startDate.DayNumber + 1; dayNumber < endDate.DayNumber; dayNumber++)
@@ -68,7 +68,7 @@ public class PlayLogsViewModel : BindableBase
         }
 
         var firstDateTimeInEndDate = endDate.ToDateTime(TimeOnly.MinValue);
-        var timeSpanOfEnd = playLog.EndDateTime - firstDateTimeInEndDate;
+        var timeSpanOfEnd = playLog.EndedAt - firstDateTimeInEndDate;
         yield return new CalendarHeatmapPoint(endDate, timeSpanOfEnd.TotalHours);
     }
 

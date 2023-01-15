@@ -1,11 +1,11 @@
 ﻿using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
-using ErogeDiary.Models.DataAnnotations;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
@@ -32,93 +32,94 @@ namespace ErogeDiary.ViewModels.Dialogs
             this.messageDialog = messageDialog;
         }
 
-        private ObservableCollection<RootData>? roots;
-        public ObservableCollection<RootData>? Roots
+        private ICollection<Root>? roots;
+        public ICollection<Root>? Roots
         {
             get { return roots; }
             set { SetProperty(ref roots, value); }
         }
 
-        private RootData? selectedRoot;
-        public RootData? SelectedRoot
+        private Root? selectedRoot;
+        public Root? SelectedRoot
         {
             get { return selectedRoot; }
             set
             {
-                // 元の値から event を解除
+                SetProperty(ref selectedRoot, value);
                 if (selectedRoot != null)
                 {
-                    selectedRoot.PropertyChanged -= SelectedRootPropertyChanged;
+                    SelectedVerifiableRoot = new VerifiableRoot()
+                    {
+                        Name = selectedRoot.Name,
+                        PlayTime = selectedRoot.PlayTime.ToZeroPaddingStringWithoutDays(),
+                        IsCleared= selectedRoot.IsCleared,
+                        ClearedAt= selectedRoot.ClearedAt,
+                    };
                 }
-
-                // 新しい名前に変更したときに ComboBox の表示も変わらないよう clone する
-                SetProperty(ref selectedRoot, value?.Clone());
-
-                // clone された値に対して event を登録
-                if (selectedRoot != null)
-                {
-                    selectedRoot.PropertyChanged += SelectedRootPropertyChanged;
-                }
-                PlayTime = selectedRoot?.PlayTime.ToZeroPaddingStringWithoutDays();
             }
         }
 
-        private void SelectedRootPropertyChanged(object? sender, PropertyChangedEventArgs e)
-            => UpdateCommand.RaiseCanExecuteChanged();
-
-        // Converter を使って SelectedRoot.PlayTime の TimeSpan を直接ダイアログ上で編集することも可能だが、
-        // 012:34:56 のような文字を入力したときに、012 が Convert → ConvertBack で一度 TimeSpan を経由することで
-        // 12 として表示されるという挙動が心地よくないので、あえてここでは単に string で受けている
-        private string? playTime;
-        [TimeSpanFormatRequired]
-        public string? PlayTime
+        private VerifiableRoot? selectedVerifiableRoot;
+        public VerifiableRoot? SelectedVerifiableRoot
         {
-            get { return playTime; }
+            get { return selectedVerifiableRoot; }
             set
             {
-                SetProperty(ref playTime, value);
-                ValidateProperty(value);
+                // 元の値から event を解除
+                if (selectedVerifiableRoot != null)
+                {
+                    selectedVerifiableRoot.PropertyChanged -= VerifiableRootPropertyChanged;
+                }
+                // 新しい値に event を登録
+                if (value != null)
+                {
+                    value.PropertyChanged += VerifiableRootPropertyChanged;
+                }
+
+                SetProperty(ref selectedVerifiableRoot, value);
+
                 UpdateCommand.RaiseCanExecuteChanged();
             }
         }
 
+        private void VerifiableRootPropertyChanged(object? sender, PropertyChangedEventArgs e)
+            => UpdateCommand.RaiseCanExecuteChanged();
+
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
             game = parameters.GetValue<Game>("game");
-            Roots = new ObservableCollection<RootData>(game.Roots.Clone());
+            Roots = game.Roots;
         }
 
         private bool CanExecuteUpdateRoot()
-            => SelectedRoot != null && SelectedRoot.Valid() && !HasErrors;
+            => SelectedVerifiableRoot?.Valid() == true && game != null;
 
         private async void UpdateRoot()
         {
-            var t = PlayTime!.ParseWithoutDays();
+            var playTime = SelectedVerifiableRoot!.PlayTime!.ParseWithoutDays();
             var allocableTime = game!.GetUnallocatedTime() + SelectedRoot!.PlayTime;
-            if (t > allocableTime)
+            if (playTime > allocableTime)
             {
                 var s = allocableTime.ToZeroPaddingStringWithoutDays();
                 var m = $"ルートに割り当てるプレイ時間は {s} 以下を指定してください。";
                 await messageDialog.ShowErrorAsync(m);
                 return;
             }
-            if (t.TotalSeconds < 1)
+            if (playTime.TotalSeconds < 1)
             {
                 await messageDialog.ShowErrorAsync(
                     "ルートに割り当てるプレイ時間は1秒以上を指定してください。"
                 );
                 return;
             }
-            SelectedRoot.PlayTime = t;
 
-            SelectedRoot.Pretty();
+            SelectedVerifiableRoot.Pretty();
 
-            SelectedRoot.UpdatedAt = DateTime.Now;
-
-            var root = game.Roots.Single(x => x.Id == SelectedRoot.Id);
-            root.CopyFrom(SelectedRoot);
+            var root = game.Roots.Single(r => r.RootId == SelectedRoot.RootId);
+            root.Name = SelectedVerifiableRoot.Name!;
+            root.PlayTime = playTime;
+            root.ClearedAt = SelectedVerifiableRoot.ClearedAt;
             await database.UpdateRootAsync(root);
-            await database.UpdateAsync(game);
 
             RaiseRequestClose(new DialogResult(ButtonResult.OK));
         }

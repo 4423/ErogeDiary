@@ -1,5 +1,6 @@
 ﻿using ErogeDiary.Helpers;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using ErogeDiary.Win32;
 using System;
 using System.Collections.Generic;

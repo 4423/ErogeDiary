@@ -1,5 +1,6 @@
 ﻿using ErogeDiary.Controls;
 using ErogeDiary.Models;
+using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -58,7 +59,7 @@ public class RootsViewModel : BindableBase
         RemoveRootCommand.RaiseCanExecuteChanged();
     }
         
-    private ObservableCollection<ChartData> ToChartDataList(IEnumerable<RootData> roots)
+    private ObservableCollection<ChartData> ToChartDataList(IEnumerable<Root> roots)
     {
         var unallocatedTime = game.GetUnallocatedTime();
         var unallocatedData = new ChartData()

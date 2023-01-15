@@ -2,6 +2,7 @@
 using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Models.Database.Entities;
 using ErogeDiary.ViewModels.Contents;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -78,7 +79,7 @@ namespace ErogeDiary.ViewModels.Pages
         {
             Timeline = new Timeline()
             {
-                PlayLogs = new ObservableCollection<PlayLog>(database.FindPlayLogsByGameId(Game.Id))
+                PlayLogs = new ObservableCollection<PlayLog>(database.FindPlayLogsByGameId(Game.GameId))
             };
         }
 
@@ -108,7 +109,7 @@ namespace ErogeDiary.ViewModels.Pages
         {
             try
             {
-                Process.Start(Game.FileName);
+                Process.Start(Game.ExecutableFilePath);
             }
             catch (Exception ex)
             {

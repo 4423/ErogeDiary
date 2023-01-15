@@ -28,7 +28,7 @@
                 <TextBlock Text="ルートの追加" Style="{StaticResource TitleTextBlockStyle}"/>
                 <TextBox x:Name="Name" 
                          ui:ControlHelper.Header="ルート名" 
-                         Text="{Binding RootData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding VerifiableRoot.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=Name, Path=(Validation.Errors)[0].ErrorContent}"/>
@@ -38,7 +38,7 @@
                 <TextBox x:Name="PlayTime" 
                          ui:ControlHelper.Header="ルートに割り当てるプレイ時間"
                          ui:ControlHelper.PlaceholderText="HH:mm:ss"
-                         Text="{Binding PlayTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding VerifiableRoot.PlayTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsAllocatedAutomatically, 
                             Converter={StaticResource InverseBooleanConverter}}"
                          Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
@@ -46,16 +46,16 @@
                            Text="{Binding ElementName=PlayTime, Path=(Validation.Errors)[0].ErrorContent}"/>
 
                 <CheckBox Content="ルート攻略済み"
-                          IsChecked="{Binding RootData.IsCleared}"/>
+                          IsChecked="{Binding VerifiableRoot.IsCleared}"/>
                 
                 <Label Content="ルート攻略日" Margin="0 8 0 0" FontSize="14"
-                       IsEnabled="{Binding RootData.IsCleared}"/>
+                       IsEnabled="{Binding VerifiableRoot.IsCleared}"/>
                 <DatePicker x:Name="ClearDate"
                             Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
-                            IsEnabled="{Binding RootData.IsCleared}"
+                            IsEnabled="{Binding VerifiableRoot.IsCleared}"
                             Margin="0 4 0 0" HorizontalAlignment="Stretch">
                     <DatePicker.SelectedDate>
-                        <Binding Path="RootData.ClearedAt" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding Path="VerifiableRoot.ClearedAt" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
                                 <validations:PassThroughValidationRule/>
                             </Binding.ValidationRules>
@@ -63,7 +63,7 @@
                     </DatePicker.SelectedDate>
                 </DatePicker>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
-                           IsEnabled="{Binding RootData.IsCleared}"
+                           IsEnabled="{Binding VerifiableRoot.IsCleared}"
                            Text="{Binding ElementName=ClearDate, Path=(Validation.Errors)[0].ErrorContent}"/>
 
                 <StackPanel Orientation="Horizontal" Margin="0 12">
