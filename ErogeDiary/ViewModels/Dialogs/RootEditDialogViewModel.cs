@@ -3,16 +3,14 @@ using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class RootEditDialogViewModel : BindableBase, IDialogAware
+    public class RootEditDialogViewModel : BindableDialogBase
     {
         public DelegateCommand UpdateCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
@@ -27,7 +25,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             IMessageDialog messageDialog)
         {
             UpdateCommand = new DelegateCommand(UpdateRoot, CanExecuteUpdateRoot);
-            CancelCommand = new DelegateCommand(CloseDialog);
+            CancelCommand = new DelegateCommand(CloseDialogCancel);
 
             this.database = database;
             this.messageDialog = messageDialog;
@@ -86,7 +84,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         private void VerifiableRootPropertyChanged(object? sender, PropertyChangedEventArgs e)
             => UpdateCommand.RaiseCanExecuteChanged();
 
-        public virtual void OnDialogOpened(IDialogParameters parameters)
+        public override void OnDialogOpened(IDialogParameters parameters)
         {
             game = parameters.GetValue<Game>("game");
             Roots = game.Roots;
@@ -122,24 +120,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             root.ClearedAt = SelectedVerifiableRoot.ClearedAt;
             await database.UpdateRootAsync(root);
 
-            RaiseRequestClose(new DialogResult(ButtonResult.OK));
+            CloseDialogOK();
         }
-
-        private void CloseDialog()
-        {
-            RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
-        }
-
-
-        public event Action<IDialogResult> RequestClose;
-
-        public virtual void RaiseRequestClose(IDialogResult dialogResult)
-            => RequestClose?.Invoke(dialogResult);
-
-        public virtual bool CanCloseDialog() => true;
-
-        public virtual void OnDialogClosed() { }
-
-        public string Title => "";
     }
 }

@@ -3,18 +3,14 @@ using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class GameEditDialogViewModel : BindableBase, IDialogAware
+    public class GameEditDialogViewModel : BindableDialogBase
     {
         public DelegateCommand SelectThumbnailFileNameCommand { get; private set; }
         public DelegateCommand SelectExecutionFileNameCommand { get; private set; }
@@ -38,12 +34,12 @@ namespace ErogeDiary.ViewModels.Dialogs
 
             SelectThumbnailFileNameCommand = new DelegateCommand(SelectThumbnailFileName);
             SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
-            CloseCommand = new DelegateCommand(CloseDialog);
+            CloseCommand = new DelegateCommand(CloseDialogCancel);
             UpdateCommand = new DelegateCommand(UpdateGame, CanExecuteUpdateGame);
         }
 
 
-        public virtual void OnDialogOpened(IDialogParameters parameters)
+        public override void OnDialogOpened(IDialogParameters parameters)
         {
             originalGame = parameters.GetValue<Game>("game");
             VerifiableGame = new VerifiableGame()
@@ -64,7 +60,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             UpdateCommand.RaiseCanExecuteChanged();
         }
 
-        public virtual void OnDialogClosed()
+        public override void OnDialogClosed()
         {
             VerifiableGame!.ClearAllErrors();
             VerifiableGame = null;
@@ -104,12 +100,6 @@ namespace ErogeDiary.ViewModels.Dialogs
             {
                 VerifiableGame!.ExecutableFilePath = fileName;
             }
-        }
-
-
-        protected virtual void CloseDialog()
-        {
-            RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
         }
 
         private bool CanExecuteUpdateGame()
@@ -160,22 +150,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
             await database.UpdateAsync(originalGame);
 
-            RaiseRequestClose(new DialogResult(ButtonResult.OK));
-        }
-
-
-        public event Action<IDialogResult> RequestClose;
-
-        public virtual void RaiseRequestClose(IDialogResult dialogResult)
-            => RequestClose?.Invoke(dialogResult);
-
-        public virtual bool CanCloseDialog() => true;
-
-        private string title = "";
-        public string Title
-        {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            CloseDialogOK();
         }
     }
 }

@@ -3,19 +3,12 @@ using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class RootRegistrationDialogViewModel : BindableBase, IDialogAware
+    public class RootRegistrationDialogViewModel : BindableDialogBase
     {
         public DelegateCommand RegisterCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
@@ -30,7 +23,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             IMessageDialog messageDialog)
         {
             RegisterCommand = new DelegateCommand(RegisterRootData, CanExecuteRegisterRootData);
-            CancelCommand = new DelegateCommand(CloseDialog);
+            CancelCommand = new DelegateCommand(CloseDialogCancel);
 
             this.database = database;
             this.messageDialog = messageDialog;
@@ -58,7 +51,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             }
         }
 
-        public virtual void OnDialogOpened(IDialogParameters parameters)
+        public override void OnDialogOpened(IDialogParameters parameters)
         {
             game = parameters.GetValue<Game>("game");
 
@@ -113,24 +106,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             // game.Roots.Add(root);
             // await database.UpdateAsync(game);
 
-            RaiseRequestClose(new DialogResult(ButtonResult.OK));
+            CloseDialogOK();
         }
-
-        private void CloseDialog()
-        {
-            RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
-        }
-
-
-        public event Action<IDialogResult> RequestClose;
-
-        public virtual void RaiseRequestClose(IDialogResult dialogResult)
-            => RequestClose?.Invoke(dialogResult);
-
-        public virtual bool CanCloseDialog() => true;
-
-        public virtual void OnDialogClosed() { }
-
-        public string Title => "";
     }
 }
