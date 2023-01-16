@@ -136,15 +136,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
             VerifiableGame.Pretty();
 
-            originalGame.Title = VerifiableGame.Title!;
-            originalGame.Brand = VerifiableGame.Brand!;
-            originalGame.ReleaseDate = VerifiableGame.ReleaseDate!.Value;
-            originalGame.ImageFileName = Path.GetFileName(VerifiableGame.ImageUri);
-            originalGame.ErogameScapeGameId = VerifiableGame.ErogameScapeGameId;
-            originalGame.InstallationType = VerifiableGame.InstallationType;
-            originalGame.WindowTitle = VerifiableGame.WindowTitle;
-            originalGame.ExecutableFilePath = VerifiableGame.ExecutableFilePath;
-            originalGame.ClearedAt = VerifiableGame.ClearedAt;
+            VerifiableGame.CopyTo(ref originalGame);
 
             await database.UpdateAsync(originalGame);
 

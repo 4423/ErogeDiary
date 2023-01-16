@@ -72,24 +72,15 @@ namespace ErogeDiary.ViewModels.Dialogs
             // TODO: ExecutableFilePath も重複確認
             if (await database.FindGameByTitleAndBrandAsync(VerifiableGame.Title!, VerifiableGame.Brand!) == null)
             {
-                var imageUri = new Uri(VerifiableGame.ImageUri!).IsFile ?
+                VerifiableGame.ImageUri = new Uri(VerifiableGame.ImageUri!).IsFile ?
                     await ThumbnailHelper.CopyAndResize(VerifiableGame.ImageUri!) :
                     await ThumbnailHelper.DownloadAndResizeAsync(VerifiableGame.ImageUri!);
 
                 VerifiableGame.Pretty();
 
-                var game = new Game()
-                {
-                    Title = VerifiableGame.Title!,
-                    Brand = VerifiableGame.Brand!,
-                    ReleaseDate = VerifiableGame.ReleaseDate!.Value,
-                    ImageFileName = Path.GetFileName(imageUri),
-                    ErogameScapeGameId = VerifiableGame.ErogameScapeGameId,
-                    InstallationType = VerifiableGame.InstallationType,
-                    WindowTitle = VerifiableGame.WindowTitle,
-                    ExecutableFilePath = VerifiableGame.ExecutableFilePath,
-                    ClearedAt = VerifiableGame.ClearedAt,
-                };
+                var game = new Game() { Title = "", Brand = "", ImageFileName = "" }; // 上書きするので値は何でもいい
+                VerifiableGame.CopyTo(ref game);
+
                 await database.AddGameAsync(game);
                 CloseDialogOK();
             }

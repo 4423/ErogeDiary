@@ -4,6 +4,7 @@ using ErogeDiary.Models.DataAnnotations;
 using ErogeDiary.Models.Database.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace ErogeDiary.ViewModels.Dialogs;
 
@@ -180,5 +181,19 @@ public class VerifiableGame : VerifiableBindableBase
         {
             ClearedAt = null;
         }
+    }
+
+    // 各プロパティが non null の場合に呼び出すこと
+    public void CopyTo(ref Game game)
+    {
+        game.Title = Title!;
+        game.Brand = Brand!;
+        game.ReleaseDate = ReleaseDate!.Value;
+        game.ImageFileName = Path.GetFileName(ImageUri!);
+        game.ErogameScapeGameId = ErogameScapeGameId;
+        game.InstallationType = InstallationType;
+        game.WindowTitle = WindowTitle;
+        game.ExecutableFilePath = ExecutableFilePath;
+        game.ClearedAt = ClearedAt;
     }
 }
