@@ -47,8 +47,7 @@ namespace ErogeDiary.ViewModels.Dialogs
                 Title = originalGame.Title,
                 Brand = originalGame.Brand,
                 ReleaseDate = originalGame.ReleaseDate,
-                // TODO: Thumbnail の path を毎回組み立てるのをどうにかしたい
-                ImageUri = Path.Combine(ThumbnailHelper.ThumbnailDir, originalGame.ImageFileName),
+                ImageUri = ThumbnailHelper.CombineThumbnailDir(originalGame.ImageFileName),
                 ErogameScapeGameId = originalGame.ErogameScapeGameId,
                 InstallationType = originalGame.InstallationType,
                 WindowTitle = originalGame.WindowTitle,
@@ -120,8 +119,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
         private async Task UpdateGameCore()
         {
-            // TODO: refacotr
-            if (VerifiableGame!.ImageUri != Path.Combine(ThumbnailHelper.ThumbnailDir, originalGame!.ImageFileName))
+            if (VerifiableGame!.ImageUri != ThumbnailHelper.CombineThumbnailDir(originalGame!.ImageFileName))
             {
                 try
                 {

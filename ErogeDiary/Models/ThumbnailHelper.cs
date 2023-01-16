@@ -1,11 +1,8 @@
 ﻿using ImageMagick;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ErogeDiary.Models;
@@ -13,6 +10,7 @@ public static class ThumbnailHelper
 {
     private static readonly HttpClient client;
     private static readonly int SHORT_SIDE_SIZE_PX = 200;
+    private static string thumbnailDir;
 
 
     static ThumbnailHelper()
@@ -20,17 +18,25 @@ public static class ThumbnailHelper
         client = new HttpClient();
 
         var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        ThumbnailDir = Path.Combine(currentPath!, "thumbnails");
-        Directory.CreateDirectory(ThumbnailDir);
+        thumbnailDir = Path.Combine(currentPath!, "thumbnails");
+        Directory.CreateDirectory(thumbnailDir);
     }
 
-    public static string ThumbnailDir { get; private set; }
+
+    public static string CombineThumbnailDir(string fileName)
+        => Path.Combine(thumbnailDir, fileName);
 
     public static string GenerateThumbnailPath(string imageUri)
     {
+        var newFileName = GenerateThumbnailFileName(imageUri);
+        return CombineThumbnailDir(newFileName);
+    }
+
+    private static string GenerateThumbnailFileName(string imageUri)
+    {
         var timestamp = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
         var extension = Path.GetExtension(imageUri);
-        return Path.Combine(ThumbnailDir, $"{timestamp}{extension}");
+        return $"{timestamp}{extension}";
     }
 
     public async static Task<string> DownloadAndResizeAsync(string imageUrl)

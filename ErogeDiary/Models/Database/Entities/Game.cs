@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 
 namespace ErogeDiary.Models.Database.Entities;
@@ -36,7 +35,7 @@ public partial class Game
 
     public bool CanLaunch => InstallationType == InstallationType.Default;
 
-    public Uri ImageUri => new Uri(Path.Combine(ThumbnailHelper.ThumbnailDir, ImageFileName));
+    public Uri ImageUri => new Uri(ThumbnailHelper.CombineThumbnailDir(ImageFileName));
 
     public TimeSpan GetUnallocatedTime()
     {
