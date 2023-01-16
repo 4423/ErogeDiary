@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class RootRegistrationDialogViewModel : VerifiableBindableBase, IDialogAware
+    public class RootRegistrationDialogViewModel : BindableBase, IDialogAware
     {
         public DelegateCommand RegisterCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }

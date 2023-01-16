@@ -3,6 +3,7 @@ using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Linq;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class RootEditDialogViewModel : VerifiableBindableBase, IDialogAware
+    public class RootEditDialogViewModel : BindableBase, IDialogAware
     {
         public DelegateCommand UpdateCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }

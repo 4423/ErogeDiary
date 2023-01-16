@@ -1,6 +1,4 @@
 ﻿using ErogeDiary.Dialogs;
-using ErogeDiary.Models;
-using ErogeDiary.Models.DataAnnotations;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
@@ -18,7 +16,7 @@ using System.Windows;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class RootRemoveDialogViewModel : VerifiableBindableBase, IDialogAware
+    public class RootRemoveDialogViewModel : BindableBase, IDialogAware
     {
         public DelegateCommand RemoveCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
