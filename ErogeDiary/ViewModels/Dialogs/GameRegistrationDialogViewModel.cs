@@ -57,8 +57,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             try
             {
                 IsRegistering = true;
-                // TODO: 消す
-                await Task.Delay(2000);
+                await Task.Delay(500);
                 await RegisterGameCore();
             }
             finally
