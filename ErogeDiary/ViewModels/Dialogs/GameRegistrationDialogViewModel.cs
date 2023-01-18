@@ -57,7 +57,6 @@ namespace ErogeDiary.ViewModels.Dialogs
             try
             {
                 IsRegistering = true;
-                await Task.Delay(500);
                 await RegisterGameCore();
             }
             finally
