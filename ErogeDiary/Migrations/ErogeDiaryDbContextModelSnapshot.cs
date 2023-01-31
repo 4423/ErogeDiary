@@ -92,9 +92,6 @@ namespace ErogeDiary.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<TimeSpan>("PlayTime")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("TEXT");
 

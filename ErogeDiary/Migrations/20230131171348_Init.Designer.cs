@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ErogeDiary.Migrations
 {
     [DbContext(typeof(ErogeDiaryDbContext))]
-    [Migration("20230115055821_Init")]
+    [Migration("20230131171348_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -95,9 +95,6 @@ namespace ErogeDiary.Migrations
                     b.Property<int>("GameId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<TimeSpan>("PlayTime")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("TEXT");
 
@@ -118,6 +115,10 @@ namespace ErogeDiary.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("ClearedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")

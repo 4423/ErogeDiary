@@ -45,7 +45,6 @@ namespace ErogeDiary.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     StartedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EndedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    PlayTime = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     GameId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
@@ -70,6 +69,7 @@ namespace ErogeDiary.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     PlayTime = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     ClearedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    Color = table.Column<string>(type: "TEXT", nullable: false),
                     GameId = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
