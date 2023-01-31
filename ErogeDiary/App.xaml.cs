@@ -55,7 +55,9 @@ public partial class App : PrismApplication
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
-        containerRegistry.Register<ErogeDiaryDbContext>();
+        // 本当は context の生存期間を短くしたほうがよい
+        containerRegistry.RegisterInstance(new ErogeDiaryDbContext());
+
         containerRegistry.Register<GameMonitor>();
         containerRegistry.Register<ErogameScapeClient>();
 
