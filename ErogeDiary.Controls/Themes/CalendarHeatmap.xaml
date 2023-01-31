@@ -12,11 +12,11 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="740"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="98"/>
                             </Grid.RowDefinitions>
                             
                             <!-- 曜日のラベル -->
@@ -50,8 +50,9 @@
                             <Grid x:Name="HeatmapAreaGrid" Grid.Column="1" Grid.Row="1">
                                 <Grid.Resources>
                                     <Style TargetType="Border">
-                                        <Setter Property="Margin" Value="1"/>
-                                        <Setter Property="CornerRadius" Value="1"/>
+                                        <!-- High DPI でも均等に並べるため微妙な値になっている -->
+                                        <Setter Property="Margin" Value="1.05"/>
+                                        <Setter Property="CornerRadius" Value="1.05"/>
                                         <Setter Property="ToolTipService.BetweenShowDelay" Value="0" />
                                         <Setter Property="ToolTipService.InitialShowDelay" Value="50" />
                                         <Style.Triggers>
