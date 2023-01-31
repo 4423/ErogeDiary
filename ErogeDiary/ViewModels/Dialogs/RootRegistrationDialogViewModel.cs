@@ -1,15 +1,18 @@
 ﻿using ErogeDiary.Dialogs;
+using ErogeDiary.Helpers;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
+using System.Windows.Controls;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
     public class RootRegistrationDialogViewModel : BindableDialogBase
     {
+        public DelegateCommand<SelectionChangedEventArgs> SelectColorCommand { get; private set; }
         public DelegateCommand RegisterCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
 
@@ -24,6 +27,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         {
             RegisterCommand = new DelegateCommand(RegisterRootData, CanExecuteRegisterRootData);
             CancelCommand = new DelegateCommand(CloseDialogCancel);
+            SelectColorCommand = new DelegateCommand<SelectionChangedEventArgs>(SelectColor);
 
             this.database = database;
             this.messageDialog = messageDialog;
@@ -36,6 +40,8 @@ namespace ErogeDiary.ViewModels.Dialogs
             get { return verifiableRoot; }
             set { SetProperty(ref verifiableRoot, value); }
         }
+
+        public AccentColors AccentColors { get; } = new AccentColors();
 
         private bool isAllocatedAutomatically = true;
         public bool IsAllocatedAutomatically
@@ -57,7 +63,8 @@ namespace ErogeDiary.ViewModels.Dialogs
 
             VerifiableRoot = new VerifiableRoot()
             {
-                PlayTime = game.GetUnallocatedTime().ToZeroPaddingStringWithoutDays()
+                PlayTime = game.GetUnallocatedTime().ToZeroPaddingStringWithoutDays(),
+                AccentColor = AccentColors.Random(),
             };
             VerifiableRoot.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
         }
@@ -99,6 +106,7 @@ namespace ErogeDiary.ViewModels.Dialogs
                 Name = VerifiableRoot.Name!,
                 PlayTime = playTime,
                 ClearedAt = VerifiableRoot.ClearedAt,
+                Color = VerifiableRoot.AccentColor.Color,
                 GameId = game.GameId,
             };
             await database.AddRootAsync(root);
@@ -107,6 +115,15 @@ namespace ErogeDiary.ViewModels.Dialogs
             // await database.UpdateAsync(game);
 
             CloseDialogOK();
+        }
+
+        private void SelectColor(SelectionChangedEventArgs e)
+        {
+            var accentColor = e.AddedItems[0] as AccentColor;
+            if (accentColor != null && VerifiableRoot != null)
+            {
+                VerifiableRoot.AccentColor = accentColor;
+            }
         }
     }
 }

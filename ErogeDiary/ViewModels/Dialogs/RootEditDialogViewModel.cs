@@ -7,11 +7,13 @@ using Prism.Services.Dialogs;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
     public class RootEditDialogViewModel : BindableDialogBase
     {
+        public DelegateCommand<SelectionChangedEventArgs> SelectColorCommand { get; private set; }
         public DelegateCommand UpdateCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
 
@@ -26,6 +28,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         {
             UpdateCommand = new DelegateCommand(UpdateRoot, CanExecuteUpdateRoot);
             CancelCommand = new DelegateCommand(CloseDialogCancel);
+            SelectColorCommand = new DelegateCommand<SelectionChangedEventArgs>(SelectColor);
 
             this.database = database;
             this.messageDialog = messageDialog;
@@ -52,6 +55,7 @@ namespace ErogeDiary.ViewModels.Dialogs
                         Name = selectedRoot.Name,
                         PlayTime = selectedRoot.PlayTime.ToZeroPaddingStringWithoutDays(),
                         IsCleared= selectedRoot.IsCleared,
+                        AccentColor = new AccentColor(selectedRoot.Color),
                         ClearedAt= selectedRoot.ClearedAt,
                     };
                 }
@@ -80,6 +84,8 @@ namespace ErogeDiary.ViewModels.Dialogs
                 UpdateCommand.RaiseCanExecuteChanged();
             }
         }
+
+        public AccentColors AccentColors { get; } = new AccentColors();
 
         private void VerifiableRootPropertyChanged(object? sender, PropertyChangedEventArgs e)
             => UpdateCommand.RaiseCanExecuteChanged();
@@ -118,9 +124,19 @@ namespace ErogeDiary.ViewModels.Dialogs
             root.Name = SelectedVerifiableRoot.Name!;
             root.PlayTime = playTime;
             root.ClearedAt = SelectedVerifiableRoot.ClearedAt;
+            root.Color = SelectedVerifiableRoot.AccentColor.Color;
             await database.UpdateRootAsync(root);
 
             CloseDialogOK();
+        }
+
+        private void SelectColor(SelectionChangedEventArgs e)
+        {
+            var accentColor = e.AddedItems[0] as AccentColor;
+            if (accentColor != null && SelectedVerifiableRoot != null)
+            {
+                SelectedVerifiableRoot.AccentColor = accentColor;
+            }
         }
     }
 }

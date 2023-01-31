@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media;
 
 namespace ErogeDiary.Models.Database.Entities;
 
@@ -9,6 +10,7 @@ public partial class Root : BaseEntity
     public string Name { get; set; }
     public TimeSpan PlayTime { get; set; }
     public DateTime? ClearedAt { get; set; }
+    public Color Color { get; set; }
 
     public int GameId { get; set; }
     public virtual Game Game { get; set; }

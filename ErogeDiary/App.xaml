@@ -36,6 +36,7 @@
                 <ui:IntellisenseResources Source="/ModernWpf;component/DesignTime/DesignTimeResources.xaml" />
 
                 <ResourceDictionary Source="Views/Styles/DialogStyle.xaml"/>
+                <ResourceDictionary Source="Views/Styles/SplitButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <converter:BooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>

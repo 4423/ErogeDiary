@@ -62,6 +62,17 @@ public class VerifiableRoot : VerifiableBindableBase
         }
     }
 
+    private AccentColor accentColor;
+    public required AccentColor AccentColor
+    {
+        get => accentColor; 
+        set
+        {
+            SetProperty(ref accentColor, value);
+            ValidateProperty(value);
+        }
+    }
+
     public void Pretty()
     {
         // 整合性を取る

@@ -1,4 +1,5 @@
-﻿using ErogeDiary.Models.Database.Entities;
+﻿using ErogeDiary.Models.Database.Converters;
+using ErogeDiary.Models.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
@@ -24,6 +25,14 @@ public partial class ErogeDiaryDbContext : DbContext
             .LogTo(message => Debug.WriteLine(message))
             .EnableSensitiveDataLogging();
         base.OnConfiguring(optionsBuilder);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Root>()
+            .Property(r => r.Color)
+            .HasConversion<ColorToStringConverter>();
+        base.OnModelCreating(modelBuilder);
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

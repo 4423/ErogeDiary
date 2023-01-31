@@ -85,7 +85,8 @@ public class RootsViewModel : BindableBase
             {
                 Label = r.Name,
                 Value = r.PlayTime.TotalSeconds,
-                ToolTip = tooltip
+                ToolTip = tooltip,
+                Color = new SolidColorBrush(r.Color),
             };
         }));
         charts.Add(unallocatedData);
