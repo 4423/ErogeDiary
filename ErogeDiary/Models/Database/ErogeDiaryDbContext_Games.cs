@@ -46,7 +46,7 @@ public partial class ErogeDiaryDbContext
             .FirstOrDefaultAsync(x => windowTitle.Contains(x.WindowTitle!));
     }
 
-    public async Task<Game> FindGameByTitleAndBrandAsync(string title, string brand)
+    public async Task<Game?> FindGameByTitleAndBrandAsync(string title, string brand)
     {
         return await Games.SingleOrDefaultAsync(x => x.Title == title && x.Brand == brand);
     }

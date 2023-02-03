@@ -5,7 +5,6 @@ using ErogeDiary.Models.Database.Entities;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels.Dialogs
@@ -119,7 +118,18 @@ namespace ErogeDiary.ViewModels.Dialogs
 
         private async Task UpdateGameCore()
         {
-            if (VerifiableGame!.ImageUri != ThumbnailHelper.CombineThumbnailDir(originalGame!.ImageFileName))
+            if (VerifiableGame is null || originalGame is null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (await HasConflictingGame(VerifiableGame, originalGame.GameId))
+            {
+                await messageDialog.ShowErrorAsync("既に同じゲームが登録されています。");
+                return;
+            }
+
+            if (VerifiableGame.ImageUri != ThumbnailHelper.CombineThumbnailDir(originalGame.ImageFileName))
             {
                 try
                 {
@@ -141,6 +151,25 @@ namespace ErogeDiary.ViewModels.Dialogs
             await database.UpdateAsync(originalGame);
 
             CloseDialogOK();
+        }
+
+        private async Task<bool> HasConflictingGame(VerifiableGame verifiableGame, int gameId)
+        {
+            var gameWithSameTitleAndBrand = await database.FindGameByTitleAndBrandAsync(verifiableGame.Title!, verifiableGame.Brand!);
+            var conflictTitleAndBrand = gameWithSameTitleAndBrand != null && gameWithSameTitleAndBrand.GameId != gameId;
+            if (conflictTitleAndBrand)
+            {
+                return true;
+            }
+
+            if (verifiableGame.ExecutableFilePath == null)
+            {
+                return false;
+            }
+
+            var gameWithSameExecutableFilePath = await database.FindGameByFileNameAsync(verifiableGame.ExecutableFilePath);
+            var conflictExecutableFilePath = gameWithSameExecutableFilePath != null && gameWithSameExecutableFilePath.GameId != gameId;
+            return conflictExecutableFilePath;
         }
     }
 }

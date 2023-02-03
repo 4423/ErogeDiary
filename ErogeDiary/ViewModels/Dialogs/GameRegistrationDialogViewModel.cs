@@ -67,30 +67,40 @@ namespace ErogeDiary.ViewModels.Dialogs
 
         private async Task RegisterGameCore()
         {
-            // TODO: ExecutableFilePath も重複確認
-            if (await database.FindGameByTitleAndBrandAsync(VerifiableGame.Title!, VerifiableGame.Brand!) == null)
+            if (await HasConflictingGame(VerifiableGame))
             {
-                VerifiableGame.ImageUri = new Uri(VerifiableGame.ImageUri!).IsFile ?
-                    await ThumbnailHelper.CopyAndResize(VerifiableGame.ImageUri!) :
-                    await ThumbnailHelper.DownloadAndResizeAsync(VerifiableGame.ImageUri!);
-
-                VerifiableGame.Pretty();
-
-                var game = new Game() { Title = "", Brand = "", ImageFileName = "" }; // 上書きするので値は何でもいい
-                VerifiableGame.CopyTo(ref game);
-
-                await database.AddGameAsync(game);
-                CloseDialogOK();
+                await messageDialog.ShowErrorAsync("既に同じゲームが登録されています。");
+                return;
             }
-            else
+
+            VerifiableGame.ImageUri = new Uri(VerifiableGame.ImageUri!).IsFile ?
+                await ThumbnailHelper.CopyAndResize(VerifiableGame.ImageUri!) :
+                await ThumbnailHelper.DownloadAndResizeAsync(VerifiableGame.ImageUri!);
+
+            VerifiableGame.Pretty();
+
+            var game = new Game() { Title = "", Brand = "", ImageFileName = "" }; // 上書きするので値は何でもいい
+            VerifiableGame.CopyTo(ref game);
+
+            await database.AddGameAsync(game);
+            CloseDialogOK();
+        }
+
+        private async Task<bool> HasConflictingGame(VerifiableGame verifiableGame)
+        {
+            var conflictTitleAndBrand = await database.FindGameByTitleAndBrandAsync(verifiableGame.Title!, verifiableGame.Brand!) != null;
+            if (conflictTitleAndBrand)
             {
-                await messageDialog.ShowAsync(new MessageDialogParameters()
-                {
-                    Title = "エラー",
-                    Message = "既に同じゲームが登録されています。",
-                    CloseButtonText = "OK",
-                });
+                return true;
             }
+
+            if (verifiableGame.ExecutableFilePath == null)
+            {
+                return false;
+            }
+
+            var conflictExecutableFilePath = await database.FindGameByFileNameAsync(verifiableGame.ExecutableFilePath) != null;
+            return conflictExecutableFilePath;
         }
 
         private async void FlyoutComplete()
