@@ -11,9 +11,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace ErogeDiary.ViewModels.Pages
@@ -47,11 +44,11 @@ namespace ErogeDiary.ViewModels.Pages
 
             OrderItems = new List<GameOrder>()
             {
-                new GameOrder("最近プレイした順", "LatestDate", ListSortDirection.Descending),
-                new GameOrder("プレイ時間が長い順", "TotalPlayTime", ListSortDirection.Descending),
-                new GameOrder("発売日が新しい順", "ReleaseDate", ListSortDirection.Descending),
-                new GameOrder("最近登録した順", "RegistrationDate", ListSortDirection.Descending),
-                new GameOrder("ブランド順", "Brand", ListSortDirection.Ascending),
+                new GameOrder("最近プレイした順", nameof(Game.LastPlayedAt), ListSortDirection.Descending),
+                new GameOrder("プレイ時間が長い順", nameof(Game.TotalPlayTime), ListSortDirection.Descending),
+                new GameOrder("発売日が新しい順", nameof(Game.ReleaseDate), ListSortDirection.Descending),
+                new GameOrder("最近登録した順", nameof(Game.RegisteredAt), ListSortDirection.Descending),
+                new GameOrder("ブランド順", nameof(Game.Brand), ListSortDirection.Ascending),
             };
             OrderSelectedItem = OrderItems[0];
 
