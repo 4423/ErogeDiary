@@ -43,6 +43,7 @@
             <converter:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter"/>
             <converter:InstallationTypeToBooleanConverter x:Key="InstallationTypeToBooleanConverter"/>
             <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <converter:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
             <converter:PlayTimeToStringConverter x:Key="PlayTimeToStringConverter"/>
             <converter:UriStringConverter x:Key="UriStringConverter"/>
         </ResourceDictionary>

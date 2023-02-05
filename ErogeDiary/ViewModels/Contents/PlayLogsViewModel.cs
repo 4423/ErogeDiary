@@ -1,5 +1,6 @@
 ﻿using ErogeDiary.Controls.CalendarHeatmap;
 using ErogeDiary.Controls.Controls.CalendarHeatmap;
+using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using Prism.Mvvm;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
+using static ErogeDiary.Helpers.DateOnlyHelpers;
 using static ErogeDiary.Helpers.MathHelpers;
 using static ErogeDiary.Helpers.SolidColorBrushHelpers;
 
@@ -15,16 +17,18 @@ namespace ErogeDiary.ViewModels.Contents;
 
 public class PlayLogsViewModel : BindableBase
 {
-    private Game game;
     private ErogeDiaryDbContext database;
 
     public PlayLogsViewModel(Game game, ErogeDiaryDbContext database)
     {
-        this.game = game;
         this.database = database;
+        Game = game;
+
+        PlayLogDateRanges = new ObservableCollection<DateRange>(BuildPlayLogDateRanges());
+        SelectedPlayLogDateRange = PlayLogDateRanges.First();
 
         Update();
-        this.game.PropertyChanged += (s, e) =>
+        Game.PropertyChanged += (s, e) =>
         {
             if (e.PropertyName == nameof(Game.TotalPlayTime))
             {
@@ -33,17 +37,49 @@ public class PlayLogsViewModel : BindableBase
         };
     }
 
-    private void Update()
+    private IEnumerable<DateRange> BuildPlayLogDateRanges()
     {
-        var oneYearAgo = DateTime.Now.AddDays(-380); // 1年ちょい前からのデータだけ取得
-        var playLogs = database.FindPlayLogsByGameId(game.GameId, oneYearAgo);
+        var now = DateTime.Now;
+        var today = DateOnly.FromDateTime(now);
+
+        // 過去1年（heatmap が日曜始まりなので合わせておくと見栄えがいい）
+        var oneYearAgo = now.AddDays(-365);
+        var oneYearAgoSunday = oneYearAgo.AddDays(-(int)oneYearAgo.DayOfWeek);
+        yield return new DateRange(
+            Start: DateOnly.FromDateTime(oneYearAgoSunday),
+            End: today,
+            Label: "過去1年"
+        );
+
+        // PlayLog が存在する年（過去1年と重複する年も含む）
+        var years = database.GetPlayLogYears(Game.GameId);
+        foreach (var year in years)
+        {
+            yield return new DateRange(
+                Start: new DateOnly(year, 1, 1),
+                End: Min(new DateOnly(year, 12, 31), today),
+                Label: year.ToString()
+            );
+        }
+    }
+
+    private async void Update()
+    {
+        var playLogs = database.FindPlayLogsByGameIdAndDateRange(
+            gameId: Game.GameId,
+            startInclusive: SelectedPlayLogDateRange.Start, 
+            endInclusive: SelectedPlayLogDateRange.End
+        );
         Series = new ObservableCollection<CalendarHeatmapSeries>
         {
             new CalendarHeatmapSeries(
-                Label: game.Title,
+                Label: Game.Title,
                 Points: playLogs.SelectMany(Convert).ToList()
             )
         };
+
+        var firstPlayLog = await database.FindFirstPlayLogByGameId(Game.GameId);
+        FirstPlayedAt = firstPlayLog?.StartedAt;
     }
 
     private IEnumerable<CalendarHeatmapPoint> Convert(PlayLog playLog)
@@ -77,6 +113,38 @@ public class PlayLogsViewModel : BindableBase
     {
         get => series;
         set { SetProperty(ref series, value); }
+    }
+
+    private Game game;
+    public Game Game
+    {
+        get { return game; }
+        set { SetProperty(ref game, value); }
+    }
+
+    private DateTime? firstPlayedAt;
+    public DateTime? FirstPlayedAt
+    {
+        get { return firstPlayedAt; }
+        set { SetProperty(ref firstPlayedAt, value); }
+    }
+
+    private ICollection<DateRange> playLogDateRanges;
+    public ICollection<DateRange> PlayLogDateRanges
+    {
+        get { return playLogDateRanges; }
+        set { SetProperty(ref playLogDateRanges, value); }
+    }
+
+    private DateRange selectedPlayLogDateRange;
+    public DateRange SelectedPlayLogDateRange
+    {
+        get { return selectedPlayLogDateRange; }
+        set
+        {
+            SetProperty(ref selectedPlayLogDateRange, value);
+            Update();
+        }
     }
 
     public ColorConverterDelegate ColorConverter { get; } = (points) =>

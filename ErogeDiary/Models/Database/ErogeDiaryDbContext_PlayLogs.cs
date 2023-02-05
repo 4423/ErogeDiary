@@ -27,8 +27,25 @@ public partial class ErogeDiaryDbContext
         return PlayLogs.Where(p => p.GameId == gameId);
     }
 
-    public IEnumerable<PlayLog> FindPlayLogsByGameId(int gameId, DateTime since)
+    public IEnumerable<PlayLog> FindPlayLogsByGameIdAndDateRange(int gameId, DateOnly startInclusive, DateOnly endInclusive)
     {
-        return PlayLogs.Where(p => p.GameId == gameId && since <= p.StartedAt);
+        var startInclusiveDateTime = startInclusive.ToDateTime(TimeOnly.MinValue);
+        var endInclusiveDateTime = endInclusive.ToDateTime(TimeOnly.MaxValue);
+
+        return PlayLogs.Where(p => 
+            p.GameId == gameId
+            && startInclusiveDateTime <= p.StartedAt 
+            && p.StartedAt <= endInclusiveDateTime
+        );
+    }
+
+    public Task<PlayLog?> FindFirstPlayLogByGameId(int gameId)
+    {
+        return PlayLogs.Where(p => p.GameId == gameId).OrderBy(p => p.StartedAt).FirstOrDefaultAsync();
+    }
+
+    public IEnumerable<int> GetPlayLogYears(int gameId)
+    {
+        return PlayLogs.Where(p => p.GameId == gameId).Select(p => p.StartedAt.Year).Distinct();
     }
 }

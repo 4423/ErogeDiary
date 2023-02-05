@@ -67,23 +67,14 @@
                     BorderBrush="{DynamicResource SystemBaseMediumLowColorBrush}">
                 <StackPanel Margin="35 16">
                     <!-- 右にルートのボタンが回り込む & 押せるように調整 -->
-                    <StackPanel HorizontalAlignment="Left" Panel.ZIndex="1" Width="350" Margin="0 0 0 -40">
+                    <StackPanel HorizontalAlignment="Left" Panel.ZIndex="1" Width="350" Margin="0 0 0 -20">
                         <TextBlock FontSize="36"
                                    Text="{Binding Game.TotalPlayTime, 
                                         Converter={StaticResource PlayTimeToStringConverter},
                                         ConverterParameter=未プレイ}"/>
-                        <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
-                            <TextBlock Foreground="#AAA" FontSize="12">
-                                <TextBlock.Inlines>
-                                    <Run Text="{Binding Game.RegistrationDate, StringFormat=yyyy-MM-dd}"/>
-                                    <Run Text="～"/>
-                                    <Run Text="{Binding Game.LatestDate, StringFormat=yyyy-MM-dd}"/>
-                                </TextBlock.Inlines>
-                            </TextBlock>
-                        </StackPanel>
                     </StackPanel>
                     <contents:Roots DataContext="{Binding Roots}"/>
-                    <contents:PlayLogs DataContext="{Binding PlayLogs}"/>
+                    <contents:PlayLogs DataContext="{Binding PlayLogs}" Margin="0 20"/>
                     <StackPanel Orientation="Horizontal" Margin="0 8">
                         <TextBlock Foreground="#AAA" FontSize="12">
                             <TextBlock.Inlines>

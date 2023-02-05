@@ -11,7 +11,6 @@ namespace ErogeDiary.Controls.CalendarHeatmap;
 public class CalendarHeatmap : Control
 {
     private static readonly int CELL_SIZE = 13;
-    private static readonly int NUM_OF_WEEKS_IN_YEAR = (int)Math.Ceiling(365.0 / 7.0); // 53
     private static readonly int NUM_OF_DAYS_IN_WEEK = 7;
 
 
@@ -48,6 +47,22 @@ public class CalendarHeatmap : Control
 
     public static readonly DependencyProperty TooltipLabelFormatterProperty =
         register<TooltipLabelFormatterDelegate>(nameof(TooltipLabelFormatter));
+
+    public DateOnly StartDate
+    {
+        get { return (DateOnly)GetValue(StartDateProperty); }
+        set { SetValue(StartDateProperty, value); }
+    }
+    public static readonly DependencyProperty StartDateProperty =
+        register<DateOnly>(nameof(StartDate));
+
+    public DateOnly EndDate
+    {
+        get { return (DateOnly)GetValue(EndDateProperty); }
+        set { SetValue(EndDateProperty, value); }
+    }
+    public static readonly DependencyProperty EndDateProperty =
+        register<DateOnly>(nameof(EndDate));
 
     private static DependencyProperty register<Tprop>(string name) =>
         DependencyProperty.Register(
@@ -124,17 +139,14 @@ public class CalendarHeatmap : Control
             }
         }
 
-        var now = DateTime.Now;
-        var today = DateOnly.FromDateTime(now);
-
         // Row/Col に対するプレイ記録に変換
-        var totalDaysUntilToday = (NUM_OF_WEEKS_IN_YEAR - 1) * NUM_OF_DAYS_IN_WEEK + ((int)today.DayOfWeek + 1);
-        foreach (var offsetDays in Enumerable.Range(0, totalDaysUntilToday))
+        var daysBetweenStartAndEnd = EndDate.DayNumber - StartDate.DayNumber + 1;
+        for (int offsetDays = 0; offsetDays < daysBetweenStartAndEnd; offsetDays++)
         {
-            int row = offsetDays % NUM_OF_DAYS_IN_WEEK;
-            int col = offsetDays / NUM_OF_DAYS_IN_WEEK;
+            var date = StartDate.AddDays(offsetDays);
 
-            var date = DateOnly.FromDateTime(now.AddDays(offsetDays - totalDaysUntilToday + 1));
+            int row = (int)date.DayOfWeek;
+            int col = ((int)StartDate.DayOfWeek + offsetDays) / NUM_OF_DAYS_IN_WEEK;
 
             pointsByDate.TryGetValue(date, out var points);
 
@@ -153,7 +165,8 @@ public class CalendarHeatmap : Control
         monthLabelArea.ColumnDefinitions.Clear();
         monthLabelArea.Children.Clear();
 
-        for (int i = 0; i < NUM_OF_WEEKS_IN_YEAR; i++)
+        int numOfColumn = cells.Max(c => c.Col) + 1;
+        for (int i = 0; i < numOfColumn; i++)
         {
             monthLabelArea.ColumnDefinitions.Add(new ColumnDefinition()
             {
@@ -198,15 +211,17 @@ public class CalendarHeatmap : Control
         heatmapArea.RowDefinitions.Clear();
         heatmapArea.Children.Clear();
 
-        // 7×53 の枠を定義
-        for (int i = 0; i < NUM_OF_WEEKS_IN_YEAR; i++)
+        // 曜日×週 の枠を定義
+        int numOfColumn = cells.Max(c => c.Col) + 1;
+        for (int i = 0; i < numOfColumn; i++)
         {
             heatmapArea.ColumnDefinitions.Add(new ColumnDefinition()
             {
                 Width = new GridLength(CELL_SIZE, GridUnitType.Pixel)
             });
         }
-        for (int i = 0; i < NUM_OF_DAYS_IN_WEEK; i++)
+        int numOfRow = cells.Max(c => c.Row) + 1; // NUM_OF_DAYS_IN_WEEK と同じ
+        for (int i = 0; i < numOfRow; i++)
         {
             heatmapArea.RowDefinitions.Add(new RowDefinition()
             {

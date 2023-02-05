@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ErogeDiary.Models.Database.Entities;
 
 // カラム定義
+[Index(nameof(GameId), nameof(StartedAt))]
 public partial class PlayLog : BaseEntity
 {
     public int PlayLogId { get; set; }
