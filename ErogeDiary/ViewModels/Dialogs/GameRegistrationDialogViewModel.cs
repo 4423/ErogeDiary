@@ -81,6 +81,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
             var game = new Game() { Title = "", Brand = "", ImageFileName = "" }; // 上書きするので値は何でもいい
             VerifiableGame.CopyTo(ref game);
+            game.RegisteredAt = DateTime.Now; 
 
             await database.AddGameAsync(game);
             CloseDialogOK();
