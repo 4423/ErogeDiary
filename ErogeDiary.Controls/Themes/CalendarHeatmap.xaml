@@ -22,18 +22,23 @@
                             <!-- 曜日のラベル -->
                             <Grid Grid.Column="0" Grid.Row="1" Width="18">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition Height="13"/>
+                                    <RowDefinition Height="13"/>
+                                    <RowDefinition Height="13"/>
+                                    <RowDefinition Height="13"/>
+                                    <RowDefinition Height="13"/>
+                                    <RowDefinition Height="13"/>
+                                    <RowDefinition Height="13"/>
                                 </Grid.RowDefinitions>
                                 <Grid.Resources>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="FontSize" Value="10"/>
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
                                     </Style>
                                 </Grid.Resources>
-                                <TextBlock Grid.Row="0" Text="日" VerticalAlignment="Top"/>
-                                <TextBlock Grid.Row="1" Text="水" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Row="2" Text="土" VerticalAlignment="Bottom"/>
+                                <TextBlock Grid.Row="0" Text="日"/>
+                                <TextBlock Grid.Row="3" Text="水"/>
+                                <TextBlock Grid.Row="6" Text="土"/>
                             </Grid>
 
                             <!-- 月のラベル（code behind で描画する） -->
