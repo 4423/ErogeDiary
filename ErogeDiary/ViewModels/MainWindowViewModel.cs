@@ -55,9 +55,6 @@ namespace ErogeDiary.ViewModels
             TotalPlayTime = TimeSpan.Zero;
 
             var now = DateTime.Now;
-            game.TotalPlayTime += playTime;
-            game.LastPlayedAt = now;
-            await database.UpdateAsync(game);
 
             var playLog = new PlayLog()
             {
@@ -68,6 +65,11 @@ namespace ErogeDiary.ViewModels
             };
             // TODO: game.PlayLogs に Add したほうがいい？ EF の best practice を見直す
             await database.AddPlayLogAsync(playLog);
+
+            // Game 側の更新は PlayLogs の後にする（Game 側の更新時には関連テーブルが同期されているみたいな雑なルール）
+            game.TotalPlayTime += playTime;
+            game.LastPlayedAt = now;
+            await database.UpdateAsync(game);
 
             System.Diagnostics.Debug.WriteLine(game.Title);
             System.Diagnostics.Debug.WriteLine(playTime);
