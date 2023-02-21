@@ -1,0 +1,54 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:ErogeDiary.Controls.Histogram">
+    
+    <Style TargetType="{x:Type controls:Histogram}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:Histogram}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid x:Name="PART_HistogramAreaGrid">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="150"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <!-- code behind で bucket の数だけ追加 -->
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid.Resources>
+                                <Style TargetType="Rectangle">
+                                    <Setter Property="Width" Value="40"/>
+                                    <Setter Property="Fill" Value="#e491a5"/>
+                                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                                    <Setter Property="ToolTipService.BetweenShowDelay" Value="0" />
+                                    <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+                                </Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="2 2 0 0"/>
+                                    <Setter Property="Foreground" Value="#EEE"/>
+                                    <Setter Property="FontSize" Value="10"/>
+                                </Style>
+                                <Style TargetType="Line">
+                                    <Setter Property="Grid.Row" Value="1"/>
+                                    <Setter Property="Grid.Column" Value="0"/>
+                                    <Setter Property="Stroke" Value="#777"/>
+                                    <Setter Property="StrokeThickness" Value="1"/>
+                                    <Setter Property="X1" Value="0"/>
+                                    <Setter Property="Y1" Value="0"/>
+                                    <!-- X2 は code behind で指定 -->
+                                    <Setter Property="Y2" Value="0"/>
+                                </Style>
+                            </Grid.Resources>
+
+                            <!-- code behind で bucket と axis を追加 -->
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

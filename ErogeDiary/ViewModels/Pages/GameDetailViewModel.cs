@@ -1,6 +1,4 @@
-﻿using ErogeDiary.Controls;
-using ErogeDiary.Dialogs;
-using ErogeDiary.Models;
+﻿using ErogeDiary.Dialogs;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using ErogeDiary.ViewModels.Contents;
@@ -9,7 +7,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 namespace ErogeDiary.ViewModels.Pages
 {
@@ -68,20 +65,6 @@ namespace ErogeDiary.ViewModels.Pages
             set { SetProperty(ref playLogs, value); }
         }
 
-        private Timeline timeline;
-        public Timeline Timeline
-        {
-            get => timeline;
-            set { SetProperty(ref timeline, value); }
-        }
-
-        private void UpdateTimeline()
-        {
-            Timeline = new Timeline()
-            {
-                PlayLogs = new ObservableCollection<PlayLog>(database.FindPlayLogsByGameId(Game.GameId))
-            };
-        }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -89,14 +72,6 @@ namespace ErogeDiary.ViewModels.Pages
             if(game != null)
             {
                 Game = game;
-                Game.PropertyChanged += (s, e) =>
-                {
-                    if (e.PropertyName == nameof(Game.TotalPlayTime))
-                    {
-                        UpdateTimeline();
-                    }
-                };
-                UpdateTimeline();
             }
         }
 

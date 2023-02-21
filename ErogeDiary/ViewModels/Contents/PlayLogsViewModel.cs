@@ -78,8 +78,11 @@ public class PlayLogsViewModel : BindableBase
             )
         };
 
-        var firstPlayLog = await database.FindFirstPlayLogByGameId(Game.GameId);
+        var allPlayLogs = database.FindPlayLogsByGameId(Game.GameId);
+        var firstPlayLog = allPlayLogs.MinBy(p => p.StartedAt);
         FirstPlayedAt = firstPlayLog?.StartedAt;
+
+        PlayLogHistogram = new PlayLogHistogramViewModel(new ObservableCollection<PlayLog>(allPlayLogs));
     }
 
     private IEnumerable<CalendarHeatmapPoint> Convert(PlayLog playLog)
@@ -175,4 +178,11 @@ public class PlayLogsViewModel : BindableBase
         {date}
         {CeilingWithDecimalPlaces(points.Sum(p => p.Value), 1)}時間
         """;
+
+    private PlayLogHistogramViewModel? playLogHistogram;
+    public PlayLogHistogramViewModel? PlayLogHistogram
+    {
+        get { return playLogHistogram; }
+        set { SetProperty(ref playLogHistogram, value); }
+    }
 }

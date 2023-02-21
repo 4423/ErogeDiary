@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:controls="clr-namespace:ErogeDiary.Controls;assembly=ErogeDiary.Controls"
     xmlns:contents="clr-namespace:ErogeDiary.Views.Contents"
     xmlns:local="clr-namespace:ErogeDiary.Views.Pages"
     mc:Ignorable="d" 
@@ -75,22 +74,6 @@
                     </StackPanel>
                     <contents:Roots DataContext="{Binding Roots}"/>
                     <contents:PlayLogs DataContext="{Binding PlayLogs}" Margin="0 20"/>
-                    <StackPanel Orientation="Horizontal" Margin="0 8">
-                        <TextBlock Foreground="#AAA" FontSize="12">
-                            <TextBlock.Inlines>
-                                <Run Text="平均プレイ "/>
-                                <Run Text="{Binding Timeline.AveragePlayTime, Mode=OneWay,
-                                    Converter={StaticResource PlayTimeToStringConverter}}"/>
-                            </TextBlock.Inlines>
-                        </TextBlock>
-                        <TextBlock Foreground="#AAA" Margin="24 0" FontSize="12">
-                            <TextBlock.Inlines>
-                                <Run Text="最長プレイ "/>
-                                <Run Text="{Binding Timeline.MaximumPlayTime, Mode=OneWay,
-                                    Converter={StaticResource PlayTimeToStringConverter}}"/>
-                            </TextBlock.Inlines>
-                        </TextBlock>
-                    </StackPanel>
                 </StackPanel>
             </Border>
         </Grid>
