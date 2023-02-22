@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ErogeDiary.Models;
@@ -17,7 +16,7 @@ public static class ThumbnailHelper
     {
         client = new HttpClient();
 
-        var currentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        var currentPath = Directory.GetCurrentDirectory();
         thumbnailDir = Path.Combine(currentPath!, "thumbnails");
         Directory.CreateDirectory(thumbnailDir);
     }
