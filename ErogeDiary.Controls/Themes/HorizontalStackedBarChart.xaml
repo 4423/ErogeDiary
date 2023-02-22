@@ -17,7 +17,7 @@
                                     <Setter Property="TextWrapping" Value="NoWrap"/>
                                     <Setter Property="Height" Value="50"/>
                                     <Setter Property="FontSize" Value="14"/>
-                                    <Setter Property="Margin" Value="1"/>
+                                    <Setter Property="Margin" Value="1.1"/>
                                     <Setter Property="Padding" Value="0 14"/>
                                 </Style>
                             </Grid.Resources>
