@@ -167,10 +167,10 @@ public class PlayLogsViewModel : BindableBase
     private static class HeatmapColors
     {
         public static SolidColorBrush Level0 { get; } = new SolidColorBrush(Colors.DimGray); // ～0h
-        public static SolidColorBrush Level1 { get; } = fromColorCode("#9be9a8"); // 0h～1h
-        public static SolidColorBrush Level2 { get; } = fromColorCode("#40c463"); // 2h～3h
-        public static SolidColorBrush Level3 { get; } = fromColorCode("#30a14e"); // 4h～5h
-        public static SolidColorBrush Level4 { get; } = fromColorCode("#216e39"); // 6h～
+        public static SolidColorBrush Level1 { get; } = fromColorCode("#F1D5DC"); // 0h～1h
+        public static SolidColorBrush Level2 { get; } = fromColorCode("#ECBCC8"); // 2h～3h
+        public static SolidColorBrush Level3 { get; } = fromColorCode("#E79FB1"); // 4h～5h
+        public static SolidColorBrush Level4 { get; } = fromColorCode("#e491a5"); // 6h～
     }
 
     public TooltipLabelFormatterDelegate TooltipLabelFormatter { get; } = (date, points) =>
