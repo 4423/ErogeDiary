@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:controls="clr-namespace:ErogeDiary.Controls.Histogram;assembly=ErogeDiary.Controls"
+             xmlns:behaviors="clr-namespace:ErogeDiary.Views.Behaviors"
              xmlns:local="clr-namespace:ErogeDiary.Views.Contents"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600">
@@ -13,7 +15,7 @@
                       DisplayMemberPath="Label"/>
             <TextBlock Text="間隔でまとめたプレイ時間の頻度" VerticalAlignment="Center" Margin="10 0 0 0" />
         </StackPanel>
-        
+
         <ScrollViewer HorizontalScrollBarVisibility="Auto" Margin="0 10 0 3">
             <Grid>
                 <controls:Histogram ItemsSource="{Binding PlayTimeMinutesList}" 
@@ -24,6 +26,10 @@
                 <TextBlock Text="No Data" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9"
                            Visibility="{Binding HasPlayLogs, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"/>
             </Grid>
+            <!-- GameDetailPage をマウスホイールで移動できたほうがストレスが無い -->
+            <i:Interaction.Behaviors>
+                <behaviors:PassThroughMouseWheelBehavior/>
+            </i:Interaction.Behaviors>
         </ScrollViewer>
 
         <StackPanel>
