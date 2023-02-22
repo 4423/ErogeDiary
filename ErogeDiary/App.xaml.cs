@@ -90,6 +90,13 @@ public partial class App : PrismApplication
 
     private void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
+        var ex = e.ExceptionObject as Exception;
+        if (ex != null)
+        {
+            var message = $"{ex.Message}\n{ex.TargetSite?.Name}";
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         CloseMutex();
     }
 
