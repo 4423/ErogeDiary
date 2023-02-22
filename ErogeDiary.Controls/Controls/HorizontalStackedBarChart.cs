@@ -44,11 +44,6 @@ public class HorizontalStackedBarChart : Control
 
     private void UpdateChart()
     {
-        if (ItemsSource == null)
-        {
-            return;
-        }
-
         var chartArea = GetTemplateChild("ChartAreaGrid") as Grid;
         if (chartArea == null)
         {
@@ -57,6 +52,12 @@ public class HorizontalStackedBarChart : Control
 
         chartArea.ColumnDefinitions.Clear();
         chartArea.Children.Clear();
+
+        // この null check を最初にやると前回のグラフがそのまま残ってしまう
+        if (ItemsSource == null)
+        {
+            return;
+        }
 
         var colors = ColorGenerator.Generate(ItemsSource.Count());
         foreach (var ((chartData, color), i) in ItemsSource.Zip(colors, (x, y) => (x, y)).WithIndex())

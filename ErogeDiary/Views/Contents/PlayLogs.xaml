@@ -30,11 +30,11 @@
                     <Setter Property="Foreground" Value="#DDD"/>
                 </Style>
             </StackPanel.Resources>
-            <TextBlock Visibility="{Binding FirstPlayedAt, Converter={StaticResource NullToVisibilityConverter}}">
+            <TextBlock Visibility="{Binding FirstPlayedAt}">
                 <Run Text="初回プレイ  "/>
                 <Run Text="{Binding FirstPlayedAt, StringFormat=yyyy年MM月dd日}"/>
             </TextBlock>
-            <TextBlock Visibility="{Binding Game.LastPlayedAt, Converter={StaticResource NullToVisibilityConverter}}">
+            <TextBlock Visibility="{Binding Game.LastPlayedAt}">
                 <Run Text="最終プレイ  "/>
                 <Run Text="{Binding Game.LastPlayedAt, StringFormat=yyyy年MM月dd日}"/>
             </TextBlock>

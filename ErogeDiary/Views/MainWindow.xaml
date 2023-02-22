@@ -18,7 +18,7 @@
         ui:TitleBar.BackButtonCommand="{Binding GoBackCommand}"
         ui:TitleBar.BackButtonStyle="{DynamicResource AppTitleBarBackButtonStyle}"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="ErogeDiary" Height="495" Width="830" 
+        Title="ErogeDiary" Height="515" Width="830" 
         MinWidth="640" MinHeight="350"
         MouseUp="WindowMouseUp">
     <Window.InputBindings>

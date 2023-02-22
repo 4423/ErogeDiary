@@ -56,7 +56,6 @@
                                          Command="{Binding EditGameCommand}"/>
                         <ui:AppBarButton Icon="Delete" Label="ゲームの登録を解除" 
                                          Command="{Binding DeleteGameCommand}"/>
-                        <!--<ui:AppBarButton Icon="Save" Label="セーブデータをアップロード"/>-->
                     </ui:CommandBar>
                 </Grid>
             </Grid>
@@ -67,13 +66,13 @@
                 <StackPanel Margin="35 16">
                     <!-- 右にルートのボタンが回り込む & 押せるように調整 -->
                     <StackPanel HorizontalAlignment="Left" Panel.ZIndex="1" Width="350" Margin="0 0 0 -20">
-                        <TextBlock FontSize="36"
-                                   Text="{Binding Game.TotalPlayTime, 
-                                        Converter={StaticResource PlayTimeToStringConverter},
-                                        ConverterParameter=未プレイ}"/>
+                        <TextBlock FontSize="34" FontWeight="Light"
+                                           Text="{Binding Game.TotalPlayTime, 
+                                                Converter={StaticResource PlayTimeToStringConverter},
+                                                ConverterParameter=未プレイ}"/>
                     </StackPanel>
                     <contents:Roots DataContext="{Binding Roots}"/>
-                    <contents:PlayLogs DataContext="{Binding PlayLogs}" Margin="0 20"/>
+                    <contents:PlayLogs DataContext="{Binding PlayLogs}" Margin="0 30 0 20"/>
                 </StackPanel>
             </Border>
         </Grid>

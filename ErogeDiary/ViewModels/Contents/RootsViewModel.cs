@@ -52,7 +52,14 @@ public class RootsViewModel : BindableBase
 
     private void ReloadRootChartDataList()
     {
-        RootChartDataList = ToChartDataList(game.Roots);
+        if (game.TotalPlayTime == TimeSpan.Zero)
+        {
+            RootChartDataList = BuildNoData();
+        }
+        else
+        {
+            RootChartDataList = ToChartDataList(game.Roots);
+        }
 
         AddRootCommand.RaiseCanExecuteChanged();
         EditRootCommand.RaiseCanExecuteChanged();
@@ -91,6 +98,20 @@ public class RootsViewModel : BindableBase
         }));
         charts.Add(unallocatedData);
         return charts;
+    }
+
+    private ObservableCollection<ChartData> BuildNoData()
+    {
+        return new ObservableCollection<ChartData>()
+        {
+            new ChartData()
+            {
+                Label = "No Data",
+                Value = 1,
+                ToolTip = "No Data",
+                Color = new SolidColorBrush(Colors.DimGray)
+            }
+        };
     }
 
     private bool HasPlayTime() => game.GetUnallocatedTime().TotalSeconds > 0;

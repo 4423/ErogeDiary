@@ -103,13 +103,21 @@ public class PlayLogHistogramViewModel : BindableBase
         set { SetProperty(ref playTimeMinutesList, value); }
     }
 
+    private bool hasPlayLogs;
+    public bool HasPlayLogs
+    {
+        get { return hasPlayLogs; }
+        set { SetProperty(ref hasPlayLogs, value); }
+    }
+
 
     private void PlayLogsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         => Update();
 
     private void Update()
     {
-        if (PlayLogs == null || PlayLogs.Count == 0)
+        HasPlayLogs = PlayLogs != null && PlayLogs.Count > 0;
+        if (!HasPlayLogs)
         {
             return;
         }
