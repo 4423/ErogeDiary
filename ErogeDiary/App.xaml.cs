@@ -96,7 +96,7 @@ public partial class App : PrismApplication
             var ex = e.ExceptionObject as Exception;
             if (ex != null)
             {
-                var message = $"{ex.Message}\n{ex.TargetSite?.Name}";
+                var message = $"予期しないエラーが発生しました。\n{ex.Message}";
                 MessageBox.Show(message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
                 File.WriteAllText("errorlog.txt", ex.ToString());
             }
