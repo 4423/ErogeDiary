@@ -13,6 +13,7 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
 using System;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using Unity;
@@ -90,14 +91,20 @@ public partial class App : PrismApplication
 
     private void HandleUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
-        var ex = e.ExceptionObject as Exception;
-        if (ex != null)
+        try
         {
-            var message = $"{ex.Message}\n{ex.TargetSite?.Name}";
-            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            var ex = e.ExceptionObject as Exception;
+            if (ex != null)
+            {
+                var message = $"{ex.Message}\n{ex.TargetSite?.Name}";
+                MessageBox.Show(message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+                File.WriteAllText("errorlog.txt", ex.ToString());
+            }
         }
-
-        CloseMutex();
+        finally
+        {
+            CloseMutex();
+        }
     }
 
     private void CloseMutex()
