@@ -51,7 +51,7 @@
 
   <ItemGroup>
     <None Update="Assets\icon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
