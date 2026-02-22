@@ -3,6 +3,7 @@ using ErogeDiary.Models.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +19,11 @@ public partial class ErogeDiaryDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=database.db")
+        // 実行時の作業ディレクトリが異なっても同じDBを参照できるように、
+        // アセンブリの配置場所（bin配下）を基準にDBパスを解決する。
+        var dbPath = Path.Combine(AppContext.BaseDirectory, "database.db");
+
+        optionsBuilder.UseSqlite($"Data Source={dbPath}")
             .UseLazyLoadingProxies()
             // ラムダ構文を使う必要がある
             // https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging#logging-to-the-debug-window

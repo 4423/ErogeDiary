@@ -8,7 +8,7 @@ namespace ErogeDiary.Models;
 public static class ThumbnailHelper
 {
     private static readonly HttpClient client;
-    private static readonly int SHORT_SIDE_SIZE_PX = 200;
+    private static readonly uint SHORT_SIDE_SIZE_PX = 200u;
     private static string thumbnailDir;
 
 
@@ -69,11 +69,11 @@ public static class ThumbnailHelper
     {
         if (image.Width > image.Height)
         {
-            image.Resize(width: 0, height: SHORT_SIDE_SIZE_PX);
+            image.Resize(width: 0u, height: SHORT_SIDE_SIZE_PX);
         }
         else
         {
-            image.Resize(width: SHORT_SIDE_SIZE_PX, height: 0);
+            image.Resize(width: SHORT_SIDE_SIZE_PX, height: 0u);
         }
     }
 }
