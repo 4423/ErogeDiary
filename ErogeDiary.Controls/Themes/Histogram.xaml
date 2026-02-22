@@ -14,9 +14,7 @@
                                 <RowDefinition Height="150"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <!-- code behind で bucket の数だけ追加 -->
-                            </Grid.ColumnDefinitions>
+                            <!-- ColumnDefinitions は code behind で bucket の数だけ追加する -->
                             
                             <Grid.Resources>
                                 <Style TargetType="Rectangle">
