@@ -82,7 +82,7 @@
 
                 <TextBlock Grid.Column="1" FontSize="12">
                     <Run Text="合計プレイ時間："/>
-                    <Run Text="{Binding TotalPlayTime, StringFormat={}{0:hh\\:mm\\:ss}}"/>
+                    <Run Text="{Binding TotalPlayTime, Converter={StaticResource TimeSpanToZeroPaddingStringWithoutDaysConverter}}"/>
                 </TextBlock>
             </Grid>
         </Grid>
