@@ -1,4 +1,4 @@
-ï»¿using ErogeDiary.Dialogs;
+using ErogeDiary.Dialogs;
 using ErogeDiary.ErogameScape;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
@@ -15,25 +15,31 @@ using Prism.Unity;
 using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using Unity;
 
 namespace ErogeDiary;
 
 public partial class App : PrismApplication
 {
-    // äºŒé‡èµ·å‹•ã•ã›ãªã„
+    // “ñd‹N“®‚³‚¹‚È‚¢
     private static Mutex singleInstanceMutex = new Mutex(false, "ErogeDiary");
     private static bool isNewInstance = false;
+
+    private int isFatalErrorShown = 0;
 
     protected override void OnStartup(StartupEventArgs e)
     {
         AppDomain.CurrentDomain.UnhandledException += HandleUnhandledException;
+        DispatcherUnhandledException += HandleDispatcherUnhandledException;
+        TaskScheduler.UnobservedTaskException += HandleUnobservedTaskException;
 
         isNewInstance = singleInstanceMutex.WaitOne(0, false);
         if (!isNewInstance)
         {
-            // TODO: MessageBox ã‚’å‡ºã—ãŸã„ãŒè¡¨ç¤ºã•ã‚Œãªã„
+            // TODO: MessageBox ‚ğo‚µ‚½‚¢‚ª•\¦‚³‚ê‚È‚¢
             singleInstanceMutex.Close();
             Shutdown();
             return;
@@ -56,7 +62,7 @@ public partial class App : PrismApplication
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
-        // æœ¬å½“ã¯ context ã®ç”Ÿå­˜æœŸé–“ã‚’çŸ­ãã—ãŸã»ã†ãŒã‚ˆã„
+        // –{“–‚Í context ‚Ì¶‘¶ŠúŠÔ‚ğ’Z‚­‚µ‚½‚Ù‚¤‚ª‚æ‚¢
         containerRegistry.RegisterInstance(new ErogeDiaryDbContext());
 
         containerRegistry.Register<GameMonitor>();
@@ -96,14 +102,71 @@ public partial class App : PrismApplication
             var ex = e.ExceptionObject as Exception;
             if (ex != null)
             {
-                var message = $"äºˆæœŸã—ãªã„ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚\n{ex.Message}";
-                MessageBox.Show(message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
-                File.WriteAllText("errorlog.txt", ex.ToString());
+                ReportFatalException(ex, source: nameof(AppDomain.CurrentDomain.UnhandledException));
             }
         }
         finally
         {
             CloseMutex();
+        }
+    }
+
+    private void HandleDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+    {
+        try
+        {
+            ReportFatalException(e.Exception, source: nameof(DispatcherUnhandledException));
+        }
+        finally
+        {
+            e.Handled = true;
+            Shutdown(-1);
+        }
+    }
+
+    private void HandleUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+    {
+        try
+        {
+            ReportFatalException(e.Exception, source: nameof(TaskScheduler.UnobservedTaskException));
+        }
+        finally
+        {
+            e.SetObserved();
+        }
+    }
+
+    private void ReportFatalException(Exception ex, string source)
+    {
+        WriteErrorLog(ex, source);
+
+        // avoid showing multiple error dialogs
+        if (Interlocked.Exchange(ref isFatalErrorShown, 1) != 0)
+        {
+            return;
+        }
+
+        var message =
+            "—\Šú‚µ‚È‚¢ƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B\n"
+            + $"Source: {source}\n"
+            + $"{ex.Message}";
+        MessageBox.Show(message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+
+    private void WriteErrorLog(Exception ex, string source)
+    {
+        try
+        {
+            var logDir = Path.Combine(AppContext.BaseDirectory, "logs");
+            Directory.CreateDirectory(logDir);
+
+            var fileName = $"error_{DateTime.Now:yyyyMMdd_HHmmss}_{source}.txt";
+            var path = Path.Combine(logDir, fileName);
+            File.WriteAllText(path, ex.ToString());
+        }
+        catch
+        {
+            // ignore
         }
     }
 
