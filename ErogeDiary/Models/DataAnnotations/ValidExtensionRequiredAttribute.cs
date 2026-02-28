@@ -25,7 +25,7 @@ namespace ErogeDiary.Models.DataAnnotations
             }
         }
 
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             var fileName = value as string;
             if (fileName != null)
