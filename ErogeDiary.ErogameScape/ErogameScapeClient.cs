@@ -25,10 +25,14 @@ public class ErogameScapeClient
             html = await parser.ParseDocumentAsync(stream);
         }
 
-        var title = html.QuerySelector("#game_title > a").TextContent;
-        var brand = html.QuerySelector("#brand > td > a").TextContent;
-        var releaseDate = html.QuerySelector("#sellday > td > a").TextContent;
-        var imageUrl = ((IHtmlImageElement)html.QuerySelector("#main_image img")).Source;
+        var title = html.QuerySelector("#game_title > a")?.TextContent
+            ?? throw new InvalidOperationException("Failed to retrieve game title.");
+        var brand = html.QuerySelector("#brand > td > a")?.TextContent
+            ?? throw new InvalidOperationException("Failed to retrieve brand name.");
+        var releaseDate = html.QuerySelector("#sellday > td > a")?.TextContent
+            ?? throw new InvalidOperationException("Failed to retrieve release date.");
+        var imageUrl = (html.QuerySelector("#main_image img") as IHtmlImageElement)?.Source
+            ?? throw new InvalidOperationException("Failed to retrieve image URL.");
         
         return new GameInfo(
             Id: id,
