@@ -116,27 +116,28 @@ public class PlayLogHistogramViewModel : BindableBase
 
     private void Update()
     {
-        HasPlayLogs = PlayLogs != null && PlayLogs.Count > 0;
-        if (!HasPlayLogs)
+        if (PlayLogs is not { Count: > 0 } playLogs)
         {
+            HasPlayLogs = false;
             return;
         }
+        HasPlayLogs = true;
 
         // Median
-        int i = PlayLogs.Count / 2;
-        if (PlayLogs.Count % 2 == 0)
+        int i = playLogs.Count / 2;
+        if (playLogs.Count % 2 == 0)
         {
-            MedianPlayTime = (PlayLogs[i].PlayTime + PlayLogs[i - 1].PlayTime) / 2;
+            MedianPlayTime = (playLogs[i].PlayTime + playLogs[i - 1].PlayTime) / 2;
         }
         else
         {
-            MedianPlayTime = PlayLogs[i].PlayTime;
+            MedianPlayTime = playLogs[i].PlayTime;
         }
 
         // Maximum and Average
         var maximum = TimeSpan.Zero;
         double sumMillisecond = 0;
-        foreach (var log in PlayLogs)
+        foreach (var log in playLogs)
         {
             if (maximum < log.PlayTime)
             {
@@ -145,8 +146,8 @@ public class PlayLogHistogramViewModel : BindableBase
             sumMillisecond += log.PlayTime.TotalMilliseconds;
         }
         MaximumPlayTime = maximum;
-        AveragePlayTime = TimeSpan.FromMilliseconds(sumMillisecond / PlayLogs.Count);
+        AveragePlayTime = TimeSpan.FromMilliseconds(sumMillisecond / playLogs.Count);
 
-        PlayTimeMinutesList = PlayLogs.Select(p => p.PlayTime.TotalMinutes);
+        PlayTimeMinutesList = playLogs.Select(p => p.PlayTime.TotalMinutes);
     }
 }

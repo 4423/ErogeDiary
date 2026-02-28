@@ -64,9 +64,12 @@ namespace ErogeDiary.Views.Behaviors
             }
         }
 
-        private static void FlyoutClosed(object sender, object e)
+        private static void FlyoutClosed(object? sender, object e)
         {
-            SetIsOpen(sender as DependencyObject, false);
+            if (sender is DependencyObject dependencyObject)
+            {
+                SetIsOpen(dependencyObject, false);
+            }
         }
     }
 }

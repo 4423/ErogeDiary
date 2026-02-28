@@ -1,4 +1,4 @@
-﻿using ErogeDiary.Dialogs;
+using ErogeDiary.Dialogs;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using ErogeDiary.ViewModels.Contents;
@@ -84,6 +84,12 @@ namespace ErogeDiary.ViewModels.Pages
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(Game?.ExecutableFilePath))
+                {
+                    await messageDialog.ShowErrorAsync("実行ファイルのパスが設定されていません。");
+                    return;
+                }
+
                 Process.Start(Game.ExecutableFilePath);
             }
             catch (Exception ex)
@@ -117,11 +123,17 @@ namespace ErogeDiary.ViewModels.Pages
             });
             if (result == MessageDialogResult.Primary)
             {
+                if (Game == null)
+                {
+                    await messageDialog.ShowErrorAsync("ゲームの情報が見つからないため解除できませんでした。");
+                    return;
+                }
+
                 await database.RemoveAsync(Game);
                 await messageDialog.ShowAsync(new MessageDialogParameters()
                 {
                     Title = "情報",
-                    Message = "削除に成功しました。",
+                    Message = "解除に成功しました。",
                     CloseButtonText = "OK",
                 });
                 NavigationHelper.GetNavigationService(regionManager)?.Journal?.GoBack();
