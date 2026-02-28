@@ -27,12 +27,12 @@
         <Grid Margin="24 0">
             <StackPanel>
                 <TextBlock Text="ルートの追加" Style="{StaticResource TitleTextBlockStyle}"/>
-                <TextBox x:Name="Name" 
+                <TextBox x:Name="RootName" 
                          ui:ControlHelper.Header="ルート名" 
                          Text="{Binding VerifiableRoot.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
-                           Text="{Binding ElementName=Name, Path=(Validation.Errors)[0].ErrorContent}"/>
+                           Text="{Binding ElementName=RootName, Path=(Validation.Errors)[0].ErrorContent}"/>
 
                 <CheckBox Content="未割り当てのプレイ時間すべてをルートに割り当てる"
                           IsChecked="{Binding IsAllocatedAutomatically}"/>

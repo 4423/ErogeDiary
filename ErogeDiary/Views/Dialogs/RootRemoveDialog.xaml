@@ -26,7 +26,7 @@
         <Grid Margin="24 0">
             <StackPanel>
                 <TextBlock Text="ルートの削除" Style="{StaticResource TitleTextBlockStyle}"/>
-                <ComboBox x:Name="Name" 
+                <ComboBox x:Name="RootName" 
                           ui:ControlHelper.Header="ルート名" 
                           ItemsSource="{Binding Roots}"
                           SelectedItem="{Binding SelectedRoot}"
@@ -34,7 +34,7 @@
                           Text="{Binding RootData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
-                           Text="{Binding ElementName=Name, Path=(Validation.Errors)[0].ErrorContent}"/>
+                           Text="{Binding ElementName=RootName, Path=(Validation.Errors)[0].ErrorContent}"/>
 
                 <StackPanel Orientation="Horizontal" Margin="0 12">
                     <Button Content="削除"

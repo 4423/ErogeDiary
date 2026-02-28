@@ -27,7 +27,7 @@
         <Grid Margin="24 0">
             <StackPanel>
                 <TextBlock Text="ルートの編集" Style="{StaticResource TitleTextBlockStyle}"/>
-                <ComboBox x:Name="Name" 
+                <ComboBox x:Name="RootName" 
                           ui:ControlHelper.Header="ルート名" 
                           ItemsSource="{Binding Roots}"
                           SelectedItem="{Binding SelectedRoot}"
@@ -35,7 +35,7 @@
                           SelectedIndex="0"
                           Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
-                           Text="{Binding ElementName=Name, Path=(Validation.Errors)[0].ErrorContent}"/>
+                           Text="{Binding ElementName=RootName, Path=(Validation.Errors)[0].ErrorContent}"/>
 
                 <TextBox x:Name="NewName" 
                          ui:ControlHelper.Header="新しいルート名"
