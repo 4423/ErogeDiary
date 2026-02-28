@@ -1,4 +1,4 @@
-using ErogeDiary.Dialogs;
+ï»¿using ErogeDiary.Dialogs;
 using ErogeDiary.ErogameScape;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
@@ -24,7 +24,7 @@ namespace ErogeDiary;
 
 public partial class App : PrismApplication
 {
-    // “ñd‹N“®‚³‚¹‚È‚¢
+    // äºŒé‡èµ·å‹•ã•ã›ãªã„
     private static Mutex singleInstanceMutex = new Mutex(false, "ErogeDiary");
     private static bool isNewInstance = false;
 
@@ -39,7 +39,7 @@ public partial class App : PrismApplication
         isNewInstance = singleInstanceMutex.WaitOne(0, false);
         if (!isNewInstance)
         {
-            // TODO: MessageBox ‚ğo‚µ‚½‚¢‚ª•\¦‚³‚ê‚È‚¢
+            // TODO: MessageBox ã‚’å‡ºã—ãŸã„ãŒè¡¨ç¤ºã•ã‚Œãªã„
             singleInstanceMutex.Close();
             Shutdown();
             return;
@@ -62,7 +62,7 @@ public partial class App : PrismApplication
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
-        // –{“–‚Í context ‚Ì¶‘¶ŠúŠÔ‚ğ’Z‚­‚µ‚½‚Ù‚¤‚ª‚æ‚¢
+        // æœ¬å½“ã¯ context ã®ç”Ÿå­˜æœŸé–“ã‚’çŸ­ãã—ãŸã»ã†ãŒã‚ˆã„
         containerRegistry.RegisterInstance(new ErogeDiaryDbContext());
 
         containerRegistry.Register<GameMonitor>();
@@ -147,8 +147,8 @@ public partial class App : PrismApplication
         }
 
         var message =
-            "—\Šú‚µ‚È‚¢ƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B" + Environment.NewLine
-            + $"Source: {source}" + Environment.NewLine
+            "äºˆæœŸã—ãªã„ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚\n"
+            + $"Source: {source}\n"
             + $"{ex.Message}";
         MessageBox.Show(message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
