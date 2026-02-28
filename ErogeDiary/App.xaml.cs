@@ -147,8 +147,8 @@ public partial class App : PrismApplication
         }
 
         var message =
-            "予期しないエラーが発生しました。\n"
-            + $"Source: {source}\n"
+            "予期しないエラーが発生しました。" + Environment.NewLine
+            + $"Source: {source}" + Environment.NewLine
             + $"{ex.Message}";
         MessageBox.Show(message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
