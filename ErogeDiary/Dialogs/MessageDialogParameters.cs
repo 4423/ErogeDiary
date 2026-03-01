@@ -9,10 +9,10 @@ namespace ErogeDiary.Dialogs
 {
     public class MessageDialogParameters
     {
-        public string Title { get; set; }
-        public string Message { get; set; }
-        public string CloseButtonText { get; set; }
-        public string PrimaryButtonText { get; set; }
-        public string SecondaryButtonText { get; set; }
+        public required string Title { get; set; }
+        public required string Message { get; set; }
+        public required string CloseButtonText { get; set; }
+        public string? PrimaryButtonText { get; set; }
+        public string? SecondaryButtonText { get; set; }
     }
 }
