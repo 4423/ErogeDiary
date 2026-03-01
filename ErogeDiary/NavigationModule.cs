@@ -38,7 +38,7 @@ namespace ErogeDiary
         public static IRegionNavigationService GetNavigationService(IRegionManager regionManager)
             => regionManager.Regions[RegionName].NavigationService;
 
-        public static void RequestNavigate(IRegionManager regionManager, string source, NavigationParameters parameters=null)
+        public static void RequestNavigate(IRegionManager regionManager, string source, NavigationParameters? parameters = null)
         {
             if (parameters == null)
             {
@@ -50,10 +50,10 @@ namespace ErogeDiary
             }
         }
 
-        public static void RequestNavigateToHomePage(IRegionManager regionManager, NavigationParameters parameters = null)
+        public static void RequestNavigateToHomePage(IRegionManager regionManager, NavigationParameters? parameters = null)
             => RequestNavigate(regionManager, nameof(HomePage), parameters);
 
-        public static void RequestNavigateToGameDetailPage(IRegionManager regionManager, NavigationParameters parameters = null)
+        public static void RequestNavigateToGameDetailPage(IRegionManager regionManager, NavigationParameters? parameters = null)
             => RequestNavigate(regionManager, nameof(GameDetailPage), parameters);
     }
 }

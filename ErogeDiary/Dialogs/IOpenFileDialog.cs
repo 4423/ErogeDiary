@@ -8,6 +8,6 @@ namespace ErogeDiary.Dialogs
 {
     public interface IOpenFileDialog
     {
-        string Show(string title, string filter);
+        string? Show(string title, string filter);
     }
 }

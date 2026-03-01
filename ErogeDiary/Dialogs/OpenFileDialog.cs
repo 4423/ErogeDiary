@@ -10,7 +10,7 @@ namespace ErogeDiary.Dialogs
 {
     public class OpenFileDialog : IOpenFileDialog
     {
-        public string Show(string title, string filter)
+        public string? Show(string title, string filter)
         {
             var ofd = new Microsoft.Win32.OpenFileDialog()
             {
@@ -20,7 +20,7 @@ namespace ErogeDiary.Dialogs
                 RestoreDirectory = true
             };
 
-            return (bool)ofd.ShowDialog() ? ofd.FileName : null;
+            return ofd.ShowDialog() == true ? ofd.FileName : null;
         }
     }
 }
