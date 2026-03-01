@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace ErogeDiary.Views.Converters
@@ -12,14 +13,19 @@ namespace ErogeDiary.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Uri input = value as Uri;
+            var input = value as Uri;
             return input?.ToString() ?? String.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string input = value as string;
-            return String.IsNullOrEmpty(input) ? null : new Uri(input, UriKind.Absolute);
+            var input = value as string;
+            if (String.IsNullOrWhiteSpace(input))
+            {
+                return Binding.DoNothing;
+            }
+
+            return Uri.TryCreate(input, UriKind.Absolute, out var uri) ? uri : DependencyProperty.UnsetValue;
         }
     }
 }

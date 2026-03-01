@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace ErogeDiary.Views.Converters
@@ -15,7 +16,7 @@ namespace ErogeDiary.Views.Converters
         {
             if (value is not TimeSpan)
             {
-                return null;
+                return DependencyProperty.UnsetValue;
             }
 
             var ts = (TimeSpan)value;
