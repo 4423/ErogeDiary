@@ -27,7 +27,7 @@ namespace ErogeDiary.Models
             timer.Start();
         }
 
-        private void TimerTick(object sender, EventArgs e)
+        private void TimerTick(object? sender, EventArgs e)
         {
             timer.Stop();
 

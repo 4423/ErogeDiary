@@ -109,7 +109,7 @@ namespace ErogeDiary.Models
             }
         }
 
-        private void TimerTick(object sender, EventArgs e)
+        private void TimerTick(object? sender, EventArgs e)
         {
             var currentPlayTime = DateTime.Now - previousGameStartDate;
             var totalPlayTime = currentPlayTime + previousGame.TotalPlayTime;
