@@ -94,7 +94,7 @@ public class HorizontalStackedBarChart : Control
         }
     }
 
-    private void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void ItemsSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         UpdateChart();
     }
