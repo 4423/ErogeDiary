@@ -83,90 +83,105 @@ public static class SampleData
                 StartedAt = new DateTime(2022, 10, 5, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 5, 1, 0, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 8, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 8, 3, 0, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 9, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 9, 1, 0, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 9, 2, 0, 0),
                 EndedAt = new DateTime(2022, 10, 9, 3, 34, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 11, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 11, 0, 32, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 15, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 15, 1, 0, 10),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 21, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 21, 4, 32, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 22, 2, 0, 0),
                 EndedAt = new DateTime(2022, 10, 22, 2, 50, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 23, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 23, 0, 40, 5),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 23, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 23, 2, 40, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 25, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 25, 0, 32, 7),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 26, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 26, 0, 10, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 27, 1, 0, 0),
                 EndedAt = new DateTime(2022, 10, 27, 1, 30, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 10, 30, 0, 0, 0),
                 EndedAt = new DateTime(2022, 10, 30, 1, 30, 0),
                 GameId = 1000,
+                Game = Game,
             },
             new PlayLog()
             {
                 StartedAt = new DateTime(2022, 11, 5, 0, 0, 0),
                 EndedAt = new DateTime(2022, 11, 5, 6, 30, 0),
                 GameId = 1000,
+                Game = Game,
             },
         };
         // 過去1年間の histogram を適当に埋める用（土日多め）
@@ -184,6 +199,7 @@ public static class SampleData
                         StartedAt = date.AddHours(-1),
                         EndedAt = date,
                         GameId = 1000,
+                        Game = Game,
                     });
 
                     if (rand.Next() % 5 == 0)
@@ -193,6 +209,7 @@ public static class SampleData
                             StartedAt = date.AddHours(-2),
                             EndedAt = date,
                             GameId = 1000,
+                            Game = Game,
                         });
                     }
 
@@ -203,6 +220,7 @@ public static class SampleData
                             StartedAt = date.AddHours(-2),
                             EndedAt = date,
                             GameId = 1000,
+                            Game = Game,
                         });
                     }
                 }
@@ -215,6 +233,7 @@ public static class SampleData
                     StartedAt = date.AddHours(-1),
                     EndedAt = date,
                     GameId = 1000,
+                    Game = Game,
                 });
             }
         }
