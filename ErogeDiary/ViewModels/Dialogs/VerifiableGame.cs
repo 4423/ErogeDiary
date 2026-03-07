@@ -59,7 +59,7 @@ public class VerifiableGame : VerifiableBindableBase
 
     private string? imageUri;
     [Required(ErrorMessage = "サムネイル画像の場所を入力してください。")]
-    [ValidExtensionRequired(ValidExtensions = new string[] { ".jpg", ".jpeg", ".png", ".bmp" })]
+    [ValidExtensionRequired(".jpg", ".jpeg", ".png", ".bmp")]
     public string? ImageUri
     {
         get => imageUri;
