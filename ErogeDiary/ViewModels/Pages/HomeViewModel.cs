@@ -170,8 +170,8 @@ namespace ErogeDiary.ViewModels.Pages
             }
         }
 
-        private Game selectedGame;
-        public Game SelectedGame
+        private Game? selectedGame;
+        public Game? SelectedGame
         {
             get { return selectedGame; }
             set

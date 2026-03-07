@@ -81,8 +81,8 @@ namespace ErogeDiary.ViewModels
             TotalPlayTime = totalPlayTime;
         }
 
-        private Game activeGame;
-        public Game ActiveGame
+        private Game? activeGame;
+        public Game? ActiveGame
         {
             get => activeGame;
             set { SetProperty(ref activeGame, value); }

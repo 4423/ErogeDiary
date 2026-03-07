@@ -14,10 +14,10 @@ namespace ErogeDiary.Models
     public sealed class ProcessMonitor
     {
         public static ProcessMonitor Instance { get; } = new ProcessMonitor();
-        public event ActiveProcessChanged OnActiveProcessChanged;
+        public event ActiveProcessChanged? OnActiveProcessChanged;
 
         private DispatcherTimer timer;
-        private Process previousProcess;
+        private Process? previousProcess;
 
         private ProcessMonitor()
         {

@@ -19,11 +19,11 @@ namespace ErogeDiary.Models
 
     public sealed class GameMonitor
     {
-        public event GameStarted GameStarted;
-        public event GameEnded GameEnded;
-        public event ProgressChanged ProgressChanged;
+        public event GameStarted? GameStarted;
+        public event GameEnded? GameEnded;
+        public event ProgressChanged? ProgressChanged;
 
-        private Game previousGame;
+        private Game? previousGame;
         private DateTime previousGameStartDate;
         private ErogeDiaryDbContext database;
         private DispatcherTimer timer;
@@ -111,6 +111,11 @@ namespace ErogeDiary.Models
 
         private void TimerTick(object? sender, EventArgs e)
         {
+            if (previousGame == null)
+            {
+                return;
+            }
+
             var currentPlayTime = DateTime.Now - previousGameStartDate;
             var totalPlayTime = currentPlayTime + previousGame.TotalPlayTime;
             ProgressChanged?.Invoke(previousGame, currentPlayTime, totalPlayTime);
