@@ -17,7 +17,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         public DelegateCommand SelectExecutionFileNameCommand { get; private set; }
         public DelegateCommand RegisterCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
-        public Action HideFlyout { get; set; }
+        public Action? HideFlyout { get; set; }
 
         private ErogeDiaryDbContext database;
         private ErogameScapeClient erogameScapeClient;
@@ -37,7 +37,6 @@ namespace ErogeDiary.ViewModels.Dialogs
             RegisterCommand = new DelegateCommand(RegisterGame, CanExecuteRegisterGame);
             CancelCommand = new DelegateCommand(CloseDialogCancel);
             
-            VerifiableGame = new VerifiableGame();
             VerifiableGame.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
 
             IsOpen = false;
@@ -110,7 +109,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
             try
             {
-                var gameInfo = await erogameScapeClient.FetchGameInfoAsync(ErogameScapeUrl);
+                var gameInfo = await erogameScapeClient.FetchGameInfoAsync(ErogameScapeUrl!);
                 VerifiableGame = new VerifiableGame(gameInfo);
                 VerifiableGame.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
             }
@@ -148,7 +147,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         }
 
 
-        private VerifiableGame verifiableGame;
+        private VerifiableGame verifiableGame = new VerifiableGame();
         public VerifiableGame VerifiableGame
         {
             get { return verifiableGame; }
@@ -176,8 +175,8 @@ namespace ErogeDiary.ViewModels.Dialogs
             set { SetProperty(ref isFlyoutOpen, value); }
         }
 
-        public string erogameScapeUrl;
-        public string ErogameScapeUrl
+        public string? erogameScapeUrl;
+        public string? ErogameScapeUrl
         {
             get { return erogameScapeUrl; }
             set { SetProperty(ref erogameScapeUrl, value); }

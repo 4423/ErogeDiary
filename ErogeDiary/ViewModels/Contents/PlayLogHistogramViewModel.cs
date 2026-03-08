@@ -51,14 +51,14 @@ public class PlayLogHistogramViewModel : BindableBase
         }
     }
 
-    private IEnumerable<Bucket> buckets;
+    private IEnumerable<Bucket> buckets = Enumerable.Empty<Bucket>();
     public IEnumerable<Bucket> Buckets
     {
         get { return buckets; }
         set { SetProperty(ref buckets, value); }
     }
 
-    private Bucket selectedBucket;
+    private Bucket selectedBucket = null!;
     public Bucket SelectedBucket
     {
         get { return selectedBucket; }
@@ -96,8 +96,8 @@ public class PlayLogHistogramViewModel : BindableBase
         private set { SetProperty(ref maximumPlayTime, value); }
     }
 
-    private IEnumerable<double> playTimeMinutesList;
-    public IEnumerable<double> PlayTimeMinutesList
+    private IEnumerable<double>? playTimeMinutesList;
+    public IEnumerable<double>? PlayTimeMinutesList
     {
         get { return playTimeMinutesList; }
         set { SetProperty(ref playTimeMinutesList, value); }

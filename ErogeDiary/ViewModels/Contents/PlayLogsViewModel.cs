@@ -118,7 +118,7 @@ public class PlayLogsViewModel : BindableBase
         set { SetProperty(ref series, value); }
     }
 
-    private Game game;
+    private Game game = null!;
     public Game Game
     {
         get { return game; }
@@ -132,14 +132,14 @@ public class PlayLogsViewModel : BindableBase
         set { SetProperty(ref firstPlayedAt, value); }
     }
 
-    private ICollection<DateRange> playLogDateRanges;
+    private ICollection<DateRange> playLogDateRanges = default!;
     public ICollection<DateRange> PlayLogDateRanges
     {
         get { return playLogDateRanges; }
         set { SetProperty(ref playLogDateRanges, value); }
     }
 
-    private DateRange selectedPlayLogDateRange;
+    private DateRange selectedPlayLogDateRange = default!;
     public DateRange SelectedPlayLogDateRange
     {
         get { return selectedPlayLogDateRange; }

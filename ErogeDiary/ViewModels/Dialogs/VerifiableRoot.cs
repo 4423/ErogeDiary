@@ -62,8 +62,8 @@ public class VerifiableRoot : VerifiableBindableBase
         }
     }
 
-    private AccentColor accentColor;
-    public required AccentColor AccentColor
+    private AccentColor accentColor = default!;
+    public AccentColor AccentColor
     {
         get => accentColor; 
         set

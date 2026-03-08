@@ -113,7 +113,7 @@ namespace ErogeDiary.ViewModels.Pages
             }
         }
 
-        private ObservableCollection<Game> games;
+        private ObservableCollection<Game> games = new();
         public ObservableCollection<Game> Games
         {
             get { return games; }
@@ -127,14 +127,14 @@ namespace ErogeDiary.ViewModels.Pages
         }
 
 
-        private List<GameOrder> orderItems;
+        private List<GameOrder> orderItems = new();
         public List<GameOrder> OrderItems
         {
             get { return orderItems; }
             set { SetProperty(ref orderItems, value); }
         }
 
-        private List<GameFilter> filterItems;
+        private List<GameFilter> filterItems = new();
         public List<GameFilter> FilterItems
         {
             get { return filterItems; }
@@ -144,7 +144,7 @@ namespace ErogeDiary.ViewModels.Pages
             }
         }
 
-        private GameOrder orderSelectedItem;
+        private GameOrder orderSelectedItem = null!;
         public GameOrder OrderSelectedItem
         {
             get { return orderSelectedItem; }
@@ -157,7 +157,7 @@ namespace ErogeDiary.ViewModels.Pages
             }
         }
 
-        private GameFilter filterSelectedItem;
+        private GameFilter filterSelectedItem = null!;
         public GameFilter FilterSelectedItem
         {
             get { return filterSelectedItem; }

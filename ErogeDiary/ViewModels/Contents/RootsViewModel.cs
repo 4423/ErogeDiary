@@ -43,7 +43,7 @@ public class RootsViewModel : BindableBase
     }
 
 
-    private ObservableCollection<ChartData> rootChartDataList;
+    private ObservableCollection<ChartData> rootChartDataList = new();
     public ObservableCollection<ChartData> RootChartDataList
     {
         get => rootChartDataList;
