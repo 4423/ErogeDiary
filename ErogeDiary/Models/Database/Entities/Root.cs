@@ -7,7 +7,7 @@ namespace ErogeDiary.Models.Database.Entities;
 public partial class Root : BaseEntity
 {
     public int RootId { get; set; }
-    public string Name { get; set; }
+    public required string Name { get; set; }
     public TimeSpan PlayTime { get; set; }
     public DateTime? ClearedAt { get; set; }
     public Color Color { get; set; }
