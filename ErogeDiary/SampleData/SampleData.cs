@@ -38,6 +38,7 @@ public static class SampleData
                 ClearedAt = null,
                 Color = (Color)ColorConverter.ConvertFromString("#d46262"),
                 GameId = 1000,
+                Game = Game,
             },
             new Root()
             {
@@ -47,6 +48,7 @@ public static class SampleData
                 ClearedAt = null,
                 Color = (Color)ColorConverter.ConvertFromString("#336b96"),
                 GameId = 1000,
+                Game = Game,
             },
             new Root()
             {
@@ -56,6 +58,7 @@ public static class SampleData
                 ClearedAt = null,
                 Color = (Color)ColorConverter.ConvertFromString("#8463a6"),
                 GameId = 1000,
+                Game = Game,
             },
             new Root()
             {
@@ -65,6 +68,7 @@ public static class SampleData
                 ClearedAt = null,
                 Color = (Color)ColorConverter.ConvertFromString("#6389a6"),
                 GameId = 1000,
+                Game = Game,
             },
             new Root()
             {
@@ -74,6 +78,7 @@ public static class SampleData
                 ClearedAt = null,
                 Color = (Color)ColorConverter.ConvertFromString("#d4a862"),
                 GameId = 1000,
+                Game = Game,
             }
         };
         PlayLogsForHistogram = new List<PlayLog>()
