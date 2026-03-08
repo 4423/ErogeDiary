@@ -96,7 +96,6 @@ namespace ErogeDiary.ViewModels.Pages
                 PropertyName = propertyName;
                 SortDirection = direction;
             }
-            public GameOrder() { }
 
             public SortDescription ToSortDescription()
                 => new SortDescription(PropertyName, SortDirection);
@@ -112,7 +111,6 @@ namespace ErogeDiary.ViewModels.Pages
                 DisplayName = displayName;
                 Predicate = x => predicate.Invoke((Game)x);
             }
-            public GameFilter() { }
         }
 
         private ObservableCollection<Game> games;
