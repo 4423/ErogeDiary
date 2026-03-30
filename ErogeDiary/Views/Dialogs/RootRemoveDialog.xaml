@@ -22,7 +22,7 @@
         </Style>
     </prism:Dialog.WindowStyle>
 
-    <ScrollViewer>
+    <ScrollViewer Style="{StaticResource DialogScrollViewerStyle}">
         <Grid Margin="24 0">
             <StackPanel>
                 <TextBlock Text="ルートの削除" Style="{StaticResource TitleTextBlockStyle}"/>
