@@ -22,8 +22,8 @@
             <Setter Property="ShowInTaskbar" Value="False"/>
         </Style>
     </prism:Dialog.WindowStyle>
-    
-    <ScrollViewer>
+
+    <ScrollViewer Style="{StaticResource DialogScrollViewerStyle}">
         <Grid Margin="24 0">
             <StackPanel>
                 <TextBlock Text="ゲームの登録" Style="{StaticResource TitleTextBlockStyle}"/>

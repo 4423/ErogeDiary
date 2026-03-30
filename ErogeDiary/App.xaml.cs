@@ -71,6 +71,8 @@ public partial class App : PrismApplication
         containerRegistry.Register<IMessageDialog, MessageDialog>();
         containerRegistry.Register<IOpenFileDialog, OpenFileDialog>();
 
+        containerRegistry.RegisterDialogWindow<ThemedDialogWindow>();
+
         containerRegistry.RegisterDialog<GameEditDialog, GameEditDialogViewModel>();
         containerRegistry.RegisterDialog<GameRegistrationDialog, GameRegistrationDialogViewModel>();
         containerRegistry.RegisterDialog<RootRegistrationDialog, RootRegistrationDialogViewModel>();
