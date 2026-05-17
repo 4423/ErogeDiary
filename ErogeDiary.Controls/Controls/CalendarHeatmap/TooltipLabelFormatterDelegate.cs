@@ -4,4 +4,4 @@ using System.Collections.Generic;
 
 namespace ErogeDiary.Controls.Controls.CalendarHeatmap;
 
-public delegate string TooltipLabelFormatterDelegate(DateOnly date, List<CalendarHeatmapPoint> points);
+public delegate string TooltipLabelFormatterDelegate(DateOnly date, IReadOnlyList<CalendarHeatmapPoint> points);

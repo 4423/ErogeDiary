@@ -16,11 +16,9 @@
             <TextBlock Text="のプレイ履歴" VerticalAlignment="Center" Margin="10 0 0 0" />
         </StackPanel>
 
-        <controls:CalendarHeatmap ItemsSource="{Binding Series}" 
+        <controls:CalendarHeatmap ChartData="{Binding HeatmapData}"
                                   ColorConverter="{Binding ColorConverter}"
                                   TooltipLabelFormatter="{Binding TooltipLabelFormatter}"
-                                  StartDate="{Binding SelectedPlayLogDateRange.Start}"
-                                  EndDate="{Binding SelectedPlayLogDateRange.End}"
                                   Margin="0 10 0 15"/>
         
         <StackPanel>

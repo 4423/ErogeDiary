@@ -1,7 +1,6 @@
 ﻿using ErogeDiary.Controls.Controls.CalendarHeatmap;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,14 +20,14 @@ public class CalendarHeatmap : Control
     }
 
 
-    public IEnumerable<CalendarHeatmapSeries> ItemsSource
+    public CalendarHeatmapData? ChartData
     {
-        get { return (IEnumerable<CalendarHeatmapSeries>)GetValue(ItemsSourceProperty); }
-        set { SetValue(ItemsSourceProperty, value); }
+        get { return (CalendarHeatmapData?)GetValue(ChartDataProperty); }
+        set { SetValue(ChartDataProperty, value); }
     }
 
-    public static readonly DependencyProperty ItemsSourceProperty =
-        register<IEnumerable<CalendarHeatmapSeries>>(nameof(ItemsSource));
+    public static readonly DependencyProperty ChartDataProperty =
+        register<CalendarHeatmapData?>(nameof(ChartData));
 
     public ColorConverterDelegate ColorConverter
     {
@@ -48,55 +47,18 @@ public class CalendarHeatmap : Control
     public static readonly DependencyProperty TooltipLabelFormatterProperty =
         register<TooltipLabelFormatterDelegate>(nameof(TooltipLabelFormatter));
 
-    public DateOnly StartDate
-    {
-        get { return (DateOnly)GetValue(StartDateProperty); }
-        set { SetValue(StartDateProperty, value); }
-    }
-    public static readonly DependencyProperty StartDateProperty =
-        register<DateOnly>(nameof(StartDate));
-
-    public DateOnly EndDate
-    {
-        get { return (DateOnly)GetValue(EndDateProperty); }
-        set { SetValue(EndDateProperty, value); }
-    }
-    public static readonly DependencyProperty EndDateProperty =
-        register<DateOnly>(nameof(EndDate));
-
     private static DependencyProperty register<Tprop>(string name) =>
         DependencyProperty.Register(
             name, 
             typeof(Tprop),
             typeof(CalendarHeatmap),
-            new PropertyMetadata(new PropertyChangedCallback(OnItemsSourcePropertyChanged)));
+            new PropertyMetadata(new PropertyChangedCallback(OnChartPropertyChanged)));
 
 
-    private static void OnItemsSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnChartPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         var control = d as CalendarHeatmap;
-        control?.OnItemsSourceChanged(e.OldValue, e.NewValue);
         control?.UpdateChart();
-    }
-
-    private void OnItemsSourceChanged(object oldValue, object newValue)
-    {
-        var oldValueINotifyCollectionChanged = oldValue as INotifyCollectionChanged;
-        if (oldValueINotifyCollectionChanged != null)
-        {
-            oldValueINotifyCollectionChanged.CollectionChanged -= ItemsSourceCollectionChanged;
-        }
-
-        var newValueINotifyCollectionChanged = newValue as INotifyCollectionChanged;
-        if (newValueINotifyCollectionChanged != null)
-        {
-            newValueINotifyCollectionChanged.CollectionChanged += ItemsSourceCollectionChanged;
-        }
-    }
-
-    private void ItemsSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        UpdateChart();
     }
 
     public override void OnApplyTemplate()
@@ -107,12 +69,9 @@ public class CalendarHeatmap : Control
 
     private void UpdateChart()
     {
-        if (ItemsSource == null || ColorConverter == null)
-        {
-            return;
-        }
-
-        var cells = ConvertToCells(ItemsSource);
+        var cells = ChartData == null || ColorConverter == null || TooltipLabelFormatter == null
+            ? new List<Cell>()
+            : ConvertToCells(ChartData).ToList();
 
         RenderMonthLabels(cells);
         RenderHeatmap(cells);
@@ -123,13 +82,18 @@ public class CalendarHeatmap : Control
         int Row, 
         int Col,
         DateOnly Date,
-        List<CalendarHeatmapPoint> CalendarHeatmapPoints
+        IReadOnlyList<CalendarHeatmapPoint> CalendarHeatmapPoints
     );
 
-    private IEnumerable<Cell> ConvertToCells(IEnumerable<CalendarHeatmapSeries> heatmapSerieses) {
+    private IEnumerable<Cell> ConvertToCells(CalendarHeatmapData chartData) {
+        if (chartData.Range.Start > chartData.Range.End)
+        {
+            yield break;
+        }
+
         // 日ごとのプレイ記録をまとめる
         var pointsByDate = new Dictionary<DateOnly, List<CalendarHeatmapPoint>>();
-        foreach (var heatmapSeries in heatmapSerieses)
+        foreach (var heatmapSeries in chartData.Series)
         {
             foreach (var point in heatmapSeries.Points)
             {
@@ -140,13 +104,13 @@ public class CalendarHeatmap : Control
         }
 
         // Row/Col に対するプレイ記録に変換
-        var daysBetweenStartAndEnd = EndDate.DayNumber - StartDate.DayNumber + 1;
+        var daysBetweenStartAndEnd = chartData.Range.End.DayNumber - chartData.Range.Start.DayNumber + 1;
         for (int offsetDays = 0; offsetDays < daysBetweenStartAndEnd; offsetDays++)
         {
-            var date = StartDate.AddDays(offsetDays);
+            var date = chartData.Range.Start.AddDays(offsetDays);
 
             int row = (int)date.DayOfWeek;
-            int col = ((int)StartDate.DayOfWeek + offsetDays) / NUM_OF_DAYS_IN_WEEK;
+            int col = ((int)chartData.Range.Start.DayOfWeek + offsetDays) / NUM_OF_DAYS_IN_WEEK;
 
             pointsByDate.TryGetValue(date, out var points);
 
@@ -154,7 +118,7 @@ public class CalendarHeatmap : Control
         }
     }
 
-    private void RenderMonthLabels(IEnumerable<Cell> cells)
+    private void RenderMonthLabels(IReadOnlyCollection<Cell> cells)
     {
         var monthLabelArea = GetTemplateChild("MonthLabelAreaGrid") as Grid;
         if (monthLabelArea == null)
@@ -164,6 +128,11 @@ public class CalendarHeatmap : Control
 
         monthLabelArea.ColumnDefinitions.Clear();
         monthLabelArea.Children.Clear();
+
+        if (cells.Count == 0)
+        {
+            return;
+        }
 
         int numOfColumn = cells.Max(c => c.Col) + 1;
         for (int i = 0; i < numOfColumn; i++)
@@ -199,7 +168,7 @@ public class CalendarHeatmap : Control
         }
     }
 
-    private void RenderHeatmap(IEnumerable<Cell> cells)
+    private void RenderHeatmap(IReadOnlyCollection<Cell> cells)
     {
         var heatmapArea = GetTemplateChild("HeatmapAreaGrid") as Grid;
         if (heatmapArea == null)
@@ -210,6 +179,11 @@ public class CalendarHeatmap : Control
         heatmapArea.ColumnDefinitions.Clear();
         heatmapArea.RowDefinitions.Clear();
         heatmapArea.Children.Clear();
+
+        if (cells.Count == 0)
+        {
+            return;
+        }
 
         // 曜日×週 の枠を定義
         int numOfColumn = cells.Max(c => c.Col) + 1;

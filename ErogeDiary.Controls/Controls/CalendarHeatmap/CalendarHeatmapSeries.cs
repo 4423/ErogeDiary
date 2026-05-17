@@ -2,4 +2,4 @@
 
 namespace ErogeDiary.Controls.CalendarHeatmap;
 
-public record CalendarHeatmapSeries(string Label, List<CalendarHeatmapPoint> Points);
+public record CalendarHeatmapSeries(string Label, IReadOnlyList<CalendarHeatmapPoint> Points);

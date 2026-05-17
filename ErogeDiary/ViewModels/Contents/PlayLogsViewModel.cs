@@ -63,20 +63,26 @@ public class PlayLogsViewModel : BindableBase
         }
     }
 
-    private async void Update()
+    private void Update()
     {
         var playLogs = database.FindPlayLogsByGameIdAndDateRange(
             gameId: Game.GameId,
             startInclusive: SelectedPlayLogDateRange.Start, 
             endInclusive: SelectedPlayLogDateRange.End
         );
-        Series = new ObservableCollection<CalendarHeatmapSeries>
-        {
-            new CalendarHeatmapSeries(
-                Label: Game.Title,
-                Points: playLogs.SelectMany(Convert).ToList()
-            )
-        };
+        HeatmapData = new CalendarHeatmapData(
+            Range: new CalendarHeatmapDateRange(
+                Start: SelectedPlayLogDateRange.Start,
+                End: SelectedPlayLogDateRange.End
+            ),
+            Series:
+            [
+                new CalendarHeatmapSeries(
+                    Label: Game.Title,
+                    Points: playLogs.SelectMany(Convert).ToList()
+                )
+            ]
+        );
 
         var allPlayLogs = database.FindPlayLogsByGameId(Game.GameId);
         var firstPlayLog = allPlayLogs.MinBy(p => p.StartedAt);
@@ -111,11 +117,11 @@ public class PlayLogsViewModel : BindableBase
         yield return new CalendarHeatmapPoint(endDate, timeSpanOfEnd.TotalHours);
     }
 
-    private ObservableCollection<CalendarHeatmapSeries>? series;
-    public ObservableCollection<CalendarHeatmapSeries>? Series
+    private CalendarHeatmapData? heatmapData;
+    public CalendarHeatmapData? HeatmapData
     {
-        get => series;
-        set { SetProperty(ref series, value); }
+        get => heatmapData;
+        set { SetProperty(ref heatmapData, value); }
     }
 
     private Game game = null!;
