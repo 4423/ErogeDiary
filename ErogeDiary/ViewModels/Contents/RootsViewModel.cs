@@ -1,8 +1,8 @@
-﻿using ErogeDiary.Controls;
+using ErogeDiary.Controls;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database.Entities;
-using Prism.Commands;
-using Prism.Mvvm;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -12,11 +12,11 @@ using System.Windows.Media;
 
 namespace ErogeDiary.ViewModels.Contents;
 
-public class RootsViewModel : BindableBase
+public class RootsViewModel : ObservableObject
 {
-    public DelegateCommand AddRootCommand { get; private set; }
-    public DelegateCommand EditRootCommand { get; private set; }
-    public DelegateCommand RemoveRootCommand { get; private set; }
+    public RelayCommand AddRootCommand { get; private set; }
+    public RelayCommand EditRootCommand { get; private set; }
+    public RelayCommand RemoveRootCommand { get; private set; }
 
     private IDialogService dialogService;
     private Game game;
@@ -27,9 +27,9 @@ public class RootsViewModel : BindableBase
         this.dialogService = dialogService;
         this.game = game;
 
-        AddRootCommand = new DelegateCommand(AddRoot, HasPlayTime);
-        EditRootCommand = new DelegateCommand(EditRoot, HasRoot);
-        RemoveRootCommand = new DelegateCommand(RemoveRoot, HasRoot);
+        AddRootCommand = new RelayCommand(AddRoot, HasPlayTime);
+        EditRootCommand = new RelayCommand(EditRoot, HasRoot);
+        RemoveRootCommand = new RelayCommand(RemoveRoot, HasRoot);
 
         this.game.PropertyChanged += (s, e) =>
         {
@@ -61,9 +61,9 @@ public class RootsViewModel : BindableBase
             RootChartDataList = ToChartDataList(game.Roots);
         }
 
-        AddRootCommand.RaiseCanExecuteChanged();
-        EditRootCommand.RaiseCanExecuteChanged();
-        RemoveRootCommand.RaiseCanExecuteChanged();
+        AddRootCommand.NotifyCanExecuteChanged();
+        EditRootCommand.NotifyCanExecuteChanged();
+        RemoveRootCommand.NotifyCanExecuteChanged();
     }
         
     private ObservableCollection<ChartData> ToChartDataList(IEnumerable<Root> roots)

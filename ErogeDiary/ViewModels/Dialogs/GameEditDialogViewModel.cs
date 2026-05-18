@@ -1,8 +1,8 @@
-﻿using ErogeDiary.Dialogs;
+using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
-using Prism.Commands;
+using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
 using System;
 using System.Threading.Tasks;
@@ -11,10 +11,10 @@ namespace ErogeDiary.ViewModels.Dialogs
 {
     public class GameEditDialogViewModel : BindableDialogBase
     {
-        public DelegateCommand SelectThumbnailFileNameCommand { get; private set; }
-        public DelegateCommand SelectExecutionFileNameCommand { get; private set; }
-        public DelegateCommand CloseCommand { get; private set; }
-        public DelegateCommand UpdateCommand { get; private set; }
+        public RelayCommand SelectThumbnailFileNameCommand { get; private set; }
+        public RelayCommand SelectExecutionFileNameCommand { get; private set; }
+        public RelayCommand CloseCommand { get; private set; }
+        public RelayCommand UpdateCommand { get; private set; }
 
         private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
@@ -31,10 +31,10 @@ namespace ErogeDiary.ViewModels.Dialogs
             this.messageDialog = messageDialog;
             this.openFileDialog = openFileDialog;
 
-            SelectThumbnailFileNameCommand = new DelegateCommand(SelectThumbnailFileName);
-            SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
-            CloseCommand = new DelegateCommand(CloseDialogCancel);
-            UpdateCommand = new DelegateCommand(UpdateGame, CanExecuteUpdateGame);
+            SelectThumbnailFileNameCommand = new RelayCommand(SelectThumbnailFileName);
+            SelectExecutionFileNameCommand = new RelayCommand(SelectExecutionFileName);
+            CloseCommand = new RelayCommand(CloseDialogCancel);
+            UpdateCommand = new RelayCommand(UpdateGame, CanExecuteUpdateGame);
         }
 
 
@@ -54,13 +54,13 @@ namespace ErogeDiary.ViewModels.Dialogs
                 IsCleared= originalGame.IsCleared,
                 ClearedAt= originalGame.ClearedAt,
             };
-            VerifiableGame.PropertyChanged += (_, __) => UpdateCommand.RaiseCanExecuteChanged();
-            UpdateCommand.RaiseCanExecuteChanged();
+            VerifiableGame.PropertyChanged += VerifiableGameChanged;
+            VerifiableGame.ErrorsChanged += VerifiableGameChanged;
+            UpdateCommand.NotifyCanExecuteChanged();
         }
 
         public override void OnDialogClosed()
         {
-            VerifiableGame!.ClearAllErrors();
             VerifiableGame = null;
         }
 
@@ -102,6 +102,9 @@ namespace ErogeDiary.ViewModels.Dialogs
 
         private bool CanExecuteUpdateGame()
             => VerifiableGame?.Valid() == true;
+
+        private void VerifiableGameChanged(object? sender, EventArgs e)
+            => UpdateCommand.NotifyCanExecuteChanged();
 
         private async void UpdateGame()
         {

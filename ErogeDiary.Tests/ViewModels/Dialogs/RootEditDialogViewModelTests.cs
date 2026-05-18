@@ -21,15 +21,15 @@ public class RootEditDialogViewModelTests
         var viewModel = new RootEditDialogViewModel(new ErogeDiaryDbContext(), new StubMessageDialog());
 
         viewModel.OnDialogOpened(CreateDialogParameters(game));
-        Assert.False(viewModel.UpdateCommand.CanExecute());
+        Assert.False(viewModel.UpdateCommand.CanExecute(null));
 
         viewModel.SelectedRoot = root;
-        Assert.True(viewModel.UpdateCommand.CanExecute());
+        Assert.True(viewModel.UpdateCommand.CanExecute(null));
 
         var selectedVerifiableRoot = viewModel.SelectedVerifiableRoot;
         Assert.NotNull(selectedVerifiableRoot);
         selectedVerifiableRoot.Name = "";
-        Assert.False(viewModel.UpdateCommand.CanExecute());
+        Assert.False(viewModel.UpdateCommand.CanExecute(null));
     }
 
     private static DialogParameters CreateDialogParameters(Game game)

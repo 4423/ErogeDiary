@@ -1,21 +1,20 @@
-﻿using ErogeDiary.Dialogs;
+using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
-using Prism.Commands;
+using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Controls;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
     public class RootEditDialogViewModel : BindableDialogBase
     {
-        public DelegateCommand<SelectionChangedEventArgs> SelectColorCommand { get; private set; }
-        public DelegateCommand UpdateCommand { get; private set; }
-        public DelegateCommand CancelCommand { get; private set; }
+        public RelayCommand UpdateCommand { get; private set; }
+        public RelayCommand CancelCommand { get; private set; }
 
         private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
@@ -26,9 +25,8 @@ namespace ErogeDiary.ViewModels.Dialogs
             ErogeDiaryDbContext database,
             IMessageDialog messageDialog)
         {
-            UpdateCommand = new DelegateCommand(UpdateRoot, CanExecuteUpdateRoot);
-            CancelCommand = new DelegateCommand(CloseDialogCancel);
-            SelectColorCommand = new DelegateCommand<SelectionChangedEventArgs>(SelectColor);
+            UpdateCommand = new RelayCommand(UpdateRoot, CanExecuteUpdateRoot);
+            CancelCommand = new RelayCommand(CloseDialogCancel);
 
             this.database = database;
             this.messageDialog = messageDialog;
@@ -58,6 +56,7 @@ namespace ErogeDiary.ViewModels.Dialogs
                         AccentColor = new AccentColor(selectedRoot.Color),
                         ClearedAt= selectedRoot.ClearedAt,
                     };
+                    SelectedAccentColor = SelectedVerifiableRoot.AccentColor;
                 }
             }
         }
@@ -72,23 +71,38 @@ namespace ErogeDiary.ViewModels.Dialogs
                 if (selectedVerifiableRoot != null)
                 {
                     selectedVerifiableRoot.PropertyChanged -= VerifiableRootPropertyChanged;
+                    selectedVerifiableRoot.ErrorsChanged -= VerifiableRootPropertyChanged;
                 }
                 // 新しい値に event を登録
                 if (value != null)
                 {
                     value.PropertyChanged += VerifiableRootPropertyChanged;
+                    value.ErrorsChanged += VerifiableRootPropertyChanged;
                 }
 
                 SetProperty(ref selectedVerifiableRoot, value);
 
-                UpdateCommand.RaiseCanExecuteChanged();
+                UpdateCommand.NotifyCanExecuteChanged();
             }
         }
 
         public AccentColors AccentColors { get; } = new AccentColors();
 
-        private void VerifiableRootPropertyChanged(object? sender, PropertyChangedEventArgs e)
-            => UpdateCommand.RaiseCanExecuteChanged();
+        private AccentColor? selectedAccentColor;
+        public AccentColor? SelectedAccentColor
+        {
+            get => selectedAccentColor;
+            set
+            {
+                if (SetProperty(ref selectedAccentColor, value) && value != null && SelectedVerifiableRoot != null)
+                {
+                    SelectedVerifiableRoot.AccentColor = value;
+                }
+            }
+        }
+
+        private void VerifiableRootPropertyChanged(object? sender, EventArgs e)
+            => UpdateCommand.NotifyCanExecuteChanged();
 
         public override void OnDialogOpened(IDialogParameters parameters)
         {
@@ -130,13 +144,5 @@ namespace ErogeDiary.ViewModels.Dialogs
             CloseDialogOK();
         }
 
-        private void SelectColor(SelectionChangedEventArgs e)
-        {
-            var accentColor = e.AddedItems[0] as AccentColor;
-            if (accentColor != null && SelectedVerifiableRoot != null)
-            {
-                SelectedVerifiableRoot.AccentColor = accentColor;
-            }
-        }
     }
 }

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:validations="clr-namespace:ErogeDiary.Views.Validations"
@@ -56,14 +55,10 @@
                     <Border Background="{Binding SelectedVerifiableRoot.AccentColor.Brush}" Style="{StaticResource ColorSplitButtonBorderStyle}"/>
                     <ui:SplitButton.Flyout>
                         <ui:Flyout>
-                            <ui:GridView x:Name="RootColors" ItemsSource="{Binding AccentColors}" Style="{StaticResource ColorSplitButtonGridViewStyle}">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="SelectionChanged">
-                                        <prism:InvokeCommandAction Command="{Binding SelectColorCommand}" 
-                                            CommandParameter="{Binding ElementName=RootColors, Path=SelectedItem}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </ui:GridView>
+                            <ui:GridView x:Name="RootColors"
+                                         ItemsSource="{Binding AccentColors}"
+                                         SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}"
+                                         Style="{StaticResource ColorSplitButtonGridViewStyle}"/>
                         </ui:Flyout>
                     </ui:SplitButton.Flyout>
                 </ui:SplitButton>

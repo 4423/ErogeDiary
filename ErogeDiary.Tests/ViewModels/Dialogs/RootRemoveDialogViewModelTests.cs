@@ -17,10 +17,10 @@ public class RootRemoveDialogViewModelTests
         var viewModel = new RootRemoveDialogViewModel(new ErogeDiaryDbContext(), new StubMessageDialog());
 
         viewModel.SelectedRoot = null;
-        Assert.False(viewModel.RemoveCommand.CanExecute());
+        Assert.False(viewModel.RemoveCommand.CanExecute(null));
 
         viewModel.SelectedRoot = CreateRoot();
-        Assert.True(viewModel.RemoveCommand.CanExecute());
+        Assert.True(viewModel.RemoveCommand.CanExecute(null));
     }
 
     private static Root CreateRoot()

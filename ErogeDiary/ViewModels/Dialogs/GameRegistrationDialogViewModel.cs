@@ -1,9 +1,9 @@
-﻿using ErogeDiary.Dialogs;
+using ErogeDiary.Dialogs;
 using ErogeDiary.ErogameScape;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
-using Prism.Commands;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -12,11 +12,11 @@ namespace ErogeDiary.ViewModels.Dialogs
 {
     public class GameRegistrationDialogViewModel : BindableDialogBase
     {
-        public DelegateCommand FlyoutCompleteCommand { get; private set; }
-        public DelegateCommand SelectThumbnailFileNameCommand { get; private set; }
-        public DelegateCommand SelectExecutionFileNameCommand { get; private set; }
-        public DelegateCommand RegisterCommand { get; private set; }
-        public DelegateCommand CancelCommand { get; private set; }
+        public RelayCommand FlyoutCompleteCommand { get; private set; }
+        public RelayCommand SelectThumbnailFileNameCommand { get; private set; }
+        public RelayCommand SelectExecutionFileNameCommand { get; private set; }
+        public RelayCommand RegisterCommand { get; private set; }
+        public RelayCommand CancelCommand { get; private set; }
         public Action? HideFlyout { get; set; }
 
         private ErogeDiaryDbContext database;
@@ -31,13 +31,14 @@ namespace ErogeDiary.ViewModels.Dialogs
             IMessageDialog messageDialog,
             IOpenFileDialog openFileDialog)
         {
-            FlyoutCompleteCommand = new DelegateCommand(FlyoutComplete);
-            SelectThumbnailFileNameCommand = new DelegateCommand(SelectThumbnailFileName);
-            SelectExecutionFileNameCommand = new DelegateCommand(SelectExecutionFileName);
-            RegisterCommand = new DelegateCommand(RegisterGame, CanExecuteRegisterGame);
-            CancelCommand = new DelegateCommand(CloseDialogCancel);
+            FlyoutCompleteCommand = new RelayCommand(FlyoutComplete);
+            SelectThumbnailFileNameCommand = new RelayCommand(SelectThumbnailFileName);
+            SelectExecutionFileNameCommand = new RelayCommand(SelectExecutionFileName);
+            RegisterCommand = new RelayCommand(RegisterGame, CanExecuteRegisterGame);
+            CancelCommand = new RelayCommand(CloseDialogCancel);
             
-            VerifiableGame.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
+            VerifiableGame.PropertyChanged += VerifiableGameChanged;
+            VerifiableGame.ErrorsChanged += VerifiableGameChanged;
 
             IsOpen = false;
 
@@ -111,7 +112,8 @@ namespace ErogeDiary.ViewModels.Dialogs
             {
                 var gameInfo = await erogameScapeClient.FetchGameInfoAsync(ErogameScapeUrl!);
                 VerifiableGame = new VerifiableGame(gameInfo);
-                VerifiableGame.PropertyChanged += (_, __) => RegisterCommand.RaiseCanExecuteChanged();
+                VerifiableGame.PropertyChanged += VerifiableGameChanged;
+                VerifiableGame.ErrorsChanged += VerifiableGameChanged;
             }
             catch (Exception)
             {
@@ -145,6 +147,9 @@ namespace ErogeDiary.ViewModels.Dialogs
                 VerifiableGame.ExecutableFilePath = filePath;
             }
         }
+
+        private void VerifiableGameChanged(object? sender, EventArgs e)
+            => RegisterCommand.NotifyCanExecuteChanged();
 
 
         private VerifiableGame verifiableGame = new VerifiableGame();

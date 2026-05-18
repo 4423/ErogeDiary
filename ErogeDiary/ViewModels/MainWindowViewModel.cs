@@ -1,8 +1,8 @@
-﻿using ErogeDiary.Models;
+using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
-using Prism.Commands;
-using Prism.Mvvm;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : ObservableObject
     {
-        public DelegateCommand GoBackCommand { get; private set; }
-        public DelegateCommand RootFrameNavigatedCommand { get; private set; }
+        public RelayCommand GoBackCommand { get; private set; }
+        public RelayCommand RootFrameNavigatedCommand { get; private set; }
 
         private ErogeDiaryDbContext database;
         private GameMonitor gameMonitor;
@@ -34,8 +34,8 @@ namespace ErogeDiary.ViewModels
             gameMonitor.GameEnded += GameEnded;
             gameMonitor.ProgressChanged += ProgressChanged;
 
-            GoBackCommand = new DelegateCommand(GoBack);
-            RootFrameNavigatedCommand = new DelegateCommand(RootFrameNavigated);
+            GoBackCommand = new RelayCommand(GoBack);
+            RootFrameNavigatedCommand = new RelayCommand(RootFrameNavigated);
         }
 
 

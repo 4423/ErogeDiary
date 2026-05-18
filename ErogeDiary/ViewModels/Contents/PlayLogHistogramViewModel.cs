@@ -1,6 +1,6 @@
-﻿using ErogeDiary.Controls.Histogram;
+using ErogeDiary.Controls.Histogram;
 using ErogeDiary.Models.Database.Entities;
-using Prism.Mvvm;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ErogeDiary.ViewModels.Contents;
 
-public class PlayLogHistogramViewModel : BindableBase
+public class PlayLogHistogramViewModel : ObservableObject
 {
     public PlayLogHistogramViewModel(ObservableCollection<PlayLog> playLogs)
     {

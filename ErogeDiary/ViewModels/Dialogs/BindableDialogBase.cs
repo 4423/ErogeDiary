@@ -1,10 +1,10 @@
-﻿using Prism.Mvvm;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Prism.Services.Dialogs;
 using System;
 
 namespace ErogeDiary.ViewModels.Dialogs;
 
-public class BindableDialogBase : BindableBase, IDialogAware
+public class BindableDialogBase : ObservableObject, IDialogAware
 {
     public string Title => "";
 

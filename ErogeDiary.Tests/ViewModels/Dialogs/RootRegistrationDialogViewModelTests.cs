@@ -20,10 +20,29 @@ public class RootRegistrationDialogViewModelTests
         var verifiableRoot = viewModel.VerifiableRoot;
         Assert.NotNull(verifiableRoot);
         verifiableRoot.Name = "Route A";
-        Assert.True(viewModel.RegisterCommand.CanExecute());
+        Assert.True(viewModel.RegisterCommand.CanExecute(null));
 
         verifiableRoot.Name = "";
-        Assert.False(viewModel.RegisterCommand.CanExecute());
+        Assert.False(viewModel.RegisterCommand.CanExecute(null));
+    }
+
+    [Fact]
+    public void RegisterCommand_ReevaluatesAfterValidationErrorsAreCleared()
+    {
+        var viewModel = new RootRegistrationDialogViewModel(new ErogeDiaryDbContext(), new StubMessageDialog());
+        viewModel.OnDialogOpened(CreateDialogParameters(CreateGame(totalPlayTime: TimeSpan.FromMinutes(30))));
+        var verifiableRoot = viewModel.VerifiableRoot;
+        Assert.NotNull(verifiableRoot);
+        verifiableRoot.Name = "";
+        var canExecuteAfterChange = false;
+        viewModel.RegisterCommand.CanExecuteChanged += (_, _) =>
+        {
+            canExecuteAfterChange = viewModel.RegisterCommand.CanExecute(null);
+        };
+
+        verifiableRoot.Name = "Route A";
+
+        Assert.True(canExecuteAfterChange);
     }
 
     private static DialogParameters CreateDialogParameters(Game game)

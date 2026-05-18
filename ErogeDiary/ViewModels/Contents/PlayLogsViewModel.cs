@@ -1,9 +1,9 @@
-﻿using ErogeDiary.Controls.CalendarHeatmap;
+using ErogeDiary.Controls.CalendarHeatmap;
 using ErogeDiary.Controls.Controls.CalendarHeatmap;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
-using Prism.Mvvm;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +15,7 @@ using static ErogeDiary.Helpers.SolidColorBrushHelpers;
 
 namespace ErogeDiary.ViewModels.Contents;
 
-public class PlayLogsViewModel : BindableBase
+public class PlayLogsViewModel : ObservableObject
 {
     private ErogeDiaryDbContext database;
 

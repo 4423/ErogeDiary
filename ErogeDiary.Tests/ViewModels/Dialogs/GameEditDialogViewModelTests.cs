@@ -21,12 +21,12 @@ public class GameEditDialogViewModelTests
             new StubOpenFileDialog());
 
         viewModel.OnDialogOpened(CreateDialogParameters(game));
-        Assert.True(viewModel.UpdateCommand.CanExecute());
+        Assert.True(viewModel.UpdateCommand.CanExecute(null));
 
         var verifiableGame = viewModel.VerifiableGame;
         Assert.NotNull(verifiableGame);
         verifiableGame.Title = "";
-        Assert.False(viewModel.UpdateCommand.CanExecute());
+        Assert.False(viewModel.UpdateCommand.CanExecute(null));
     }
 
     private static DialogParameters CreateDialogParameters(Game game)

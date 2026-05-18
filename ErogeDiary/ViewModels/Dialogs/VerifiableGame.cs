@@ -2,13 +2,14 @@
 using ErogeDiary.Models;
 using ErogeDiary.Models.DataAnnotations;
 using ErogeDiary.Models.Database.Entities;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 
 namespace ErogeDiary.ViewModels.Dialogs;
 
-public class VerifiableGame : VerifiableBindableBase
+public class VerifiableGame : ObservableValidator
 {
     public VerifiableGame() { }
     public VerifiableGame(GameInfo gameInfo)

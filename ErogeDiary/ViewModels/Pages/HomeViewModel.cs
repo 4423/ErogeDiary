@@ -1,9 +1,9 @@
-﻿using ErogeDiary.Dialogs;
+using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
-using Prism.Commands;
-using Prism.Mvvm;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
@@ -15,10 +15,10 @@ using System.Windows.Data;
 
 namespace ErogeDiary.ViewModels.Pages
 {
-    public class HomeViewModel : BindableBase
+    public class HomeViewModel : ObservableObject
     {
-        public DelegateCommand<Game> StartGameCommand { get; private set; }
-        public DelegateCommand GameRegistrationCommand { get; private set; }
+        public RelayCommand<Game> StartGameCommand { get; private set; }
+        public RelayCommand GameRegistrationCommand { get; private set; }
 
         private ErogeDiaryDbContext database;
         private IRegionManager regionManager;
@@ -32,8 +32,8 @@ namespace ErogeDiary.ViewModels.Pages
             IDialogService dialogService,
             IMessageDialog messageDialog)
         {
-            StartGameCommand = new DelegateCommand<Game>(StartGame);
-            GameRegistrationCommand = new DelegateCommand(RegisterGame);
+            StartGameCommand = new RelayCommand<Game>(StartGame);
+            GameRegistrationCommand = new RelayCommand(RegisterGame);
 
             this.database = database;
             this.regionManager = regionManager;
@@ -67,8 +67,13 @@ namespace ErogeDiary.ViewModels.Pages
             Games = await database.GetGamesAsync();
         }
 
-        private async void StartGame(Game game)
+        private async void StartGame(Game? game)
         {
+            if (game == null)
+            {
+                return;
+            }
+
             try
             {
                 Process.Start(game.ExecutableFilePath!);

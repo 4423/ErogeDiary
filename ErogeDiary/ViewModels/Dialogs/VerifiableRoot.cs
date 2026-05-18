@@ -1,11 +1,12 @@
 ﻿using ErogeDiary.Models;
 using ErogeDiary.Models.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ErogeDiary.ViewModels.Dialogs;
 
-public class VerifiableRoot : VerifiableBindableBase
+public class VerifiableRoot : ObservableValidator
 {
     //public int RootId { get; set; }
 

@@ -16,9 +16,9 @@ public class RootsViewModelTests
 
         var viewModel = new RootsViewModel(dialogService: null!, game);
 
-        Assert.False(viewModel.AddRootCommand.CanExecute());
-        Assert.False(viewModel.EditRootCommand.CanExecute());
-        Assert.False(viewModel.RemoveRootCommand.CanExecute());
+        Assert.False(viewModel.AddRootCommand.CanExecute(null));
+        Assert.False(viewModel.EditRootCommand.CanExecute(null));
+        Assert.False(viewModel.RemoveRootCommand.CanExecute(null));
         var chartData = Assert.Single(viewModel.RootChartDataList);
         Assert.Equal("No Data", chartData.Label);
     }
@@ -30,9 +30,9 @@ public class RootsViewModelTests
 
         var viewModel = new RootsViewModel(dialogService: null!, game);
 
-        Assert.True(viewModel.AddRootCommand.CanExecute());
-        Assert.False(viewModel.EditRootCommand.CanExecute());
-        Assert.False(viewModel.RemoveRootCommand.CanExecute());
+        Assert.True(viewModel.AddRootCommand.CanExecute(null));
+        Assert.False(viewModel.EditRootCommand.CanExecute(null));
+        Assert.False(viewModel.RemoveRootCommand.CanExecute(null));
         var chartData = Assert.Single(viewModel.RootChartDataList);
         Assert.Equal("（未割り当てのルート）", chartData.Label);
         Assert.Equal(TimeSpan.FromMinutes(30).TotalSeconds, chartData.Value);
@@ -51,9 +51,9 @@ public class RootsViewModelTests
 
         var viewModel = new RootsViewModel(dialogService: null!, game);
 
-        Assert.True(viewModel.AddRootCommand.CanExecute());
-        Assert.True(viewModel.EditRootCommand.CanExecute());
-        Assert.True(viewModel.RemoveRootCommand.CanExecute());
+        Assert.True(viewModel.AddRootCommand.CanExecute(null));
+        Assert.True(viewModel.EditRootCommand.CanExecute(null));
+        Assert.True(viewModel.RemoveRootCommand.CanExecute(null));
         Assert.Contains(viewModel.RootChartDataList, x => x.Label == "Route A");
         var unallocated = viewModel.RootChartDataList.Single(x => x.Label == "（未割り当てのルート）");
         Assert.Equal(TimeSpan.FromMinutes(20).TotalSeconds, unallocated.Value);

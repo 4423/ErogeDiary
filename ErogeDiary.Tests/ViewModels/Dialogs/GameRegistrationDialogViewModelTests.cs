@@ -20,10 +20,10 @@ public class GameRegistrationDialogViewModelTests
             new StubMessageDialog(),
             new StubOpenFileDialog());
 
-        Assert.False(viewModel.RegisterCommand.CanExecute());
+        Assert.False(viewModel.RegisterCommand.CanExecute(null));
 
         FillValidGame(viewModel.VerifiableGame);
-        Assert.True(viewModel.RegisterCommand.CanExecute());
+        Assert.True(viewModel.RegisterCommand.CanExecute(null));
     }
 
     private static void FillValidGame(VerifiableGame game)

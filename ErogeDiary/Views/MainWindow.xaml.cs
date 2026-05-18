@@ -1,6 +1,5 @@
 ﻿using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
-using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;

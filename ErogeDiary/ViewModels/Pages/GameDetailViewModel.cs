@@ -2,19 +2,19 @@ using ErogeDiary.Dialogs;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using ErogeDiary.ViewModels.Contents;
-using Prism.Commands;
-using Prism.Mvvm;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Diagnostics;
 namespace ErogeDiary.ViewModels.Pages
 {
-    public class GameDetailViewModel : BindableBase, INavigationAware
+    public class GameDetailViewModel : ObservableObject, INavigationAware
     {
-        public DelegateCommand StartGameCommand { get; private set; }
-        public DelegateCommand EditGameCommand { get; private set; }
-        public DelegateCommand DeleteGameCommand { get; private set; }
+        public RelayCommand StartGameCommand { get; private set; }
+        public RelayCommand EditGameCommand { get; private set; }
+        public RelayCommand DeleteGameCommand { get; private set; }
 
         private ErogeDiaryDbContext database;
         private IRegionManager regionManager;
@@ -33,9 +33,9 @@ namespace ErogeDiary.ViewModels.Pages
             this.messageDialog = messageDialog;
             this.dialogService = dialogService;
 
-            StartGameCommand = new DelegateCommand(StartGame);
-            EditGameCommand = new DelegateCommand(EditGame);
-            DeleteGameCommand = new DelegateCommand(DeleteGame);
+            StartGameCommand = new RelayCommand(StartGame);
+            EditGameCommand = new RelayCommand(EditGame);
+            DeleteGameCommand = new RelayCommand(DeleteGame);
         }
 
 
