@@ -6,73 +6,41 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ErogeDiary.ViewModels.Dialogs;
 
-public class VerifiableRoot : ObservableValidator
+public partial class VerifiableRoot : ObservableValidator
 {
     //public int RootId { get; set; }
 
-    private string? name;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [Required(ErrorMessage = "ルート名を入力してください。")]
-    public string? Name
-    {
-        get => name;
-        set
-        {
-            SetProperty(ref name, value);
-            ValidateProperty(value);
-        }
-    }
+    private string? name;
 
     // Entities.Root では TimeSpan 型だが、ここでは string 型にしている
     // Converter を使って SelectedRoot.PlayTime の TimeSpan を直接ダイアログ上で編集することも可能だが、
     // 012:34:56 のような文字を入力したときに、012 が Convert → ConvertBack で一度 TimeSpan を経由することで
     // 12 として表示されるという挙動が心地よくないので、あえてここでは単に string で受けている
-    private string? playTime;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [Required(ErrorMessage = "プレイ時間を入力してください。")]
     [TimeSpanFormatRequired]
-    public string? PlayTime
-    {
-        get { return playTime; }
-        set
-        {
-            SetProperty(ref playTime, value);
-            ValidateProperty(value);
-        }
-    }
+    private string? playTime;
 
+    [ObservableProperty]
     private bool isCleared;
-    public bool IsCleared
+
+    partial void OnIsClearedChanged(bool value)
     {
-        get => isCleared;
-        set
-        {
-            SetProperty(ref isCleared, value);
-            // IsCleared に依存する validation を再評価
-            ValidateProperty(ClearedAt, nameof(ClearedAt));
-        }
+        // IsCleared に依存する validation を再評価
+        ValidateProperty(ClearedAt, nameof(ClearedAt));
     }
 
-    private DateTime? clearedAt;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [RequiredIf(nameof(IsCleared), true, ErrorMessage = "攻略日を入力してください。")]
-    public DateTime? ClearedAt
-    {
-        get => clearedAt;
-        set
-        {
-            SetProperty(ref clearedAt, value);
-            ValidateProperty(value);
-        }
-    }
+    private DateTime? clearedAt;
 
+    [ObservableProperty]
     private AccentColor accentColor = default!;
-    public AccentColor AccentColor
-    {
-        get => accentColor; 
-        set
-        {
-            SetProperty(ref accentColor, value);
-            ValidateProperty(value);
-        }
-    }
 
     public void Pretty()
     {

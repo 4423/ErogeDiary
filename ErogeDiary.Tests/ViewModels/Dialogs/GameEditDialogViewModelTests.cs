@@ -15,10 +15,7 @@ public class GameEditDialogViewModelTests
     public void UpdateCommand_CanExecute_DependsOnOpenedGameValidity()
     {
         var game = CreateGame();
-        var viewModel = new GameEditDialogViewModel(
-            new ErogeDiaryDbContext(),
-            new StubMessageDialog(),
-            new StubOpenFileDialog());
+        var viewModel = CreateViewModel();
 
         viewModel.OnDialogOpened(CreateDialogParameters(game));
         Assert.True(viewModel.UpdateCommand.CanExecute(null));
@@ -28,6 +25,30 @@ public class GameEditDialogViewModelTests
         verifiableGame.Title = "";
         Assert.False(viewModel.UpdateCommand.CanExecute(null));
     }
+
+    [Fact]
+    public void UpdateCommand_StopsTrackingClosedGame()
+    {
+        var viewModel = CreateViewModel();
+        viewModel.OnDialogOpened(CreateDialogParameters(CreateGame()));
+        var closedGame = viewModel.VerifiableGame;
+        Assert.NotNull(closedGame);
+
+        viewModel.OnDialogClosed();
+        var canExecuteChangedCount = 0;
+        viewModel.UpdateCommand.CanExecuteChanged += (_, _) => canExecuteChangedCount++;
+
+        closedGame.Title = "";
+
+        Assert.Equal(0, canExecuteChangedCount);
+        Assert.False(viewModel.UpdateCommand.CanExecute(null));
+    }
+
+    private static GameEditDialogViewModel CreateViewModel()
+        => new(
+            new ErogeDiaryDbContext(),
+            new StubMessageDialog(),
+            new StubOpenFileDialog());
 
     private static DialogParameters CreateDialogParameters(Game game)
         => new()

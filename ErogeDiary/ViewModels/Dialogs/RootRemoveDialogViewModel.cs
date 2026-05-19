@@ -1,6 +1,7 @@
 using ErogeDiary.Dialogs;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
 using System;
@@ -9,7 +10,7 @@ using System.Linq;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class RootRemoveDialogViewModel : BindableDialogBase
+    public partial class RootRemoveDialogViewModel : BindableDialogBase
     {
         public RelayCommand RemoveCommand { get; private set; }
         public RelayCommand CancelCommand { get; private set; }
@@ -31,22 +32,15 @@ namespace ErogeDiary.ViewModels.Dialogs
         }
 
 
+        [ObservableProperty]
         private ICollection<Root>? roots;
-        public ICollection<Root>? Roots
-        {
-            get { return roots; }
-            set { SetProperty(ref roots, value); }
-        }
 
+        [ObservableProperty]
         private Root? selectedRoot;
-        public Root? SelectedRoot
+
+        partial void OnSelectedRootChanged(Root? value)
         {
-            get { return selectedRoot; }
-            set 
-            { 
-                SetProperty(ref selectedRoot, value);
-                RemoveCommand.NotifyCanExecuteChanged();
-            }
+            RemoveCommand.NotifyCanExecuteChanged();
         }
 
 

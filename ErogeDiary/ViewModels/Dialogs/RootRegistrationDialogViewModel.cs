@@ -3,13 +3,14 @@ using ErogeDiary.Helpers;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
 using System;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class RootRegistrationDialogViewModel : BindableDialogBase
+    public partial class RootRegistrationDialogViewModel : BindableDialogBase
     {
         public RelayCommand RegisterCommand { get; private set; }
         public RelayCommand CancelCommand { get; private set; }
@@ -31,39 +32,49 @@ namespace ErogeDiary.ViewModels.Dialogs
         }
 
 
+        [ObservableProperty]
         private VerifiableRoot? verifiableRoot;
-        public VerifiableRoot? VerifiableRoot
+
+        partial void OnVerifiableRootChanging(VerifiableRoot? value)
         {
-            get { return verifiableRoot; }
-            set { SetProperty(ref verifiableRoot, value); }
+            if (verifiableRoot != null)
+            {
+                verifiableRoot.PropertyChanged -= VerifiableRootChanged;
+                verifiableRoot.ErrorsChanged -= VerifiableRootChanged;
+            }
+        }
+
+        partial void OnVerifiableRootChanged(VerifiableRoot? value)
+        {
+            if (value != null)
+            {
+                value.PropertyChanged += VerifiableRootChanged;
+                value.ErrorsChanged += VerifiableRootChanged;
+            }
+            RegisterCommand.NotifyCanExecuteChanged();
         }
 
         public AccentColors AccentColors { get; } = new AccentColors();
 
+        [ObservableProperty]
         private AccentColor? selectedAccentColor;
-        public AccentColor? SelectedAccentColor
+
+        partial void OnSelectedAccentColorChanged(AccentColor? value)
         {
-            get => selectedAccentColor;
-            set
+            if (value != null && VerifiableRoot != null)
             {
-                if (SetProperty(ref selectedAccentColor, value) && value != null && VerifiableRoot != null)
-                {
-                    VerifiableRoot.AccentColor = value;
-                }
+                VerifiableRoot.AccentColor = value;
             }
         }
 
+        [ObservableProperty]
         private bool isAllocatedAutomatically = true;
-        public bool IsAllocatedAutomatically
+
+        partial void OnIsAllocatedAutomaticallyChanged(bool value)
         {
-            get { return isAllocatedAutomatically; }
-            set
+            if (value && VerifiableRoot != null)
             {
-                SetProperty(ref isAllocatedAutomatically, value);
-                if (isAllocatedAutomatically && VerifiableRoot != null)
-                {
-                    VerifiableRoot.PlayTime = game?.GetUnallocatedTime().ToZeroPaddingStringWithoutDays();
-                }
+                VerifiableRoot.PlayTime = game?.GetUnallocatedTime().ToZeroPaddingStringWithoutDays();
             }
         }
 
@@ -77,8 +88,6 @@ namespace ErogeDiary.ViewModels.Dialogs
                 AccentColor = AccentColors.Random(),
             };
             SelectedAccentColor = VerifiableRoot.AccentColor;
-            VerifiableRoot.PropertyChanged += VerifiableRootChanged;
-            VerifiableRoot.ErrorsChanged += VerifiableRootChanged;
         }
 
         private void VerifiableRootChanged(object? sender, EventArgs e)

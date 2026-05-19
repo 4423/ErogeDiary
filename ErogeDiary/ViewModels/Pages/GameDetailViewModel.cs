@@ -10,7 +10,7 @@ using System;
 using System.Diagnostics;
 namespace ErogeDiary.ViewModels.Pages
 {
-    public class GameDetailViewModel : ObservableObject, INavigationAware
+    public partial class GameDetailViewModel : ObservableObject, INavigationAware
     {
         public RelayCommand StartGameCommand { get; private set; }
         public RelayCommand EditGameCommand { get; private set; }
@@ -39,31 +39,20 @@ namespace ErogeDiary.ViewModels.Pages
         }
 
 
+        [ObservableProperty]
         private Game? game;
-        public Game? Game
+
+        partial void OnGameChanged(Game? value)
         {
-            get => game;
-            set
-            {
-                SetProperty(ref game, value);
-                Roots = game == null ? null : new RootsViewModel(dialogService, game);
-                PlayLogs = game == null ? null : new PlayLogsViewModel(game, database);
-            }
+            Roots = value == null ? null : new RootsViewModel(dialogService, value);
+            PlayLogs = value == null ? null : new PlayLogsViewModel(value, database);
         }
 
+        [ObservableProperty]
         private RootsViewModel? roots;
-        public RootsViewModel? Roots
-        {
-            get => roots;
-            set { SetProperty(ref roots, value); }
-        }
 
+        [ObservableProperty]
         private PlayLogsViewModel? playLogs;
-        public PlayLogsViewModel? PlayLogs
-        {
-            get => playLogs;
-            set { SetProperty(ref playLogs, value); }
-        }
 
 
         public void OnNavigatedTo(NavigationContext navigationContext)

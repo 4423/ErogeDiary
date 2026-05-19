@@ -2,6 +2,7 @@ using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class GameEditDialogViewModel : BindableDialogBase
+    public partial class GameEditDialogViewModel : BindableDialogBase
     {
         public RelayCommand SelectThumbnailFileNameCommand { get; private set; }
         public RelayCommand SelectExecutionFileNameCommand { get; private set; }
@@ -54,9 +55,6 @@ namespace ErogeDiary.ViewModels.Dialogs
                 IsCleared= originalGame.IsCleared,
                 ClearedAt= originalGame.ClearedAt,
             };
-            VerifiableGame.PropertyChanged += VerifiableGameChanged;
-            VerifiableGame.ErrorsChanged += VerifiableGameChanged;
-            UpdateCommand.NotifyCanExecuteChanged();
         }
 
         public override void OnDialogClosed()
@@ -65,19 +63,30 @@ namespace ErogeDiary.ViewModels.Dialogs
         }
 
 
+        [ObservableProperty]
         private VerifiableGame? verifiableGame;
-        public VerifiableGame? VerifiableGame
+
+        partial void OnVerifiableGameChanging(VerifiableGame? value)
         {
-            get { return verifiableGame; }
-            set { SetProperty(ref verifiableGame, value); }
+            if (verifiableGame != null)
+            {
+                verifiableGame.PropertyChanged -= VerifiableGameChanged;
+                verifiableGame.ErrorsChanged -= VerifiableGameChanged;
+            }
         }
 
-        private bool isUpdating;
-        public bool IsUpdating
+        partial void OnVerifiableGameChanged(VerifiableGame? value)
         {
-            get { return isUpdating; }
-            set { SetProperty(ref isUpdating, value); }
+            if (value != null)
+            {
+                value.PropertyChanged += VerifiableGameChanged;
+                value.ErrorsChanged += VerifiableGameChanged;
+            }
+            UpdateCommand.NotifyCanExecuteChanged();
         }
+
+        [ObservableProperty]
+        private bool isUpdating;
 
         private void SelectThumbnailFileName()
         {

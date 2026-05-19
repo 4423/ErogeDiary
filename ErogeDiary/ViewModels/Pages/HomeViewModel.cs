@@ -15,7 +15,7 @@ using System.Windows.Data;
 
 namespace ErogeDiary.ViewModels.Pages
 {
-    public class HomeViewModel : ObservableObject
+    public partial class HomeViewModel : ObservableObject
     {
         public RelayCommand<Game> StartGameCommand { get; private set; }
         public RelayCommand GameRegistrationCommand { get; private set; }
@@ -118,12 +118,8 @@ namespace ErogeDiary.ViewModels.Pages
             }
         }
 
+        [ObservableProperty]
         private ObservableCollection<Game> games = new();
-        public ObservableCollection<Game> Games
-        {
-            get { return games; }
-            set { SetProperty(ref games, value); }
-        }
 
 
         private void RegisterGame()
@@ -132,60 +128,40 @@ namespace ErogeDiary.ViewModels.Pages
         }
 
 
+        [ObservableProperty]
         private List<GameOrder> orderItems = new();
-        public List<GameOrder> OrderItems
-        {
-            get { return orderItems; }
-            set { SetProperty(ref orderItems, value); }
-        }
 
+        [ObservableProperty]
         private List<GameFilter> filterItems = new();
-        public List<GameFilter> FilterItems
-        {
-            get { return filterItems; }
-            set
-            {
-                SetProperty(ref filterItems, value);
-            }
-        }
 
+        [ObservableProperty]
         private GameOrder orderSelectedItem = null!;
-        public GameOrder OrderSelectedItem
+
+        partial void OnOrderSelectedItemChanged(GameOrder value)
         {
-            get { return orderSelectedItem; }
-            set
-            {
-                SetProperty(ref orderSelectedItem, value);
-                var descriptions = CollectionViewSource.GetDefaultView(Games).SortDescriptions;
-                descriptions.Clear();
-                descriptions.Add(value.ToSortDescription());
-            }
+            var descriptions = CollectionViewSource.GetDefaultView(Games).SortDescriptions;
+            descriptions.Clear();
+            descriptions.Add(value.ToSortDescription());
         }
 
+        [ObservableProperty]
         private GameFilter filterSelectedItem = null!;
-        public GameFilter FilterSelectedItem
+
+        partial void OnFilterSelectedItemChanged(GameFilter value)
         {
-            get { return filterSelectedItem; }
-            set
-            {
-                SetProperty(ref filterSelectedItem, value);
-                CollectionViewSource.GetDefaultView(Games).Filter = value.Predicate;
-            }
+            CollectionViewSource.GetDefaultView(Games).Filter = value.Predicate;
         }
 
+        [ObservableProperty]
         private Game? selectedGame;
-        public Game? SelectedGame
+
+        partial void OnSelectedGameChanged(Game? value)
         {
-            get { return selectedGame; }
-            set
+            if (value != null)
             {
-                SetProperty(ref selectedGame, value);
-                if (value != null)
-                {
-                    var parameters = new NavigationParameters();
-                    parameters.Add("Game", value);
-                    NavigationHelper.RequestNavigateToGameDetailPage(regionManager, parameters);
-                }
+                var parameters = new NavigationParameters();
+                parameters.Add("Game", value);
+                NavigationHelper.RequestNavigateToGameDetailPage(regionManager, parameters);
             }
         }
     }

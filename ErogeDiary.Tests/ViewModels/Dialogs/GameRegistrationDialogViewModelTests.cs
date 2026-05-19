@@ -26,6 +26,36 @@ public class GameRegistrationDialogViewModelTests
         Assert.True(viewModel.RegisterCommand.CanExecute(null));
     }
 
+    [Fact]
+    public void RegisterCommand_TracksReplacementGameOnly()
+    {
+        var viewModel = CreateViewModel();
+        var originalGame = viewModel.VerifiableGame;
+        FillValidGame(originalGame);
+        Assert.True(viewModel.RegisterCommand.CanExecute(null));
+
+        viewModel.VerifiableGame = new VerifiableGame();
+        var canExecuteChangedCount = 0;
+        viewModel.RegisterCommand.CanExecuteChanged += (_, _) => canExecuteChangedCount++;
+
+        originalGame.Title = "";
+
+        Assert.Equal(0, canExecuteChangedCount);
+        Assert.False(viewModel.RegisterCommand.CanExecute(null));
+
+        FillValidGame(viewModel.VerifiableGame);
+
+        Assert.True(canExecuteChangedCount > 0);
+        Assert.True(viewModel.RegisterCommand.CanExecute(null));
+    }
+
+    private static GameRegistrationDialogViewModel CreateViewModel()
+        => new(
+            new ErogeDiaryDbContext(),
+            new ErogameScapeClient(),
+            new StubMessageDialog(),
+            new StubOpenFileDialog());
+
     private static void FillValidGame(VerifiableGame game)
     {
         game.Title = "Test Game";

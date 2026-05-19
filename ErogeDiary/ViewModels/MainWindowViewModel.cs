@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels
 {
-    public class MainWindowViewModel : ObservableObject
+    public partial class MainWindowViewModel : ObservableObject
     {
         public RelayCommand GoBackCommand { get; private set; }
         public RelayCommand RootFrameNavigatedCommand { get; private set; }
@@ -81,26 +81,14 @@ namespace ErogeDiary.ViewModels
             TotalPlayTime = totalPlayTime;
         }
 
+        [ObservableProperty]
         private Game? activeGame;
-        public Game? ActiveGame
-        {
-            get => activeGame;
-            set { SetProperty(ref activeGame, value); }
-        }
 
+        [ObservableProperty]
         private TimeSpan currentPlayTime;
-        public TimeSpan CurrentPlayTime
-        {
-            get => currentPlayTime;
-            set { SetProperty(ref currentPlayTime, value); }
-        }
 
+        [ObservableProperty]
         private TimeSpan totalPlayTime;
-        public TimeSpan TotalPlayTime
-        {
-            get => totalPlayTime;
-            set { SetProperty(ref totalPlayTime, value); }
-        }
 
         private void GoBack()
         {
@@ -115,18 +103,10 @@ namespace ErogeDiary.ViewModels
             IsBackButtonVisible = navigationService.Journal.CanGoBack;
         }
 
+        [ObservableProperty]
         private bool isBackButtonVisible;
-        public bool IsBackButtonVisible
-        {
-            get => isBackButtonVisible;
-            set { SetProperty(ref isBackButtonVisible, value); }
-        }
 
+        [ObservableProperty]
         private bool isPlaying;
-        public bool IsPlaying
-        {
-            get => isPlaying;
-            set { SetProperty(ref isPlaying, value); }
-        }
     }
 }

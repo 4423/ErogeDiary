@@ -15,7 +15,7 @@ using static ErogeDiary.Helpers.SolidColorBrushHelpers;
 
 namespace ErogeDiary.ViewModels.Contents;
 
-public class PlayLogsViewModel : ObservableObject
+public partial class PlayLogsViewModel : ObservableObject
 {
     private ErogeDiaryDbContext database;
 
@@ -117,43 +117,24 @@ public class PlayLogsViewModel : ObservableObject
         yield return new CalendarHeatmapPoint(endDate, timeSpanOfEnd.TotalHours);
     }
 
+    [ObservableProperty]
     private CalendarHeatmapData? heatmapData;
-    public CalendarHeatmapData? HeatmapData
-    {
-        get => heatmapData;
-        set { SetProperty(ref heatmapData, value); }
-    }
 
+    [ObservableProperty]
     private Game game = null!;
-    public Game Game
-    {
-        get { return game; }
-        set { SetProperty(ref game, value); }
-    }
 
+    [ObservableProperty]
     private DateTime? firstPlayedAt;
-    public DateTime? FirstPlayedAt
-    {
-        get { return firstPlayedAt; }
-        set { SetProperty(ref firstPlayedAt, value); }
-    }
 
+    [ObservableProperty]
     private ICollection<DateRange> playLogDateRanges = default!;
-    public ICollection<DateRange> PlayLogDateRanges
-    {
-        get { return playLogDateRanges; }
-        set { SetProperty(ref playLogDateRanges, value); }
-    }
 
+    [ObservableProperty]
     private DateRange selectedPlayLogDateRange = default!;
-    public DateRange SelectedPlayLogDateRange
+
+    partial void OnSelectedPlayLogDateRangeChanged(DateRange value)
     {
-        get { return selectedPlayLogDateRange; }
-        set
-        {
-            SetProperty(ref selectedPlayLogDateRange, value);
-            Update();
-        }
+        Update();
     }
 
     public ColorConverterDelegate ColorConverter { get; } = (points) =>
@@ -185,10 +166,6 @@ public class PlayLogsViewModel : ObservableObject
         {CeilingWithDecimalPlaces(points.Sum(p => p.Value), 1)}時間
         """;
 
+    [ObservableProperty]
     private PlayLogHistogramViewModel? playLogHistogram;
-    public PlayLogHistogramViewModel? PlayLogHistogram
-    {
-        get { return playLogHistogram; }
-        set { SetProperty(ref playLogHistogram, value); }
-    }
 }

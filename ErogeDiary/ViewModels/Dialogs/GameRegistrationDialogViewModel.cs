@@ -3,6 +3,7 @@ using ErogeDiary.ErogameScape;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.IO;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class GameRegistrationDialogViewModel : BindableDialogBase
+    public partial class GameRegistrationDialogViewModel : BindableDialogBase
     {
         public RelayCommand FlyoutCompleteCommand { get; private set; }
         public RelayCommand SelectThumbnailFileNameCommand { get; private set; }
@@ -36,10 +37,8 @@ namespace ErogeDiary.ViewModels.Dialogs
             SelectExecutionFileNameCommand = new RelayCommand(SelectExecutionFileName);
             RegisterCommand = new RelayCommand(RegisterGame, CanExecuteRegisterGame);
             CancelCommand = new RelayCommand(CloseDialogCancel);
-            
-            VerifiableGame.PropertyChanged += VerifiableGameChanged;
-            VerifiableGame.ErrorsChanged += VerifiableGameChanged;
 
+            VerifiableGame = new VerifiableGame();
             IsOpen = false;
 
             this.database = database;
@@ -112,8 +111,6 @@ namespace ErogeDiary.ViewModels.Dialogs
             {
                 var gameInfo = await erogameScapeClient.FetchGameInfoAsync(ErogameScapeUrl!);
                 VerifiableGame = new VerifiableGame(gameInfo);
-                VerifiableGame.PropertyChanged += VerifiableGameChanged;
-                VerifiableGame.ErrorsChanged += VerifiableGameChanged;
             }
             catch (Exception)
             {
@@ -152,46 +149,38 @@ namespace ErogeDiary.ViewModels.Dialogs
             => RegisterCommand.NotifyCanExecuteChanged();
 
 
-        private VerifiableGame verifiableGame = new VerifiableGame();
-        public VerifiableGame VerifiableGame
+        [ObservableProperty]
+        private VerifiableGame verifiableGame = null!;
+
+        partial void OnVerifiableGameChanging(VerifiableGame value)
         {
-            get { return verifiableGame; }
-            set { SetProperty(ref verifiableGame, value); }
+            if (verifiableGame != null)
+            {
+                verifiableGame.PropertyChanged -= VerifiableGameChanged;
+                verifiableGame.ErrorsChanged -= VerifiableGameChanged;
+            }
         }
 
+        partial void OnVerifiableGameChanged(VerifiableGame value)
+        {
+            value.PropertyChanged += VerifiableGameChanged;
+            value.ErrorsChanged += VerifiableGameChanged;
+            RegisterCommand.NotifyCanExecuteChanged();
+        }
+
+        [ObservableProperty]
         private bool isInvalidErogameScapeUrl;
-        public bool IsInvalidErogameScapeUrl
-        {
-            get { return isInvalidErogameScapeUrl; }
-            set { SetProperty(ref isInvalidErogameScapeUrl, value); }
-        }
 
+        [ObservableProperty]
         private bool isWorking;
-        public bool IsWorking
-        {
-            get { return isWorking; }
-            set { SetProperty(ref isWorking, value); }
-        }
 
-        private bool isFlyoutOpen;
-        public bool IsOpen
-        {
-            get { return isFlyoutOpen; }
-            set { SetProperty(ref isFlyoutOpen, value); }
-        }
+        [ObservableProperty]
+        private bool isOpen;
 
-        public string? erogameScapeUrl;
-        public string? ErogameScapeUrl
-        {
-            get { return erogameScapeUrl; }
-            set { SetProperty(ref erogameScapeUrl, value); }
-        }
+        [ObservableProperty]
+        private string? erogameScapeUrl;
 
+        [ObservableProperty]
         private bool isRegistering;
-        public bool IsRegistering
-        {
-            get { return isRegistering; }
-            set { SetProperty(ref isRegistering, value); }
-        }
     }
 }

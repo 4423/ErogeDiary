@@ -9,7 +9,7 @@ using System.IO;
 
 namespace ErogeDiary.ViewModels.Dialogs;
 
-public class VerifiableGame : ObservableValidator
+public partial class VerifiableGame : ObservableValidator
 {
     public VerifiableGame() { }
     public VerifiableGame(GameInfo gameInfo)
@@ -22,133 +22,73 @@ public class VerifiableGame : ObservableValidator
     }
 
 
-    private string? title;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [Required(ErrorMessage = "タイトルを入力してください。")]
-    public string? Title
-    {
-        get => title;
-        set
-        {
-            SetProperty(ref title, value);
-            ValidateProperty(value);
-        }
-    }
+    private string? title;
 
-    private string? brand;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [Required(ErrorMessage = "ブランドを入力してください。")]
-    public string? Brand
-    {
-        get => brand;
-        set
-        {
-            SetProperty(ref brand, value);
-            ValidateProperty(value);
-        }
-    }
+    private string? brand;
 
-    private DateOnly? releaseDate;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [Required(ErrorMessage = "発売日を入力してください。")]
-    public DateOnly? ReleaseDate
-    {
-        get => releaseDate;
-        set
-        {
-            SetProperty(ref releaseDate, value);
-            ValidateProperty(value);
-        }
-    }
+    private DateOnly? releaseDate;
 
-    private string? imageUri;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [Required(ErrorMessage = "サムネイル画像の場所を入力してください。")]
     [ValidExtensionRequired(".jpg", ".jpeg", ".png", ".bmp")]
-    public string? ImageUri
-    {
-        get => imageUri;
-        set
-        {
-            SetProperty(ref imageUri, value);
-            ValidateProperty(value);
-        }
-    }
+    private string? imageUri;
 
+    [ObservableProperty]
     private string? erogameScapeGameId;
-    public string? ErogameScapeGameId
-    {
-        get => erogameScapeGameId;
-        set { SetProperty(ref erogameScapeGameId, value); }
-    }
 
+    [ObservableProperty]
     private InstallationType installationType;
-    public InstallationType InstallationType
-    {
-        get => installationType;
-        set
-        {
-            SetProperty(ref installationType, value);
 
-            // InstallationType に依存する validation を再評価
-            switch (installationType)
-            {
-                case InstallationType.Default:
-                    ValidateProperty(ExecutableFilePath, nameof(ExecutableFilePath));
-                    ClearErrors(nameof(WindowTitle));
-                    break;
-                case InstallationType.DmmGamePlayer:
-                    ValidateProperty(WindowTitle, nameof(WindowTitle));
-                    ClearErrors(nameof(ExecutableFilePath));
-                    break;
-            };
-        }
+    partial void OnInstallationTypeChanged(InstallationType value)
+    {
+        // InstallationType に依存する validation を再評価
+        switch (value)
+        {
+            case InstallationType.Default:
+                ValidateProperty(ExecutableFilePath, nameof(ExecutableFilePath));
+                ClearErrors(nameof(WindowTitle));
+                break;
+            case InstallationType.DmmGamePlayer:
+                ValidateProperty(WindowTitle, nameof(WindowTitle));
+                ClearErrors(nameof(ExecutableFilePath));
+                break;
+        };
     }
 
-    private string? windowTitle;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [RequiredIf(nameof(InstallationType), InstallationType.DmmGamePlayer, ErrorMessage = "ウィンドウタイトルを入力してください。")]
-    public string? WindowTitle
-    {
-        get => windowTitle;
-        set
-        {
-            SetProperty(ref windowTitle, value);
-            ValidateProperty(value);
-        }
-    }
+    private string? windowTitle;
 
-    private string? executableFilePath;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [RequiredIf(nameof(InstallationType), InstallationType.Default, ErrorMessage = "実行ファイルの場所を入力してください。")]
     [FileExistRequiredIf(nameof(InstallationType), InstallationType.Default)]
-    public string? ExecutableFilePath
-    {
-        get => executableFilePath;
-        set
-        {
-            SetProperty(ref executableFilePath, value);
-            ValidateProperty(value);
-        }
-    }
+    private string? executableFilePath;
 
+    [ObservableProperty]
     private bool isCleared;
-    public bool IsCleared
+
+    partial void OnIsClearedChanged(bool value)
     {
-        get => isCleared;
-        set
-        {
-            SetProperty(ref isCleared, value);
-            // IsCleared に依存する validation を再評価
-            ValidateProperty(clearedAt, nameof(ClearedAt));
-        }
+        // IsCleared に依存する validation を再評価
+        ValidateProperty(ClearedAt, nameof(ClearedAt));
     }
 
-    private DateTime? clearedAt;
+    [ObservableProperty]
+    [NotifyDataErrorInfo]
     [RequiredIf(nameof(IsCleared), true, ErrorMessage = "攻略日を入力してください。")]
-    public DateTime? ClearedAt
-    {
-        get => clearedAt;
-        set
-        {
-            SetProperty(ref clearedAt, value);
-            ValidateProperty(value);
-        }
-    }
+    private DateTime? clearedAt;
 
     public bool Valid()
     {

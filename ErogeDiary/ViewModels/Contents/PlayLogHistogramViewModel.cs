@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ErogeDiary.ViewModels.Contents;
 
-public class PlayLogHistogramViewModel : ObservableObject
+public partial class PlayLogHistogramViewModel : ObservableObject
 {
     public PlayLogHistogramViewModel(ObservableCollection<PlayLog> playLogs)
     {
@@ -32,41 +32,35 @@ public class PlayLogHistogramViewModel : ObservableObject
     }
 
 
+    [ObservableProperty]
     private ObservableCollection<PlayLog>? playLogs;
-    public ObservableCollection<PlayLog>? PlayLogs
+
+    partial void OnPlayLogsChanging(ObservableCollection<PlayLog>? value)
     {
-        get => playLogs;
-        set
+        if (playLogs != null)
         {
-            if (playLogs != null)
-            {
-                playLogs.CollectionChanged -= PlayLogsCollectionChanged;
-            }
-            if (value != null)
-            {
-                value.CollectionChanged += PlayLogsCollectionChanged;
-            }
-            SetProperty(ref playLogs, value);
-            Update();
+            playLogs.CollectionChanged -= PlayLogsCollectionChanged;
         }
     }
 
+    partial void OnPlayLogsChanged(ObservableCollection<PlayLog>? value)
+    {
+        if (value != null)
+        {
+            value.CollectionChanged += PlayLogsCollectionChanged;
+        }
+        Update();
+    }
+
+    [ObservableProperty]
     private IEnumerable<Bucket> buckets = Enumerable.Empty<Bucket>();
-    public IEnumerable<Bucket> Buckets
-    {
-        get { return buckets; }
-        set { SetProperty(ref buckets, value); }
-    }
 
+    [ObservableProperty]
     private Bucket selectedBucket = null!;
-    public Bucket SelectedBucket
+
+    partial void OnSelectedBucketChanged(Bucket value)
     {
-        get { return selectedBucket; }
-        set
-        {
-            SetProperty(ref selectedBucket, value);
-            Update();
-        }
+        Update();
     }
 
     public record Bucket(
@@ -75,40 +69,20 @@ public class PlayLogHistogramViewModel : ObservableObject
         TooltipLabelFormatterDelegate TooltipLabelFormatter
     );
 
-    private TimeSpan averagePlayTime;
-    public TimeSpan AveragePlayTime
-    {
-        get => averagePlayTime;
-        private set { SetProperty(ref averagePlayTime, value); }
-    }
+    [ObservableProperty]
+    public partial TimeSpan AveragePlayTime { get; private set; }
 
-    private TimeSpan medianPlayTime;
-    public TimeSpan MedianPlayTime
-    {
-        get => medianPlayTime;
-        private set { SetProperty(ref medianPlayTime, value); }
-    }
+    [ObservableProperty]
+    public partial TimeSpan MedianPlayTime { get; private set; }
 
-    private TimeSpan maximumPlayTime;
-    public TimeSpan MaximumPlayTime
-    {
-        get => maximumPlayTime;
-        private set { SetProperty(ref maximumPlayTime, value); }
-    }
+    [ObservableProperty]
+    public partial TimeSpan MaximumPlayTime { get; private set; }
 
+    [ObservableProperty]
     private IEnumerable<double>? playTimeMinutesList;
-    public IEnumerable<double>? PlayTimeMinutesList
-    {
-        get { return playTimeMinutesList; }
-        set { SetProperty(ref playTimeMinutesList, value); }
-    }
 
+    [ObservableProperty]
     private bool hasPlayLogs;
-    public bool HasPlayLogs
-    {
-        get { return hasPlayLogs; }
-        set { SetProperty(ref hasPlayLogs, value); }
-    }
 
 
     private void PlayLogsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

@@ -12,7 +12,7 @@ using System.Windows.Media;
 
 namespace ErogeDiary.ViewModels.Contents;
 
-public class RootsViewModel : ObservableObject
+public partial class RootsViewModel : ObservableObject
 {
     public RelayCommand AddRootCommand { get; private set; }
     public RelayCommand EditRootCommand { get; private set; }
@@ -43,12 +43,8 @@ public class RootsViewModel : ObservableObject
     }
 
 
+    [ObservableProperty]
     private ObservableCollection<ChartData> rootChartDataList = new();
-    public ObservableCollection<ChartData> RootChartDataList
-    {
-        get => rootChartDataList;
-        set { SetProperty(ref rootChartDataList, value); }
-    }
 
     private void ReloadRootChartDataList()
     {

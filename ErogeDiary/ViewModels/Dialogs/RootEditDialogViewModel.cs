@@ -2,6 +2,7 @@ using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
 using System;
@@ -11,7 +12,7 @@ using System.Linq;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
-    public class RootEditDialogViewModel : BindableDialogBase
+    public partial class RootEditDialogViewModel : BindableDialogBase
     {
         public RelayCommand UpdateCommand { get; private set; }
         public RelayCommand CancelCommand { get; private set; }
@@ -32,72 +33,66 @@ namespace ErogeDiary.ViewModels.Dialogs
             this.messageDialog = messageDialog;
         }
 
+        [ObservableProperty]
         private ICollection<Root>? roots;
-        public ICollection<Root>? Roots
-        {
-            get { return roots; }
-            set { SetProperty(ref roots, value); }
-        }
 
+        [ObservableProperty]
         private Root? selectedRoot;
-        public Root? SelectedRoot
+
+        partial void OnSelectedRootChanged(Root? value)
         {
-            get { return selectedRoot; }
-            set
+            if (value != null)
             {
-                SetProperty(ref selectedRoot, value);
-                if (selectedRoot != null)
+                SelectedVerifiableRoot = new VerifiableRoot()
                 {
-                    SelectedVerifiableRoot = new VerifiableRoot()
-                    {
-                        Name = selectedRoot.Name,
-                        PlayTime = selectedRoot.PlayTime.ToZeroPaddingStringWithoutDays(),
-                        IsCleared= selectedRoot.IsCleared,
-                        AccentColor = new AccentColor(selectedRoot.Color),
-                        ClearedAt= selectedRoot.ClearedAt,
-                    };
-                    SelectedAccentColor = SelectedVerifiableRoot.AccentColor;
-                }
+                    Name = value.Name,
+                    PlayTime = value.PlayTime.ToZeroPaddingStringWithoutDays(),
+                    IsCleared = value.IsCleared,
+                    AccentColor = new AccentColor(value.Color),
+                    ClearedAt = value.ClearedAt,
+                };
+                SelectedAccentColor = SelectedVerifiableRoot.AccentColor;
+            }
+            else
+            {
+                SelectedVerifiableRoot = null;
+                SelectedAccentColor = null;
             }
         }
 
+        [ObservableProperty]
         private VerifiableRoot? selectedVerifiableRoot;
-        public VerifiableRoot? SelectedVerifiableRoot
+
+        partial void OnSelectedVerifiableRootChanging(VerifiableRoot? value)
         {
-            get { return selectedVerifiableRoot; }
-            set
+            if (selectedVerifiableRoot != null)
             {
-                // 元の値から event を解除
-                if (selectedVerifiableRoot != null)
-                {
-                    selectedVerifiableRoot.PropertyChanged -= VerifiableRootPropertyChanged;
-                    selectedVerifiableRoot.ErrorsChanged -= VerifiableRootPropertyChanged;
-                }
-                // 新しい値に event を登録
-                if (value != null)
-                {
-                    value.PropertyChanged += VerifiableRootPropertyChanged;
-                    value.ErrorsChanged += VerifiableRootPropertyChanged;
-                }
-
-                SetProperty(ref selectedVerifiableRoot, value);
-
-                UpdateCommand.NotifyCanExecuteChanged();
+                selectedVerifiableRoot.PropertyChanged -= VerifiableRootPropertyChanged;
+                selectedVerifiableRoot.ErrorsChanged -= VerifiableRootPropertyChanged;
             }
+        }
+
+        partial void OnSelectedVerifiableRootChanged(VerifiableRoot? value)
+        {
+            if (value != null)
+            {
+                value.PropertyChanged += VerifiableRootPropertyChanged;
+                value.ErrorsChanged += VerifiableRootPropertyChanged;
+            }
+
+            UpdateCommand.NotifyCanExecuteChanged();
         }
 
         public AccentColors AccentColors { get; } = new AccentColors();
 
+        [ObservableProperty]
         private AccentColor? selectedAccentColor;
-        public AccentColor? SelectedAccentColor
+
+        partial void OnSelectedAccentColorChanged(AccentColor? value)
         {
-            get => selectedAccentColor;
-            set
+            if (value != null && SelectedVerifiableRoot != null)
             {
-                if (SetProperty(ref selectedAccentColor, value) && value != null && SelectedVerifiableRoot != null)
-                {
-                    SelectedVerifiableRoot.AccentColor = value;
-                }
+                SelectedVerifiableRoot.AccentColor = value;
             }
         }
 

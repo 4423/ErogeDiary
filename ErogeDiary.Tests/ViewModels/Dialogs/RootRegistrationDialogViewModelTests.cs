@@ -14,7 +14,7 @@ public class RootRegistrationDialogViewModelTests
     [Fact]
     public void RegisterCommand_CanExecute_DependsOnValidRootAndGame()
     {
-        var viewModel = new RootRegistrationDialogViewModel(new ErogeDiaryDbContext(), new StubMessageDialog());
+        var viewModel = CreateViewModel();
 
         viewModel.OnDialogOpened(CreateDialogParameters(CreateGame(totalPlayTime: TimeSpan.FromMinutes(30))));
         var verifiableRoot = viewModel.VerifiableRoot;
@@ -29,7 +29,7 @@ public class RootRegistrationDialogViewModelTests
     [Fact]
     public void RegisterCommand_ReevaluatesAfterValidationErrorsAreCleared()
     {
-        var viewModel = new RootRegistrationDialogViewModel(new ErogeDiaryDbContext(), new StubMessageDialog());
+        var viewModel = CreateViewModel();
         viewModel.OnDialogOpened(CreateDialogParameters(CreateGame(totalPlayTime: TimeSpan.FromMinutes(30))));
         var verifiableRoot = viewModel.VerifiableRoot;
         Assert.NotNull(verifiableRoot);
@@ -44,6 +44,36 @@ public class RootRegistrationDialogViewModelTests
 
         Assert.True(canExecuteAfterChange);
     }
+
+    [Fact]
+    public void RegisterCommand_TracksLatestOpenedRootOnly()
+    {
+        var viewModel = CreateViewModel();
+        viewModel.OnDialogOpened(CreateDialogParameters(CreateGame(totalPlayTime: TimeSpan.FromMinutes(30))));
+        var firstRoot = viewModel.VerifiableRoot;
+        Assert.NotNull(firstRoot);
+
+        viewModel.OnDialogOpened(CreateDialogParameters(CreateGame(totalPlayTime: TimeSpan.FromMinutes(45))));
+        var secondRoot = viewModel.VerifiableRoot;
+        Assert.NotNull(secondRoot);
+        Assert.NotSame(firstRoot, secondRoot);
+
+        var canExecuteChangedCount = 0;
+        viewModel.RegisterCommand.CanExecuteChanged += (_, _) => canExecuteChangedCount++;
+
+        firstRoot.Name = "Old Route";
+
+        Assert.Equal(0, canExecuteChangedCount);
+        Assert.False(viewModel.RegisterCommand.CanExecute(null));
+
+        secondRoot.Name = "Current Route";
+
+        Assert.True(canExecuteChangedCount > 0);
+        Assert.True(viewModel.RegisterCommand.CanExecute(null));
+    }
+
+    private static RootRegistrationDialogViewModel CreateViewModel()
+        => new(new ErogeDiaryDbContext(), new StubMessageDialog());
 
     private static DialogParameters CreateDialogParameters(Game game)
         => new()
