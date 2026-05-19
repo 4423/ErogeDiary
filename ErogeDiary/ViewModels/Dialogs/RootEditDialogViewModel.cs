@@ -9,14 +9,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
     public partial class RootEditDialogViewModel : BindableDialogBase
     {
-        public RelayCommand UpdateCommand { get; private set; }
-        public RelayCommand CancelCommand { get; private set; }
-
         private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
         private Game? game;
@@ -26,9 +24,6 @@ namespace ErogeDiary.ViewModels.Dialogs
             ErogeDiaryDbContext database,
             IMessageDialog messageDialog)
         {
-            UpdateCommand = new RelayCommand(UpdateRoot, CanExecuteUpdateRoot);
-            CancelCommand = new RelayCommand(CloseDialogCancel);
-
             this.database = database;
             this.messageDialog = messageDialog;
         }
@@ -108,7 +103,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         private bool CanExecuteUpdateRoot()
             => SelectedVerifiableRoot?.Valid() == true && game != null;
 
-        private async void UpdateRoot()
+        [RelayCommand(CanExecute = nameof(CanExecuteUpdateRoot))]
+        private async Task UpdateAsync()
         {
             var playTime = SelectedVerifiableRoot!.PlayTime!.ParseWithoutDays();
             var allocableTime = game!.GetUnallocatedTime() + SelectedRoot!.PlayTime;

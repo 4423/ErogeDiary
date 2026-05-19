@@ -140,7 +140,7 @@
                             Command="{Binding UpdateCommand}"
                             IsEnabled="{Binding IsUpdating, Converter={StaticResource InverseBooleanConverter}}"/>
                     <Button Content="キャンセル" 
-                            Command="{Binding CloseCommand}"
+                            Command="{Binding CancelCommand}"
                             IsEnabled="{Binding IsUpdating, Converter={StaticResource InverseBooleanConverter}}"
                             Margin="24 0 0 0" />
                 </StackPanel>

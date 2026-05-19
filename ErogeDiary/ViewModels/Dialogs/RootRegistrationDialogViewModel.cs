@@ -7,14 +7,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
 using System;
+using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
     public partial class RootRegistrationDialogViewModel : BindableDialogBase
     {
-        public RelayCommand RegisterCommand { get; private set; }
-        public RelayCommand CancelCommand { get; private set; }
-
         private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
         private Game? game;
@@ -24,9 +22,6 @@ namespace ErogeDiary.ViewModels.Dialogs
             ErogeDiaryDbContext database,
             IMessageDialog messageDialog)
         {
-            RegisterCommand = new RelayCommand(RegisterRootData, CanExecuteRegisterRootData);
-            CancelCommand = new RelayCommand(CloseDialogCancel);
-
             this.database = database;
             this.messageDialog = messageDialog;
         }
@@ -96,7 +91,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         private bool CanExecuteRegisterRootData()
             => VerifiableRoot?.Valid() == true && game != null;
 
-        private async void RegisterRootData()
+        [RelayCommand(CanExecute = nameof(CanExecuteRegisterRootData))]
+        private async Task RegisterAsync()
         {
             TimeSpan playTime;
             if (IsAllocatedAutomatically)

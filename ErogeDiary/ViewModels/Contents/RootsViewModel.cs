@@ -14,10 +14,6 @@ namespace ErogeDiary.ViewModels.Contents;
 
 public partial class RootsViewModel : ObservableObject
 {
-    public RelayCommand AddRootCommand { get; private set; }
-    public RelayCommand EditRootCommand { get; private set; }
-    public RelayCommand RemoveRootCommand { get; private set; }
-
     private IDialogService dialogService;
     private Game game;
 
@@ -26,10 +22,6 @@ public partial class RootsViewModel : ObservableObject
     {
         this.dialogService = dialogService;
         this.game = game;
-
-        AddRootCommand = new RelayCommand(AddRoot, HasPlayTime);
-        EditRootCommand = new RelayCommand(EditRoot, HasRoot);
-        RemoveRootCommand = new RelayCommand(RemoveRoot, HasRoot);
 
         this.game.PropertyChanged += (s, e) =>
         {
@@ -114,18 +106,21 @@ public partial class RootsViewModel : ObservableObject
 
     private bool HasRoot() => game.Roots.Count > 0;
 
+    [RelayCommand(CanExecute = nameof(HasPlayTime))]
     private void AddRoot()
     {
         ShowDialog(nameof(Views.Dialogs.RootRegistrationDialog));
         ReloadRootChartDataList();
     }
 
+    [RelayCommand(CanExecute = nameof(HasRoot))]
     private void EditRoot()
     {
         ShowDialog(nameof(Views.Dialogs.RootEditDialog));
         ReloadRootChartDataList();
     }
 
+    [RelayCommand(CanExecute = nameof(HasRoot))]
     private void RemoveRoot()
     {
         ShowDialog(nameof(Views.Dialogs.RootRemoveDialog));

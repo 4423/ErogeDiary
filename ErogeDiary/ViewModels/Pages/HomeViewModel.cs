@@ -11,15 +11,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace ErogeDiary.ViewModels.Pages
 {
     public partial class HomeViewModel : ObservableObject
     {
-        public RelayCommand<Game> StartGameCommand { get; private set; }
-        public RelayCommand GameRegistrationCommand { get; private set; }
-
         private ErogeDiaryDbContext database;
         private IRegionManager regionManager;
         private IDialogService dialogService;
@@ -32,9 +30,6 @@ namespace ErogeDiary.ViewModels.Pages
             IDialogService dialogService,
             IMessageDialog messageDialog)
         {
-            StartGameCommand = new RelayCommand<Game>(StartGame);
-            GameRegistrationCommand = new RelayCommand(RegisterGame);
-
             this.database = database;
             this.regionManager = regionManager;
             this.dialogService = dialogService;
@@ -67,7 +62,8 @@ namespace ErogeDiary.ViewModels.Pages
             Games = await database.GetGamesAsync();
         }
 
-        private async void StartGame(Game? game)
+        [RelayCommand]
+        private async Task StartGameAsync(Game? game)
         {
             if (game == null)
             {
@@ -122,7 +118,8 @@ namespace ErogeDiary.ViewModels.Pages
         private ObservableCollection<Game> games = new();
 
 
-        private void RegisterGame()
+        [RelayCommand]
+        private void GameRegistration()
         {
             dialogService.ShowDialog(nameof(Views.Dialogs.GameRegistrationDialog), null, null);
         }

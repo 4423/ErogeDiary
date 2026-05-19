@@ -13,11 +13,6 @@ namespace ErogeDiary.ViewModels.Dialogs
 {
     public partial class GameRegistrationDialogViewModel : BindableDialogBase
     {
-        public RelayCommand FlyoutCompleteCommand { get; private set; }
-        public RelayCommand SelectThumbnailFileNameCommand { get; private set; }
-        public RelayCommand SelectExecutionFileNameCommand { get; private set; }
-        public RelayCommand RegisterCommand { get; private set; }
-        public RelayCommand CancelCommand { get; private set; }
         public Action? HideFlyout { get; set; }
 
         private ErogeDiaryDbContext database;
@@ -32,12 +27,6 @@ namespace ErogeDiary.ViewModels.Dialogs
             IMessageDialog messageDialog,
             IOpenFileDialog openFileDialog)
         {
-            FlyoutCompleteCommand = new RelayCommand(FlyoutComplete);
-            SelectThumbnailFileNameCommand = new RelayCommand(SelectThumbnailFileName);
-            SelectExecutionFileNameCommand = new RelayCommand(SelectExecutionFileName);
-            RegisterCommand = new RelayCommand(RegisterGame, CanExecuteRegisterGame);
-            CancelCommand = new RelayCommand(CloseDialogCancel);
-
             VerifiableGame = new VerifiableGame();
             IsOpen = false;
 
@@ -51,7 +40,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         private bool CanExecuteRegisterGame()
             => VerifiableGame.Valid();
 
-        private async void RegisterGame()
+        [RelayCommand(CanExecute = nameof(CanExecuteRegisterGame))]
+        private async Task RegisterAsync()
         {
             try
             {
@@ -103,7 +93,8 @@ namespace ErogeDiary.ViewModels.Dialogs
             return conflictExecutableFilePath;
         }
 
-        private async void FlyoutComplete()
+        [RelayCommand]
+        private async Task FlyoutCompleteAsync()
         {
             IsWorking = true;
 
@@ -124,6 +115,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             IsWorking = false;
         }
 
+        [RelayCommand]
         private void SelectThumbnailFileName()
         {
             var imageUri = openFileDialog.Show(
@@ -135,6 +127,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             }
         }
 
+        [RelayCommand]
         private void SelectExecutionFileName()
         {
             var filePath = openFileDialog.Show(

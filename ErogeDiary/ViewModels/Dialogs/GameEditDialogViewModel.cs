@@ -12,11 +12,6 @@ namespace ErogeDiary.ViewModels.Dialogs
 {
     public partial class GameEditDialogViewModel : BindableDialogBase
     {
-        public RelayCommand SelectThumbnailFileNameCommand { get; private set; }
-        public RelayCommand SelectExecutionFileNameCommand { get; private set; }
-        public RelayCommand CloseCommand { get; private set; }
-        public RelayCommand UpdateCommand { get; private set; }
-
         private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
         private IOpenFileDialog openFileDialog;
@@ -31,11 +26,6 @@ namespace ErogeDiary.ViewModels.Dialogs
             this.database = database;
             this.messageDialog = messageDialog;
             this.openFileDialog = openFileDialog;
-
-            SelectThumbnailFileNameCommand = new RelayCommand(SelectThumbnailFileName);
-            SelectExecutionFileNameCommand = new RelayCommand(SelectExecutionFileName);
-            CloseCommand = new RelayCommand(CloseDialogCancel);
-            UpdateCommand = new RelayCommand(UpdateGame, CanExecuteUpdateGame);
         }
 
 
@@ -88,6 +78,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         [ObservableProperty]
         private bool isUpdating;
 
+        [RelayCommand]
         private void SelectThumbnailFileName()
         {
             var imageUri = openFileDialog.Show(
@@ -99,6 +90,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             }
         }
 
+        [RelayCommand]
         private void SelectExecutionFileName()
         {
             var fileName = openFileDialog.Show(
@@ -115,7 +107,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         private void VerifiableGameChanged(object? sender, EventArgs e)
             => UpdateCommand.NotifyCanExecuteChanged();
 
-        private async void UpdateGame()
+        [RelayCommand(CanExecute = nameof(CanExecuteUpdateGame))]
+        private async Task UpdateAsync()
         {
             IsUpdating = true;
             try

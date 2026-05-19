@@ -7,14 +7,12 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels.Dialogs
 {
     public partial class RootRemoveDialogViewModel : BindableDialogBase
     {
-        public RelayCommand RemoveCommand { get; private set; }
-        public RelayCommand CancelCommand { get; private set; }
-
         private ErogeDiaryDbContext database;
         private IMessageDialog messageDialog;
         private Game? game;
@@ -24,9 +22,6 @@ namespace ErogeDiary.ViewModels.Dialogs
             ErogeDiaryDbContext database,
             IMessageDialog messageDialog)
         {
-            RemoveCommand = new RelayCommand(RemoveRoot, CanExecuteRemoveRoot);
-            CancelCommand = new RelayCommand(CloseDialogCancel);
-
             this.database = database;
             this.messageDialog = messageDialog;
         }
@@ -54,7 +49,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         private bool CanExecuteRemoveRoot()
             => SelectedRoot != null;
 
-        private async void RemoveRoot()
+        [RelayCommand(CanExecute = nameof(CanExecuteRemoveRoot))]
+        private async Task RemoveAsync()
         {
             try
             {

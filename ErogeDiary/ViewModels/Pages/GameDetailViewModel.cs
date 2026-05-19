@@ -8,14 +8,11 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 namespace ErogeDiary.ViewModels.Pages
 {
     public partial class GameDetailViewModel : ObservableObject, INavigationAware
     {
-        public RelayCommand StartGameCommand { get; private set; }
-        public RelayCommand EditGameCommand { get; private set; }
-        public RelayCommand DeleteGameCommand { get; private set; }
-
         private ErogeDiaryDbContext database;
         private IRegionManager regionManager;
         private IMessageDialog messageDialog;
@@ -32,10 +29,6 @@ namespace ErogeDiary.ViewModels.Pages
             this.regionManager = regionManager;
             this.messageDialog = messageDialog;
             this.dialogService = dialogService;
-
-            StartGameCommand = new RelayCommand(StartGame);
-            EditGameCommand = new RelayCommand(EditGame);
-            DeleteGameCommand = new RelayCommand(DeleteGame);
         }
 
 
@@ -69,7 +62,8 @@ namespace ErogeDiary.ViewModels.Pages
 
         public void OnNavigatedFrom(NavigationContext navigationContext) {}
 
-        private async void StartGame()
+        [RelayCommand]
+        private async Task StartGameAsync()
         {
             try
             {
@@ -92,6 +86,7 @@ namespace ErogeDiary.ViewModels.Pages
             }
         }
 
+        [RelayCommand]
         private void EditGame()
         {
             var dialogParams = new DialogParameters()
@@ -101,7 +96,8 @@ namespace ErogeDiary.ViewModels.Pages
             dialogService.ShowDialog(nameof(Views.Dialogs.GameEditDialog), dialogParams, null);
         }
 
-        private async void DeleteGame()
+        [RelayCommand]
+        private async Task DeleteGameAsync()
         {
             var result = await messageDialog.ShowAsync(new MessageDialogParameters()
             {

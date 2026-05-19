@@ -1,10 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
 using System;
 
 namespace ErogeDiary.ViewModels.Dialogs;
 
-public class BindableDialogBase : ObservableObject, IDialogAware
+public partial class BindableDialogBase : ObservableObject, IDialogAware
 {
     public string Title => "";
 
@@ -22,6 +23,10 @@ public class BindableDialogBase : ObservableObject, IDialogAware
 
     protected void CloseDialogCancel()
         => RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
+
+    [RelayCommand]
+    private void Cancel()
+        => CloseDialogCancel();
 
     protected virtual void RaiseRequestClose(IDialogResult dialogResult)
         => RequestClose?.Invoke(dialogResult);

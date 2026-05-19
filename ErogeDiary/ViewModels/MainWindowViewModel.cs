@@ -14,9 +14,6 @@ namespace ErogeDiary.ViewModels
 {
     public partial class MainWindowViewModel : ObservableObject
     {
-        public RelayCommand GoBackCommand { get; private set; }
-        public RelayCommand RootFrameNavigatedCommand { get; private set; }
-
         private ErogeDiaryDbContext database;
         private GameMonitor gameMonitor;
         private IRegionManager regionManager;
@@ -33,9 +30,6 @@ namespace ErogeDiary.ViewModels
             gameMonitor.GameStarted += GameStarted;
             gameMonitor.GameEnded += GameEnded;
             gameMonitor.ProgressChanged += ProgressChanged;
-
-            GoBackCommand = new RelayCommand(GoBack);
-            RootFrameNavigatedCommand = new RelayCommand(RootFrameNavigated);
         }
 
 
@@ -90,6 +84,7 @@ namespace ErogeDiary.ViewModels
         [ObservableProperty]
         private TimeSpan totalPlayTime;
 
+        [RelayCommand]
         private void GoBack()
         {
             if (navigationService.Journal.CanGoBack)
@@ -98,6 +93,7 @@ namespace ErogeDiary.ViewModels
             }
         }
 
+        [RelayCommand]
         private void RootFrameNavigated()
         {
             IsBackButtonVisible = navigationService.Journal.CanGoBack;
