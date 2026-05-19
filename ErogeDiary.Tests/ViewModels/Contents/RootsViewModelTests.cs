@@ -1,4 +1,5 @@
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using ErogeDiary.ViewModels.Contents;
 using System;
 using System.Linq;
@@ -34,7 +35,7 @@ public class RootsViewModelTests
         Assert.False(viewModel.EditRootCommand.CanExecute(null));
         Assert.False(viewModel.RemoveRootCommand.CanExecute(null));
         var chartData = Assert.Single(viewModel.RootChartDataList);
-        Assert.Equal("（未割り当てのルート）", chartData.Label);
+        Assert.Equal(Strings.Root_UnallocatedLabel, chartData.Label);
         Assert.Equal(TimeSpan.FromMinutes(30).TotalSeconds, chartData.Value);
     }
 
@@ -55,7 +56,7 @@ public class RootsViewModelTests
         Assert.True(viewModel.EditRootCommand.CanExecute(null));
         Assert.True(viewModel.RemoveRootCommand.CanExecute(null));
         Assert.Contains(viewModel.RootChartDataList, x => x.Label == "Route A");
-        var unallocated = viewModel.RootChartDataList.Single(x => x.Label == "（未割り当てのルート）");
+        var unallocated = viewModel.RootChartDataList.Single(x => x.Label == Strings.Root_UnallocatedLabel);
         Assert.Equal(TimeSpan.FromMinutes(20).TotalSeconds, unallocated.Value);
     }
 

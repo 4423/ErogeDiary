@@ -7,6 +7,7 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:validations="clr-namespace:ErogeDiary.Views.Validations"
              xmlns:local="clr-namespace:ErogeDiary.Views.Dialogs"
+             xmlns:properties="clr-namespace:ErogeDiary.Properties"
              mc:Ignorable="d" 
              prism:ViewModelLocator.AutoWireViewModel="True"
              d:Width="430" d:Height="520">
@@ -25,18 +26,18 @@
     <ScrollViewer Style="{StaticResource DialogScrollViewerStyle}">
         <Grid Margin="24 0">
             <StackPanel>
-                <TextBlock Text="ルートの追加" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBlock Text="{x:Static properties:Strings.Root_RegistrationTitle}" Style="{StaticResource TitleTextBlockStyle}"/>
                 <TextBox x:Name="RootName" 
-                         ui:ControlHelper.Header="ルート名" 
+                         ui:ControlHelper.Header="{x:Static properties:Strings.Root_NameHeader}" 
                          Text="{Binding VerifiableRoot.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=RootName, Path=(Validation.Errors)[0].ErrorContent}"/>
 
-                <CheckBox Content="未割り当てのプレイ時間すべてをルートに割り当てる"
+                <CheckBox Content="{x:Static properties:Strings.Root_AllocateAllUnallocatedPlayTime}"
                           IsChecked="{Binding IsAllocatedAutomatically}"/>
                 <TextBox x:Name="PlayTime" 
-                         ui:ControlHelper.Header="ルートに割り当てるプレイ時間"
+                         ui:ControlHelper.Header="{x:Static properties:Strings.Root_AssignedPlayTimeHeader}"
                          ui:ControlHelper.PlaceholderText="HH:mm:ss"
                          Text="{Binding VerifiableRoot.PlayTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          IsEnabled="{Binding IsAllocatedAutomatically, 
@@ -45,7 +46,7 @@
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=PlayTime, Path=(Validation.Errors)[0].ErrorContent}"/>
 
-                <ui:SplitButton ToolTip="ルートの色" Margin="0 8" Style="{StaticResource ColorSplitButtonStyle}">
+                <ui:SplitButton ToolTip="{x:Static properties:Strings.Root_ColorTooltip}" Margin="0 8" Style="{StaticResource ColorSplitButtonStyle}">
                     <Border Background="{Binding VerifiableRoot.AccentColor.Brush}" Style="{StaticResource ColorSplitButtonBorderStyle}"/>
                     <ui:SplitButton.Flyout>
                         <ui:Flyout>
@@ -57,10 +58,10 @@
                     </ui:SplitButton.Flyout>
                 </ui:SplitButton>
 
-                <CheckBox Content="ルート攻略済み" Margin="0 8 0 0"
+                <CheckBox Content="{x:Static properties:Strings.Root_ClearedCheckBox}" Margin="0 8 0 0"
                           IsChecked="{Binding VerifiableRoot.IsCleared}"/>
                 
-                <Label Content="ルート攻略日" Margin="0 8 0 0" FontSize="14"
+                <Label Content="{x:Static properties:Strings.Root_ClearedAtHeader}" Margin="0 8 0 0" FontSize="14"
                        IsEnabled="{Binding VerifiableRoot.IsCleared}"/>
                 <DatePicker x:Name="ClearDate"
                             Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
@@ -79,9 +80,9 @@
                            Text="{Binding ElementName=ClearDate, Path=(Validation.Errors)[0].ErrorContent}"/>
 
                 <StackPanel Orientation="Horizontal" Margin="0 12">
-                    <Button Content="追加"
+                    <Button Content="{x:Static properties:Strings.Common_Add}"
                             Command="{Binding RegisterCommand}"/>
-                    <Button Content="キャンセル" 
+                    <Button Content="{x:Static properties:Strings.Common_Cancel}" 
                             Command="{Binding CancelCommand}"
                             Margin="24 0 0 0" />
                 </StackPanel>

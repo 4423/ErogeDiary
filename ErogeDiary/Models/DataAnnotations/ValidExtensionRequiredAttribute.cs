@@ -1,5 +1,7 @@
 ﻿using System;
+using ErogeDiary.Properties;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -27,7 +29,10 @@ namespace ErogeDiary.Models.DataAnnotations
                 return base.FormatErrorMessage(name);
             }
 
-            return $"有効な拡張子は {String.Join(" ", validExtensions)} のいずれかです。";
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                Strings.Validation_ValidExtensionsFormat,
+                String.Join(" ", validExtensions));
         }
 
         public override bool IsValid(object? value)

@@ -1,5 +1,6 @@
 ﻿using ErogeDiary.Models;
 using ErogeDiary.Models.DataAnnotations;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +13,7 @@ public partial class VerifiableRoot : ObservableValidator
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [Required(ErrorMessage = "ルート名を入力してください。")]
+    [Required(ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_RootNameRequired))]
     private string? name;
 
     // Entities.Root では TimeSpan 型だが、ここでは string 型にしている
@@ -21,7 +22,7 @@ public partial class VerifiableRoot : ObservableValidator
     // 12 として表示されるという挙動が心地よくないので、あえてここでは単に string で受けている
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [Required(ErrorMessage = "プレイ時間を入力してください。")]
+    [Required(ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_PlayTimeRequired))]
     [TimeSpanFormatRequired]
     private string? playTime;
 
@@ -36,7 +37,7 @@ public partial class VerifiableRoot : ObservableValidator
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [RequiredIf(nameof(IsCleared), true, ErrorMessage = "攻略日を入力してください。")]
+    [RequiredIf(nameof(IsCleared), true, ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_ClearedAtRequired))]
     private DateTime? clearedAt;
 
     [ObservableProperty]

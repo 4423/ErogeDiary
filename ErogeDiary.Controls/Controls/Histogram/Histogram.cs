@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using ErogeDiary.Controls.Properties;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -127,7 +129,7 @@ public class Histogram : Control
             var rect = new Rectangle()
             {
                 Height = height,
-                ToolTip = $"{bucketValue}回"
+                ToolTip = string.Format(CultureInfo.CurrentCulture, Strings.Histogram_CountTooltipFormat, bucketValue)
             };
             Grid.SetRow(rect, 0);
             Grid.SetColumn(rect, column);

@@ -1,4 +1,5 @@
 ﻿using System;
+using ErogeDiary.Properties;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 
@@ -9,7 +10,8 @@ namespace ErogeDiary.Models.DataAnnotations
     {
         public TimeSpanFormatRequiredAttribute()
         {
-            ErrorMessage = "不正な時間の形式です。";
+            ErrorMessageResourceType = typeof(Strings);
+            ErrorMessageResourceName = nameof(Strings.Validation_TimeSpanFormat);
         }
 
         public override bool IsValid(object? value)

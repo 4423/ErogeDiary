@@ -2,6 +2,7 @@ using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Prism.Regions;
@@ -39,19 +40,19 @@ namespace ErogeDiary.ViewModels.Pages
 
             OrderItems = new List<GameOrder>()
             {
-                new GameOrder("最近プレイした順", nameof(Game.LastPlayedAt), ListSortDirection.Descending),
-                new GameOrder("プレイ時間が長い順", nameof(Game.TotalPlayTime), ListSortDirection.Descending),
-                new GameOrder("発売日が新しい順", nameof(Game.ReleaseDate), ListSortDirection.Descending),
-                new GameOrder("最近登録した順", nameof(Game.RegisteredAt), ListSortDirection.Descending),
-                new GameOrder("ブランド順", nameof(Game.Brand), ListSortDirection.Ascending),
+                new GameOrder(Strings.Home_Order_ByRecentPlay, nameof(Game.LastPlayedAt), ListSortDirection.Descending),
+                new GameOrder(Strings.Home_Order_ByLongPlayTime, nameof(Game.TotalPlayTime), ListSortDirection.Descending),
+                new GameOrder(Strings.Home_Order_ByNewReleaseDate, nameof(Game.ReleaseDate), ListSortDirection.Descending),
+                new GameOrder(Strings.Home_Order_ByNewRegistration, nameof(Game.RegisteredAt), ListSortDirection.Descending),
+                new GameOrder(Strings.Home_Order_ByBrand, nameof(Game.Brand), ListSortDirection.Ascending),
             };
             OrderSelectedItem = OrderItems[0];
 
             FilterItems = new List<GameFilter>()
             {
-                new GameFilter("すべて", x => true),
-                new GameFilter("攻略済み", x => x.IsCleared),
-                new GameFilter("未攻略", x => !x.IsCleared),
+                new GameFilter(Strings.Home_Filter_All, x => true),
+                new GameFilter(Strings.Home_Filter_Cleared, x => x.IsCleared),
+                new GameFilter(Strings.Home_Filter_NotCleared, x => !x.IsCleared),
             };
             FilterSelectedItem = FilterItems[0];
         }
@@ -78,9 +79,9 @@ namespace ErogeDiary.ViewModels.Pages
             {
                 await messageDialog.ShowAsync(new MessageDialogParameters()
                 {
-                    Title = "エラー",
-                    Message = $"ゲームの起動に失敗しました。\n{ex.Message}",
-                    CloseButtonText = "OK",
+                    Title = Strings.Dialog_ErrorTitle,
+                    Message = string.Format(Strings.Game_StartFailedFormat, ex.Message),
+                    CloseButtonText = Strings.Common_Ok,
                 });
             }
         }

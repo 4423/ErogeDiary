@@ -1,5 +1,7 @@
 ﻿using System;
+using ErogeDiary.Properties;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,15 +16,15 @@ namespace ErogeDiary.Models
             var res = "";
             if (((int)timeSpan.TotalHours) > 0)
             {
-                res += $"{(int)timeSpan.TotalHours}時間";
+                res += string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_HoursFormat, (int)timeSpan.TotalHours);
             }
             if (timeSpan.Minutes > 0)
             {
-                res += $"{timeSpan.Minutes}分";
+                res += string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_MinutesFormat, timeSpan.Minutes);
             }
             if (timeSpan.Seconds > 0)
             {
-                res += $"{timeSpan.Seconds}秒";
+                res += string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_SecondsFormat, timeSpan.Seconds);
             }
             return res;
         }

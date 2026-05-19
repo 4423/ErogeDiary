@@ -7,6 +7,7 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ErogeDiary.Views.Dialogs"
+             xmlns:properties="clr-namespace:ErogeDiary.Properties"
              xmlns:validations="clr-namespace:ErogeDiary.Views.Validations"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d"
@@ -26,21 +27,21 @@
     <ScrollViewer Style="{StaticResource DialogScrollViewerStyle}">
         <Grid Margin="24 0">
             <StackPanel>
-                <TextBlock Text="ゲームの登録" Style="{StaticResource TitleTextBlockStyle}"/>
+                <TextBlock Text="{x:Static properties:Strings.GameRegistration_Title}" Style="{StaticResource TitleTextBlockStyle}"/>
                 <Button x:Name="FlyoutButton"
-                        Content="批評空間から自動入力"
+                        Content="{x:Static properties:Strings.GameRegistration_AutoFillFromErogameScape}"
                         Margin="0 24 0 0">
                     <ui:FlyoutService.Flyout>
                         <ui:Flyout x:Name="InputFlyout"
                                    Placement="Bottom">
                             <StackPanel Width="300" Margin="12 0">
                                 <TextBox x:Name="ErogameScapeUrl" 
-                                         ui:ControlHelper.Header="批評空間のゲームURL"
+                                         ui:ControlHelper.Header="{x:Static properties:Strings.GameField_ErogameScapeUrl}"
                                          Text="{Binding ErogameScapeUrl}"
                                          InputScope="Url"
                                          Margin="0 12 0 0" HorizontalAlignment="Stretch"/>
                                 <TextBlock x:Name="ValidationMessageTextBlock"
-                                           Text="有効なURLではありません"
+                                           Text="{x:Static properties:Strings.GameRegistration_InvalidErogameScapeUrl}"
                                            Visibility="{Binding IsInvalidErogameScapeUrl, 
                                                 Converter={StaticResource BooleanToVisibilityConverter}}"
                                            Margin="0 6 0 0"
@@ -48,15 +49,15 @@
                                            Style="{StaticResource CaptionTextBlockStyle}"/>
                                 <TextBlock Margin="0 6" TextWrapping="Wrap" 
                                            Style="{StaticResource CaptionTextBlockStyle}">
-                                    例：https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/game.php?game=12345
+                                    <Run Text="{x:Static properties:Strings.GameRegistration_UrlExample}"/>
                                 </TextBlock>
                                 <StackPanel Orientation="Horizontal">
                                     <Button x:Name="FlyoutCompleteButton" 
-                                            Content="完了"
+                                            Content="{x:Static properties:Strings.Common_Complete}"
                                             Margin="0 12"
                                             Command="{Binding FlyoutCompleteCommand}"/>
                                     <Button x:Name="FlyoutCancelButton" 
-                                            Content="キャンセル" 
+                                            Content="{x:Static properties:Strings.Common_Cancel}" 
                                             Margin="12"
                                             Click="FlyoutHide"/>
                                     <ui:ProgressRing x:Name="FlyoutProgressRing"
@@ -70,21 +71,21 @@
                     </ui:FlyoutService.Flyout>
                 </Button>
                 <TextBox x:Name="Title" 
-                         ui:ControlHelper.Header="タイトル" 
+                         ui:ControlHelper.Header="{x:Static properties:Strings.GameField_Title}" 
                          Text="{Binding VerifiableGame.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0 24 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=Title, Path=(Validation.Errors)[0].ErrorContent}"/>
                 
                 <TextBox x:Name="Brand" 
-                         ui:ControlHelper.Header="ブランド" 
+                         ui:ControlHelper.Header="{x:Static properties:Strings.GameField_Brand}" 
                          Text="{Binding VerifiableGame.Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                 <TextBlock Style="{StaticResource ValidationErrorStyle}"
                            Text="{Binding ElementName=Brand, Path=(Validation.Errors)[0].ErrorContent}"/>
 
                 <!-- エラーの表示が崩れるため DatePicker の Header は使わない -->
-                <TextBlock Text="発売日" Margin="0 8 0 0" FontSize="14"/>
+                <TextBlock Text="{x:Static properties:Strings.GameField_ReleaseDate}" Margin="0 8 0 0" FontSize="14"/>
                 <DatePicker x:Name="ReleaseDate"
                             DisplayDateStart="1/1/1980"
                             Validation.ErrorTemplate="{DynamicResource TextControlValidationErrorTemplate}"
@@ -109,11 +110,11 @@
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0"
                              x:Name="ImageUri" 
-                             ui:ControlHelper.Header="サムネイル画像の場所（URLまたはファイルパス）" 
+                             ui:ControlHelper.Header="{x:Static properties:Strings.GameField_ImageLocation}" 
                              Text="{Binding VerifiableGame.ImageUri, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                     <Button Grid.Column="1"
-                            Content="参照"
+                            Content="{x:Static properties:Strings.Common_Browse}"
                             Command="{Binding SelectThumbnailFileNameCommand}"
                             Margin="8 0 0 0" VerticalAlignment="Bottom"/>
                 </Grid>
@@ -122,7 +123,7 @@
 
                 <CheckBox Grid.Column="0" 
                           x:Name="InstalledViaDmmGamePlayerCheckBox" 
-                          Content="DMM GAME PLAYER でインストール"
+                          Content="{x:Static properties:Strings.GameField_DmmInstalled}"
                           IsChecked="{Binding VerifiableGame.InstallationType, Converter={StaticResource InstallationTypeToBooleanConverter}}"
                           Margin="0 8" HorizontalAlignment="Stretch"/>
 
@@ -131,7 +132,7 @@
                     Path=IsChecked,
                     Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBox x:Name="WindowTitle" 
-                             ui:ControlHelper.Header="ゲームウィンドウに表示されるタイトル" 
+                             ui:ControlHelper.Header="{x:Static properties:Strings.GameField_WindowTitle}" 
                              Text="{Binding VerifiableGame.WindowTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                     <TextBlock Style="{StaticResource ValidationErrorStyle}"
@@ -149,11 +150,11 @@
                         </Grid.ColumnDefinitions>
                         <TextBox Grid.Column="0" 
                                  x:Name="FileName" 
-                                 ui:ControlHelper.Header="実行ファイルの場所" 
+                                 ui:ControlHelper.Header="{x:Static properties:Strings.GameField_ExecutableFilePath}" 
                                  Text="{Binding VerifiableGame.ExecutableFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Margin="0 8 0 0" HorizontalAlignment="Stretch"/>
                         <Button Grid.Column="1"
-                                Content="参照"
+                                Content="{x:Static properties:Strings.Common_Browse}"
                                 Command="{Binding SelectExecutionFileNameCommand}"
                                 Margin="8 0 0 0" VerticalAlignment="Bottom"/>
                     </Grid>
@@ -162,10 +163,10 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Margin="0 12">
-                    <Button Content="登録"
+                    <Button Content="{x:Static properties:Strings.GameRegistration_RegisterButton}"
                             Command="{Binding RegisterCommand}"
                             IsEnabled="{Binding IsRegistering, Converter={StaticResource InverseBooleanConverter}}"/>
-                    <Button Content="キャンセル" 
+                    <Button Content="{x:Static properties:Strings.Common_Cancel}" 
                             Command="{Binding CancelCommand}"
                             IsEnabled="{Binding IsRegistering, Converter={StaticResource InverseBooleanConverter}}"
                             Margin="24 0 0 0"/>

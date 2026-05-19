@@ -1,6 +1,7 @@
 using ErogeDiary.Dialogs;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
@@ -59,7 +60,7 @@ namespace ErogeDiary.ViewModels.Dialogs
             }
             catch (Exception)
             {
-                await messageDialog.ShowErrorAsync("ルートの削除に失敗しました。");
+                await messageDialog.ShowErrorAsync(Strings.Root_RemoveFailed);
             }
         }
     }

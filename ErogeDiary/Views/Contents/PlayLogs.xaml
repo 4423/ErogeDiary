@@ -7,13 +7,14 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:ErogeDiary.Controls.CalendarHeatmap;assembly=ErogeDiary.Controls"
              xmlns:local="clr-namespace:ErogeDiary.Views.Contents" 
+             xmlns:properties="clr-namespace:ErogeDiary.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <ComboBox ItemsSource="{Binding PlayLogDateRanges}" DisplayMemberPath="Label"
                       SelectedItem="{Binding SelectedPlayLogDateRange}"/>
-            <TextBlock Text="のプレイ履歴" VerticalAlignment="Center" Margin="10 0 0 0" />
+            <TextBlock Text="{x:Static properties:Strings.PlayLogs_PlayHistorySuffix}" VerticalAlignment="Center" Margin="10 0 0 0" />
         </StackPanel>
 
         <controls:CalendarHeatmap ChartData="{Binding HeatmapData}"
@@ -29,12 +30,13 @@
                 </Style>
             </StackPanel.Resources>
             <TextBlock Visibility="{Binding FirstPlayedAt}">
-                <Run Text="初回プレイ  "/>
-                <Run Text="{Binding FirstPlayedAt, StringFormat=yyyy年MM月dd日}"/>
+                <!-- TODO: Remove space from text property -->
+                <Run Text="{x:Static properties:Strings.PlayLogs_FirstPlayed}"/>
+                <Run Text="{Binding FirstPlayedAt, StringFormat={x:Static properties:Strings.DateFormat_Long}}"/>
             </TextBlock>
             <TextBlock Visibility="{Binding Game.LastPlayedAt}">
-                <Run Text="最終プレイ  "/>
-                <Run Text="{Binding Game.LastPlayedAt, StringFormat=yyyy年MM月dd日}"/>
+                <Run Text="{x:Static properties:Strings.PlayLogs_LastPlayed}"/>
+                <Run Text="{Binding Game.LastPlayedAt, StringFormat={x:Static properties:Strings.DateFormat_Long}}"/>
             </TextBlock>
         </StackPanel>
 

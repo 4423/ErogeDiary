@@ -3,6 +3,7 @@ using ErogeDiary.ErogameScape;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -58,7 +59,7 @@ namespace ErogeDiary.ViewModels.Dialogs
         {
             if (await HasConflictingGame(VerifiableGame))
             {
-                await messageDialog.ShowErrorAsync("既に同じゲームが登録されています。");
+                await messageDialog.ShowErrorAsync(Strings.GameRegistration_DuplicateGame);
                 return;
             }
 
@@ -119,8 +120,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         private void SelectThumbnailFileName()
         {
             var imageUri = openFileDialog.Show(
-                "サムネイル画像を選択してください", 
-                "画像ファイル(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp");
+                Strings.OpenFile_SelectThumbnail,
+                Strings.FileFilter_Image);
             if (imageUri != null)
             {
                 VerifiableGame.ImageUri = imageUri;
@@ -131,7 +132,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         private void SelectExecutionFileName()
         {
             var filePath = openFileDialog.Show(
-                "ゲームの実行ファイルを選択してください", "実行ファイル(*.exe)|*.exe");
+                Strings.OpenFile_SelectExecutable,
+                Strings.FileFilter_Executable);
             if (filePath != null)
             {
                 VerifiableGame.ExecutableFilePath = filePath;

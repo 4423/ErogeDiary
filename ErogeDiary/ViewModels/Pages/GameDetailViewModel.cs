@@ -1,6 +1,7 @@
 using ErogeDiary.Dialogs;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using ErogeDiary.ViewModels.Contents;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -69,7 +70,7 @@ namespace ErogeDiary.ViewModels.Pages
             {
                 if (string.IsNullOrWhiteSpace(Game?.ExecutableFilePath))
                 {
-                    await messageDialog.ShowErrorAsync("実行ファイルのパスが設定されていません。");
+                    await messageDialog.ShowErrorAsync(Strings.Game_ExecutablePathMissing);
                     return;
                 }
 
@@ -79,9 +80,9 @@ namespace ErogeDiary.ViewModels.Pages
             {
                 await messageDialog.ShowAsync(new MessageDialogParameters()
                 {
-                    Title = "エラー",
-                    Message = $"ゲームの起動に失敗しました。\n{ex.Message}",
-                    CloseButtonText = "OK",
+                    Title = Strings.Dialog_ErrorTitle,
+                    Message = string.Format(Strings.Game_StartFailedFormat, ex.Message),
+                    CloseButtonText = Strings.Common_Ok,
                 });
             }
         }
@@ -101,25 +102,25 @@ namespace ErogeDiary.ViewModels.Pages
         {
             var result = await messageDialog.ShowAsync(new MessageDialogParameters()
             {
-                Title = "確認",
-                Message = "ゲームの登録を解除しますか？\nセーブデータやゲーム本体は削除されません。",
-                PrimaryButtonText = "削除",
-                CloseButtonText = "キャンセル",
+                Title = Strings.Dialog_ConfirmTitle,
+                Message = Strings.Game_DeleteRegistrationConfirmation,
+                PrimaryButtonText = Strings.Common_Delete,
+                CloseButtonText = Strings.Common_Cancel,
             });
             if (result == MessageDialogResult.Primary)
             {
                 if (Game == null)
                 {
-                    await messageDialog.ShowErrorAsync("ゲームの情報が見つからないため解除できませんでした。");
+                    await messageDialog.ShowErrorAsync(Strings.Game_InfoMissingForDelete);
                     return;
                 }
 
                 await database.RemoveAsync(Game);
                 await messageDialog.ShowAsync(new MessageDialogParameters()
                 {
-                    Title = "情報",
-                    Message = "解除に成功しました。",
-                    CloseButtonText = "OK",
+                    Title = Strings.Dialog_InfoTitle,
+                    Message = Strings.Game_DeleteRegistrationSucceeded,
+                    CloseButtonText = Strings.Common_Ok,
                 });
                 NavigationHelper.GetNavigationService(regionManager)?.Journal?.GoBack();
             }

@@ -2,6 +2,7 @@ using ErogeDiary.Dialogs;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
@@ -82,8 +83,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         private void SelectThumbnailFileName()
         {
             var imageUri = openFileDialog.Show(
-                "サムネイル画像を選択してください",
-                "画像ファイル(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp");
+                Strings.OpenFile_SelectThumbnail,
+                Strings.FileFilter_Image);
             if (imageUri != null)
             {
                 VerifiableGame!.ImageUri = imageUri;
@@ -94,7 +95,8 @@ namespace ErogeDiary.ViewModels.Dialogs
         private void SelectExecutionFileName()
         {
             var fileName = openFileDialog.Show(
-                "ゲームの実行ファイルを選択してください", "実行ファイル(*.exe)|*.exe");
+                Strings.OpenFile_SelectExecutable,
+                Strings.FileFilter_Executable);
             if (fileName != null)
             {
                 VerifiableGame!.ExecutableFilePath = fileName;
@@ -130,7 +132,7 @@ namespace ErogeDiary.ViewModels.Dialogs
 
             if (await HasConflictingGame(VerifiableGame, originalGame.GameId))
             {
-                await messageDialog.ShowErrorAsync("既に同じゲームが登録されています。");
+                await messageDialog.ShowErrorAsync(Strings.GameRegistration_DuplicateGame);
                 return;
             }
 
@@ -144,7 +146,7 @@ namespace ErogeDiary.ViewModels.Dialogs
                 }
                 catch (Exception ex)
                 {
-                    await messageDialog.ShowErrorAsync($"サムネイル画像の取得に失敗しました。\n{ex.Message}");
+                    await messageDialog.ShowErrorAsync(string.Format(Strings.Thumbnail_DownloadFailedFormat, ex.Message));
                     return;
                 }
             }

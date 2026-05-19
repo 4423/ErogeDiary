@@ -1,6 +1,8 @@
 ﻿using ErogeDiary.Controls.Controls.CalendarHeatmap;
+using ErogeDiary.Controls.Properties;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -157,7 +159,7 @@ public class CalendarHeatmap : Control
 
             var textBlock = new TextBlock()
             {
-                Text = $"{firstRowCells.Key.Month}月"
+                Text = string.Format(CultureInfo.CurrentCulture, Strings.CalendarHeatmap_MonthFormat, firstRowCells.Key.Month)
             };
 
             var firstColumn = firstRowCells.Min(p => p.Col);

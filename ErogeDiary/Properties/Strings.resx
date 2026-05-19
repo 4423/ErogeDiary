@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_UnexpectedError" xml:space="preserve">
+    <value>予期しないエラーが発生しました。</value>
+  </data>
+  <data name="Common_Add" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="Common_Browse" xml:space="preserve">
+    <value>参照</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Common_Complete" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="DateFormat_Long" xml:space="preserve">
+    <value>yyyy年MM月dd日</value>
+  </data>
+  <data name="Dialog_ConfirmTitle" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="Dialog_ErrorTitle" xml:space="preserve">
+    <value>エラー</value>
+  </data>
+  <data name="Dialog_InfoTitle" xml:space="preserve">
+    <value>情報</value>
+  </data>
+  <data name="FileFilter_Executable" xml:space="preserve">
+    <value>実行ファイル(*.exe)|*.exe</value>
+  </data>
+  <data name="FileFilter_Image" xml:space="preserve">
+    <value>画像ファイル(*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
+  <data name="Game_ActionStart" xml:space="preserve">
+    <value>ゲームを起動</value>
+  </data>
+  <data name="Game_DeleteRegistration" xml:space="preserve">
+    <value>ゲームの登録を解除</value>
+  </data>
+  <data name="Game_DeleteRegistrationConfirmation" xml:space="preserve">
+    <value>ゲームの登録を解除しますか？
+セーブデータやゲーム本体は削除されません。</value>
+  </data>
+  <data name="Game_DeleteRegistrationSucceeded" xml:space="preserve">
+    <value>解除に成功しました。</value>
+  </data>
+  <data name="Game_DmmLaunchUnavailable" xml:space="preserve">
+    <value>DMM GAME PLAYER でインストールされたゲームはここから起動できません。</value>
+  </data>
+  <data name="Game_Edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="Game_ExecutablePathMissing" xml:space="preserve">
+    <value>実行ファイルのパスが設定されていません。</value>
+  </data>
+  <data name="Game_InfoMissingForDelete" xml:space="preserve">
+    <value>ゲームの情報が見つからないため解除できませんでした。</value>
+  </data>
+  <data name="Game_NotPlayed" xml:space="preserve">
+    <value>未プレイ</value>
+  </data>
+  <data name="Game_StartFailedFormat" xml:space="preserve">
+    <value>ゲームの起動に失敗しました。
+{0}</value>
+  </data>
+  <data name="GameEdit_Title" xml:space="preserve">
+    <value>ゲームの編集</value>
+  </data>
+  <data name="GameField_Brand" xml:space="preserve">
+    <value>ブランド</value>
+  </data>
+  <data name="GameField_Cleared" xml:space="preserve">
+    <value>攻略済み</value>
+  </data>
+  <data name="GameField_ClearedAt" xml:space="preserve">
+    <value>攻略日</value>
+  </data>
+  <data name="GameField_DmmInstalled" xml:space="preserve">
+    <value>DMM GAME PLAYER でインストール</value>
+  </data>
+  <data name="GameField_ErogameScapeUrl" xml:space="preserve">
+    <value>批評空間のゲームURL</value>
+  </data>
+  <data name="GameField_ExecutableFilePath" xml:space="preserve">
+    <value>実行ファイルの場所</value>
+  </data>
+  <data name="GameField_ImageLocation" xml:space="preserve">
+    <value>サムネイル画像の場所（URLまたはファイルパス）</value>
+  </data>
+  <data name="GameField_ReleaseDate" xml:space="preserve">
+    <value>発売日</value>
+  </data>
+  <data name="GameField_Title" xml:space="preserve">
+    <value>タイトル</value>
+  </data>
+  <data name="GameField_WindowTitle" xml:space="preserve">
+    <value>ゲームウィンドウに表示されるタイトル</value>
+  </data>
+  <data name="GameRegistration_AutoFillFromErogameScape" xml:space="preserve">
+    <value>批評空間から自動入力</value>
+  </data>
+  <data name="GameRegistration_DuplicateGame" xml:space="preserve">
+    <value>既に同じゲームが登録されています。</value>
+  </data>
+  <data name="GameRegistration_InvalidErogameScapeUrl" xml:space="preserve">
+    <value>有効なURLではありません</value>
+  </data>
+  <data name="GameRegistration_RegisterButton" xml:space="preserve">
+    <value>登録</value>
+  </data>
+  <data name="GameRegistration_Title" xml:space="preserve">
+    <value>ゲームの登録</value>
+  </data>
+  <data name="GameRegistration_UrlExample" xml:space="preserve">
+    <value>例：https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/game.php?game=12345</value>
+  </data>
+  <data name="Home_Filter_All" xml:space="preserve">
+    <value>すべて</value>
+  </data>
+  <data name="Home_Filter_Cleared" xml:space="preserve">
+    <value>攻略済み</value>
+  </data>
+  <data name="Home_Filter_NotCleared" xml:space="preserve">
+    <value>未攻略</value>
+  </data>
+  <data name="Home_FilterLabel" xml:space="preserve">
+    <value>絞り込み：</value>
+  </data>
+  <data name="Home_Order_ByBrand" xml:space="preserve">
+    <value>ブランド順</value>
+  </data>
+  <data name="Home_Order_ByLongPlayTime" xml:space="preserve">
+    <value>プレイ時間が長い順</value>
+  </data>
+  <data name="Home_Order_ByNewRegistration" xml:space="preserve">
+    <value>最近登録した順</value>
+  </data>
+  <data name="Home_Order_ByNewReleaseDate" xml:space="preserve">
+    <value>発売日が新しい順</value>
+  </data>
+  <data name="Home_Order_ByRecentPlay" xml:space="preserve">
+    <value>最近プレイした順</value>
+  </data>
+  <data name="Home_OrderLabel" xml:space="preserve">
+    <value>並び替え：</value>
+  </data>
+  <data name="Home_RegisterGame" xml:space="preserve">
+    <value>ゲームを登録</value>
+  </data>
+  <data name="Main_Monitoring" xml:space="preserve">
+    <value>計測中：</value>
+  </data>
+  <data name="Main_TotalPlayTime" xml:space="preserve">
+    <value>合計プレイ時間：</value>
+  </data>
+  <data name="OpenFile_SelectExecutable" xml:space="preserve">
+    <value>ゲームの実行ファイルを選択してください</value>
+  </data>
+  <data name="OpenFile_SelectThumbnail" xml:space="preserve">
+    <value>サムネイル画像を選択してください</value>
+  </data>
+  <data name="PlayLogHistogram_Average" xml:space="preserve">
+    <value>プレイ時間の平均値  </value>
+  </data>
+  <data name="PlayLogHistogram_Bucket_1Hour" xml:space="preserve">
+    <value>1時間</value>
+  </data>
+  <data name="PlayLogHistogram_Bucket_30Minutes" xml:space="preserve">
+    <value>30分</value>
+  </data>
+  <data name="PlayLogHistogram_BucketLabelFormat" xml:space="preserve">
+    <value>{0}時間～</value>
+  </data>
+  <data name="PlayLogHistogram_Maximum" xml:space="preserve">
+    <value>プレイ時間の最大値  </value>
+  </data>
+  <data name="PlayLogHistogram_Median" xml:space="preserve">
+    <value>プレイ時間の中央値  </value>
+  </data>
+  <data name="PlayLogHistogram_Title" xml:space="preserve">
+    <value>間隔でまとめたプレイ時間の頻度</value>
+  </data>
+  <data name="PlayLogs_FirstPlayed" xml:space="preserve">
+    <value>初回プレイ  </value>
+  </data>
+  <data name="PlayLogs_LastPlayed" xml:space="preserve">
+    <value>最終プレイ  </value>
+  </data>
+  <data name="PlayLogs_LastYear" xml:space="preserve">
+    <value>過去1年</value>
+  </data>
+  <data name="PlayLogs_PlayHistorySuffix" xml:space="preserve">
+    <value>のプレイ履歴</value>
+  </data>
+  <data name="PlayLogs_TooltipHoursFormat" xml:space="preserve">
+    <value>{0}時間</value>
+  </data>
+  <data name="PlayTime_HoursFormat" xml:space="preserve">
+    <value>{0}時間</value>
+  </data>
+  <data name="PlayTime_MinutesFormat" xml:space="preserve">
+    <value>{0}分</value>
+  </data>
+  <data name="PlayTime_SecondsFormat" xml:space="preserve">
+    <value>{0}秒</value>
+  </data>
+  <data name="Root_Add" xml:space="preserve">
+    <value>ルートを追加</value>
+  </data>
+  <data name="Root_AllocateAllUnallocatedPlayTime" xml:space="preserve">
+    <value>未割り当てのプレイ時間すべてをルートに割り当てる</value>
+  </data>
+  <data name="Root_AssignedPlayTimeHeader" xml:space="preserve">
+    <value>ルートに割り当てるプレイ時間</value>
+  </data>
+  <data name="Root_ClearedAtHeader" xml:space="preserve">
+    <value>ルート攻略日</value>
+  </data>
+  <data name="Root_ClearedCheckBox" xml:space="preserve">
+    <value>ルート攻略済み</value>
+  </data>
+  <data name="Root_ClearedTooltipFormat" xml:space="preserve">
+    <value>{0}に攻略</value>
+  </data>
+  <data name="Root_ColorTooltip" xml:space="preserve">
+    <value>ルートの色</value>
+  </data>
+  <data name="Root_Edit" xml:space="preserve">
+    <value>ルート編集</value>
+  </data>
+  <data name="Root_EditTitle" xml:space="preserve">
+    <value>ルートの編集</value>
+  </data>
+  <data name="Root_NameHeader" xml:space="preserve">
+    <value>ルート名</value>
+  </data>
+  <data name="Root_NewNameHeader" xml:space="preserve">
+    <value>新しいルート名</value>
+  </data>
+  <data name="Root_PlayTimeMaxErrorFormat" xml:space="preserve">
+    <value>ルートに割り当てるプレイ時間は {0} 以下を指定してください。</value>
+  </data>
+  <data name="Root_PlayTimeMinOneSecondError" xml:space="preserve">
+    <value>ルートに割り当てるプレイ時間は1秒以上を指定してください。</value>
+  </data>
+  <data name="Root_RegistrationTitle" xml:space="preserve">
+    <value>ルートの追加</value>
+  </data>
+  <data name="Root_Remove" xml:space="preserve">
+    <value>ルート削除</value>
+  </data>
+  <data name="Root_RemoveFailed" xml:space="preserve">
+    <value>ルートの削除に失敗しました。</value>
+  </data>
+  <data name="Root_RemoveTitle" xml:space="preserve">
+    <value>ルートの削除</value>
+  </data>
+  <data name="Root_UnallocatedLabel" xml:space="preserve">
+    <value>（未割り当てのルート）</value>
+  </data>
+  <data name="Thumbnail_DownloadFailedFormat" xml:space="preserve">
+    <value>サムネイル画像の取得に失敗しました。
+{0}</value>
+  </data>
+  <data name="Validation_BrandRequired" xml:space="preserve">
+    <value>ブランドを入力してください。</value>
+  </data>
+  <data name="Validation_ClearedAtRequired" xml:space="preserve">
+    <value>攻略日を入力してください。</value>
+  </data>
+  <data name="Validation_ExecutableFilePathRequired" xml:space="preserve">
+    <value>実行ファイルの場所を入力してください。</value>
+  </data>
+  <data name="Validation_FileNotFound" xml:space="preserve">
+    <value>指定された場所にファイルが存在しません。</value>
+  </data>
+  <data name="Validation_ImageUriRequired" xml:space="preserve">
+    <value>サムネイル画像の場所を入力してください。</value>
+  </data>
+  <data name="Validation_PlayTimeRequired" xml:space="preserve">
+    <value>プレイ時間を入力してください。</value>
+  </data>
+  <data name="Validation_ReleaseDateRequired" xml:space="preserve">
+    <value>発売日を入力してください。</value>
+  </data>
+  <data name="Validation_RootNameRequired" xml:space="preserve">
+    <value>ルート名を入力してください。</value>
+  </data>
+  <data name="Validation_TimeSpanFormat" xml:space="preserve">
+    <value>不正な時間の形式です。</value>
+  </data>
+  <data name="Validation_TitleRequired" xml:space="preserve">
+    <value>タイトルを入力してください。</value>
+  </data>
+  <data name="Validation_ValidExtensionsFormat" xml:space="preserve">
+    <value>有効な拡張子は {0} のいずれかです。</value>
+  </data>
+  <data name="Validation_WindowTitleRequired" xml:space="preserve">
+    <value>ウィンドウタイトルを入力してください。</value>
+  </data>
+</root>

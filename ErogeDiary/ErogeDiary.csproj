@@ -48,6 +48,11 @@
     <Compile Update="Views\Dialogs\RootRemoveDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Properties\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Views\Dialogs\RootEditDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -57,6 +62,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Properties\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Update="Assets\icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

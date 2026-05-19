@@ -7,14 +7,15 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:ErogeDiary.Controls;assembly=ErogeDiary.Controls"
              xmlns:local="clr-namespace:ErogeDiary.Views.Contents"
+             xmlns:properties="clr-namespace:ErogeDiary.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="600">
     <StackPanel>
         <ui:CommandBar>
-            <ui:AppBarButton Icon="Add" Label="ルートを追加" Command="{Binding AddRootCommand}"/>
+            <ui:AppBarButton Icon="Add" Label="{x:Static properties:Strings.Root_Add}" Command="{Binding AddRootCommand}"/>
             <ui:CommandBar.SecondaryCommands>
-                <ui:AppBarButton Icon="Edit" Label="ルート編集" Command="{Binding EditRootCommand}"/>
-                <ui:AppBarButton Icon="Delete" Label="ルート削除" Command="{Binding RemoveRootCommand}"/>
+                <ui:AppBarButton Icon="Edit" Label="{x:Static properties:Strings.Root_Edit}" Command="{Binding EditRootCommand}"/>
+                <ui:AppBarButton Icon="Delete" Label="{x:Static properties:Strings.Root_Remove}" Command="{Binding RemoveRootCommand}"/>
             </ui:CommandBar.SecondaryCommands>
         </ui:CommandBar>
         <controls:HorizontalStackedBarChart ItemsSource="{Binding RootChartDataList}"/>

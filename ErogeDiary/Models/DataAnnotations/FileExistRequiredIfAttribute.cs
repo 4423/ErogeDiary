@@ -1,4 +1,5 @@
 ﻿using System;
+using ErogeDiary.Properties;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 
@@ -11,7 +12,8 @@ namespace ErogeDiary.Models.DataAnnotations
             object conditionPropertyValue
         ) : base(conditionProperty, conditionPropertyValue)
         {
-            ErrorMessage = "指定された場所にファイルが存在しません。";
+            ErrorMessageResourceType = typeof(Strings);
+            ErrorMessageResourceName = nameof(Strings.Validation_FileNotFound);
         }
 
 

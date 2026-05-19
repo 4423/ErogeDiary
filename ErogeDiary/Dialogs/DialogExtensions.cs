@@ -1,4 +1,5 @@
 ﻿using System;
+using ErogeDiary.Properties;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,9 @@ namespace ErogeDiary.Dialogs
         {
             return await dialog.ShowAsync(new MessageDialogParameters()
             {
-                Title = "エラー",
+                Title = Strings.Dialog_ErrorTitle,
                 Message = errorMessage,
-                CloseButtonText = "OK",
+                CloseButtonText = Strings.Common_Ok,
             });
         }
     }

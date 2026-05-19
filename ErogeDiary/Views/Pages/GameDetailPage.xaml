@@ -8,6 +8,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:contents="clr-namespace:ErogeDiary.Views.Contents"
     xmlns:local="clr-namespace:ErogeDiary.Views.Pages"
+    xmlns:properties="clr-namespace:ErogeDiary.Properties"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -46,15 +47,15 @@
                                    Style="{StaticResource BodyTextBlockStyle}"/>
                     </StackPanel>
                     <ui:CommandBar Grid.Row="1" HorizontalAlignment="Left" Background="Transparent">
-                        <ui:AppBarButton Icon="Play" Label="ゲームを起動"
+                        <ui:AppBarButton Icon="Play" Label="{x:Static properties:Strings.Game_ActionStart}"
                                          Command="{Binding StartGameCommand}"
                                          IsEnabled="{Binding Game.CanLaunch}"
                                          ToolTipService.IsEnabled="{Binding Game.CanLaunch, Converter={StaticResource InverseBooleanConverter}}"
                                          ToolTipService.ShowOnDisabled="True"
-                                         ToolTip="DMM GAME PLAYER でインストールされたゲームはここから起動できません。"/>
-                        <ui:AppBarButton Icon="Edit" Label="編集"
+                                         ToolTip="{x:Static properties:Strings.Game_DmmLaunchUnavailable}"/>
+                        <ui:AppBarButton Icon="Edit" Label="{x:Static properties:Strings.Game_Edit}"
                                          Command="{Binding EditGameCommand}"/>
-                        <ui:AppBarButton Icon="Delete" Label="ゲームの登録を解除" 
+                        <ui:AppBarButton Icon="Delete" Label="{x:Static properties:Strings.Game_DeleteRegistration}" 
                                          Command="{Binding DeleteGameCommand}"/>
                     </ui:CommandBar>
                 </Grid>
@@ -69,7 +70,7 @@
                         <TextBlock FontSize="34" FontWeight="Light"
                                            Text="{Binding Game.TotalPlayTime, 
                                                 Converter={StaticResource PlayTimeToStringConverter},
-                                                ConverterParameter=未プレイ}"/>
+                                                ConverterParameter={x:Static properties:Strings.Game_NotPlayed}}"/>
                     </StackPanel>
                     <contents:Roots DataContext="{Binding Roots}"/>
                     <contents:PlayLogs DataContext="{Binding PlayLogs}" Margin="0 30 0 20"/>

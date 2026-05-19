@@ -3,6 +3,7 @@ using ErogeDiary.Helpers;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Prism.Services.Dialogs;
@@ -106,14 +107,14 @@ namespace ErogeDiary.ViewModels.Dialogs
                 if (playTime > u)
                 {
                     var s = u.ToZeroPaddingStringWithoutDays();
-                    var m = $"ルートに割り当てるプレイ時間は {s} 以下を指定してください。";
+                    var m = string.Format(Strings.Root_PlayTimeMaxErrorFormat, s);
                     await messageDialog.ShowErrorAsync(m);
                     return;
                 }
                 if (playTime.TotalSeconds < 1)
                 {
                     await messageDialog.ShowErrorAsync(
-                        "ルートに割り当てるプレイ時間は1秒以上を指定してください。"
+                        Strings.Root_PlayTimeMinOneSecondError
                     );
                     return;
                 }

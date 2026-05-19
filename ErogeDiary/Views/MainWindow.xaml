@@ -7,6 +7,7 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:local="clr-namespace:ErogeDiary.Views"
+        xmlns:properties="clr-namespace:ErogeDiary.Properties"
         xmlns:input="clr-namespace:ErogeDiary.Views.Input"
         mc:Ignorable="d"
         Background="#1f2022"
@@ -74,14 +75,14 @@
                 </Grid.ColumnDefinitions>
             
                 <TextBlock Grid.Column="0" FontSize="12">
-                    <Run Text="計測中："/>
+                    <Run Text="{x:Static properties:Strings.Main_Monitoring}"/>
                     <Run Text="{Binding ActiveGame.Title}" />
                     <Run Text=" / "/>
                     <Run Text="{Binding ActiveGame.Brand}" />
                 </TextBlock>
 
                 <TextBlock Grid.Column="1" FontSize="12">
-                    <Run Text="合計プレイ時間："/>
+                    <Run Text="{x:Static properties:Strings.Main_TotalPlayTime}"/>
                     <Run Text="{Binding TotalPlayTime, Converter={StaticResource TimeSpanToZeroPaddingStringWithoutDaysConverter}}"/>
                 </TextBlock>
             </Grid>

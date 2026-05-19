@@ -1,6 +1,7 @@
 using ErogeDiary.Controls;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Prism.Services.Dialogs;
@@ -59,7 +60,7 @@ public partial class RootsViewModel : ObservableObject
         var unallocatedTime = game.GetUnallocatedTime();
         var unallocatedData = new ChartData()
         {
-            Label = "（未割り当てのルート）",
+            Label = Strings.Root_UnallocatedLabel,
             Value = unallocatedTime.TotalSeconds,
             ToolTip = unallocatedTime.ToPlayTimeString(),
             Color = new SolidColorBrush(Colors.DimGray)
@@ -74,7 +75,7 @@ public partial class RootsViewModel : ObservableObject
             var tooltip = r.PlayTime.ToPlayTimeString();
             if (r.IsCleared)
             {
-                tooltip += Environment.NewLine + $"{r.ClearedAt?.ToLongDateString()}に攻略";
+                tooltip += Environment.NewLine + string.Format(Strings.Root_ClearedTooltipFormat, r.ClearedAt?.ToLongDateString());
             }
             return new ChartData()
             {

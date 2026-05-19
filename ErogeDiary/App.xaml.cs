@@ -2,6 +2,7 @@
 using ErogeDiary.ErogameScape;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
+using ErogeDiary.Properties;
 using ErogeDiary.ViewModels.Dialogs;
 using ErogeDiary.ViewModels.Pages;
 using ErogeDiary.Views;
@@ -149,10 +150,10 @@ public partial class App : PrismApplication
         }
 
         var message =
-            "予期しないエラーが発生しました。\n"
+            Strings.App_UnexpectedError + "\n"
             + $"Source: {source}\n"
             + $"{ex.Message}";
-        MessageBox.Show(message, "error", MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(message, Strings.Dialog_ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
     private void WriteErrorLog(Exception ex, string source)

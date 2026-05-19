@@ -1,10 +1,12 @@
 using ErogeDiary.Controls.Histogram;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Linq;
 
 namespace ErogeDiary.ViewModels.Contents;
@@ -18,15 +20,15 @@ public partial class PlayLogHistogramViewModel : ObservableObject
         {
             new Bucket(
                 Size: TimeSpan.FromMinutes(30).TotalMinutes, 
-                Label: "30分", 
+                Label: Strings.PlayLogHistogram_Bucket_30Minutes, 
                 // 0時間～, 0.5時間～, 1時間～ のように表示
                 TooltipLabelFormatter: (index) => (index % 2 == 0) switch
                 {
-                    true => $"{index/2}時間～",
-                    false => $"{index/2.0:F1}時間～",
+                    true => string.Format(CultureInfo.CurrentCulture, Strings.PlayLogHistogram_BucketLabelFormat, index / 2),
+                    false => string.Format(CultureInfo.CurrentCulture, Strings.PlayLogHistogram_BucketLabelFormat, (index / 2.0).ToString("F1", CultureInfo.CurrentCulture)),
                 }
             ),
-            new Bucket(TimeSpan.FromHours(1).TotalMinutes, "1時間", (index) => $"{index}時間～"),
+            new Bucket(TimeSpan.FromHours(1).TotalMinutes, Strings.PlayLogHistogram_Bucket_1Hour, (index) => string.Format(CultureInfo.CurrentCulture, Strings.PlayLogHistogram_BucketLabelFormat, index)),
         };
         SelectedBucket = Buckets.First();
     }

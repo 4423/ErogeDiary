@@ -2,6 +2,7 @@
 using ErogeDiary.Models;
 using ErogeDiary.Models.DataAnnotations;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -24,22 +25,22 @@ public partial class VerifiableGame : ObservableValidator
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [Required(ErrorMessage = "タイトルを入力してください。")]
+    [Required(ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_TitleRequired))]
     private string? title;
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [Required(ErrorMessage = "ブランドを入力してください。")]
+    [Required(ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_BrandRequired))]
     private string? brand;
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [Required(ErrorMessage = "発売日を入力してください。")]
+    [Required(ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_ReleaseDateRequired))]
     private DateOnly? releaseDate;
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [Required(ErrorMessage = "サムネイル画像の場所を入力してください。")]
+    [Required(ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_ImageUriRequired))]
     [ValidExtensionRequired(".jpg", ".jpeg", ".png", ".bmp")]
     private string? imageUri;
 
@@ -67,12 +68,12 @@ public partial class VerifiableGame : ObservableValidator
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [RequiredIf(nameof(InstallationType), InstallationType.DmmGamePlayer, ErrorMessage = "ウィンドウタイトルを入力してください。")]
+    [RequiredIf(nameof(InstallationType), InstallationType.DmmGamePlayer, ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_WindowTitleRequired))]
     private string? windowTitle;
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [RequiredIf(nameof(InstallationType), InstallationType.Default, ErrorMessage = "実行ファイルの場所を入力してください。")]
+    [RequiredIf(nameof(InstallationType), InstallationType.Default, ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_ExecutableFilePathRequired))]
     [FileExistRequiredIf(nameof(InstallationType), InstallationType.Default)]
     private string? executableFilePath;
 
@@ -87,7 +88,7 @@ public partial class VerifiableGame : ObservableValidator
 
     [ObservableProperty]
     [NotifyDataErrorInfo]
-    [RequiredIf(nameof(IsCleared), true, ErrorMessage = "攻略日を入力してください。")]
+    [RequiredIf(nameof(IsCleared), true, ErrorMessageResourceType = typeof(Strings), ErrorMessageResourceName = nameof(Strings.Validation_ClearedAtRequired))]
     private DateTime? clearedAt;
 
     public bool Valid()

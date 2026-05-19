@@ -9,6 +9,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:local="clr-namespace:ErogeDiary.Views.Pages"
+    xmlns:properties="clr-namespace:ErogeDiary.Properties"
     xmlns:vm="clr-namespace:ErogeDiary.ViewModels"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d" 
@@ -84,7 +85,7 @@
 
             <StackPanel Grid.Column="0">
                 <ui:CommandBar>
-                    <ui:AppBarButton Icon="Add" Label="ゲームを登録" Command="{Binding GameRegistrationCommand}"/>
+                    <ui:AppBarButton Icon="Add" Label="{x:Static properties:Strings.Home_RegisterGame}" Command="{Binding GameRegistrationCommand}"/>
                 </ui:CommandBar>
             </StackPanel>
             
@@ -96,14 +97,14 @@
                     </Style>
                 </StackPanel.Resources>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 20 0">
-                    <TextBlock Text="並び替え：" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                    <TextBlock Text="{x:Static properties:Strings.Home_OrderLabel}" VerticalAlignment="Center" Margin="0 0 5 0"/>
                     <ComboBox SelectedValue="{Binding OrderSelectedItem, Mode=TwoWay}" 
                               ItemsSource="{Binding OrderItems}"
                               DisplayMemberPath="DisplayName"
                               FontSize="12" Width="140"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="絞り込み：" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                    <TextBlock Text="{x:Static properties:Strings.Home_FilterLabel}" VerticalAlignment="Center" Margin="0 0 5 0"/>
                     <ComboBox SelectedValue="{Binding FilterSelectedItem, Mode=TwoWay}"
                               ItemsSource="{Binding FilterItems}"
                               DisplayMemberPath="DisplayName"
@@ -147,7 +148,7 @@
                                     Opacity="1"
                                     Background="#88000000"
                                     Foreground="White"
-                                    ToolTip="ゲームを起動"
+                                    ToolTip="{x:Static properties:Strings.Game_ActionStart}"
                                     Command="{Binding Path=DataContext.StartGameCommand,
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:Page}}}"
                                     CommandParameter="{Binding}"

@@ -3,10 +3,12 @@ using ErogeDiary.Controls.Controls.CalendarHeatmap;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
+using ErogeDiary.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Media;
 using static ErogeDiary.Helpers.DateOnlyHelpers;
@@ -48,7 +50,7 @@ public partial class PlayLogsViewModel : ObservableObject
         yield return new DateRange(
             Start: DateOnly.FromDateTime(oneYearAgoSunday),
             End: today,
-            Label: "過去1年"
+            Label: Strings.PlayLogs_LastYear
         );
 
         // PlayLog が存在する年（過去1年と重複する年も含む）
@@ -163,7 +165,7 @@ public partial class PlayLogsViewModel : ObservableObject
     public TooltipLabelFormatterDelegate TooltipLabelFormatter { get; } = (date, points) =>
         $"""
         {date}
-        {CeilingWithDecimalPlaces(points.Sum(p => p.Value), 1)}時間
+        {string.Format(CultureInfo.CurrentCulture, Strings.PlayLogs_TooltipHoursFormat, CeilingWithDecimalPlaces(points.Sum(p => p.Value), 1))}
         """;
 
     [ObservableProperty]
