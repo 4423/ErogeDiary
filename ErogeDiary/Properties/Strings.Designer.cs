@@ -458,7 +458,7 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// 絞り込み： のようなローカライズされた文字列を検索します。
+        /// 絞り込み のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Home_FilterLabel {
             get {
@@ -512,7 +512,7 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// 並び替え： のようなローカライズされた文字列を検索します。
+        /// 並び替え のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Home_OrderLabel {
             get {
@@ -530,7 +530,7 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// 計測中： のようなローカライズされた文字列を検索します。
+        /// 計測中 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Main_Monitoring {
             get {
@@ -539,7 +539,7 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// 合計プレイ時間： のようなローカライズされた文字列を検索します。
+        /// 合計プレイ時間 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Main_TotalPlayTime {
             get {
@@ -566,7 +566,7 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// プレイ時間の平均値   のようなローカライズされた文字列を検索します。
+        /// プレイ時間の平均値 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string PlayLogHistogram_Average {
             get {
@@ -602,7 +602,7 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// プレイ時間の最大値   のようなローカライズされた文字列を検索します。
+        /// プレイ時間の最大値 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string PlayLogHistogram_Maximum {
             get {
@@ -611,7 +611,7 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// プレイ時間の中央値   のようなローカライズされた文字列を検索します。
+        /// プレイ時間の中央値 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string PlayLogHistogram_Median {
             get {
@@ -629,7 +629,7 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// 初回プレイ   のようなローカライズされた文字列を検索します。
+        /// 初回プレイ のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string PlayLogs_FirstPlayed {
             get {
@@ -638,7 +638,7 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// 最終プレイ   のようなローカライズされた文字列を検索します。
+        /// 最終プレイ のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string PlayLogs_LastPlayed {
             get {

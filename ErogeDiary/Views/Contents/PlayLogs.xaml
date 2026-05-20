@@ -29,15 +29,14 @@
                     <Setter Property="Foreground" Value="#DDD"/>
                 </Style>
             </StackPanel.Resources>
-            <TextBlock Visibility="{Binding FirstPlayedAt}">
-                <!-- TODO: Remove space from text property -->
-                <Run Text="{x:Static properties:Strings.PlayLogs_FirstPlayed}"/>
-                <Run Text="{Binding FirstPlayedAt, StringFormat={x:Static properties:Strings.DateFormat_Long}}"/>
-            </TextBlock>
-            <TextBlock Visibility="{Binding Game.LastPlayedAt}">
-                <Run Text="{x:Static properties:Strings.PlayLogs_LastPlayed}"/>
-                <Run Text="{Binding Game.LastPlayedAt, StringFormat={x:Static properties:Strings.DateFormat_Long}}"/>
-            </TextBlock>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding FirstPlayedAt}">
+                <TextBlock Text="{x:Static properties:Strings.PlayLogs_FirstPlayed}"/>
+                <TextBlock Text="{Binding FirstPlayedAt, StringFormat={x:Static properties:Strings.DateFormat_Long}}" Margin="7 0 0 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Visibility="{Binding Game.LastPlayedAt}">
+                <TextBlock Text="{x:Static properties:Strings.PlayLogs_LastPlayed}"/>
+                <TextBlock Text="{Binding Game.LastPlayedAt, StringFormat={x:Static properties:Strings.DateFormat_Long}}" Margin="7 0 0 0"/>
+            </StackPanel>
         </StackPanel>
 
         <local:PlayLogHistogram DataContext="{Binding PlayLogHistogram}" Margin="0 30 0 0"/>

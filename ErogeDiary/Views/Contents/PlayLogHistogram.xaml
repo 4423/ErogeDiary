@@ -40,19 +40,18 @@
                     <Setter Property="Foreground" Value="#DDD"/>
                 </Style>
             </StackPanel.Resources>
-            <TextBlock>
-                <!-- TODO: Remove space from text property -->
-                <Run Text="{x:Static properties:Strings.PlayLogHistogram_Average}"/>
-                <Run Text="{Binding AveragePlayTime, Mode=OneWay, Converter={StaticResource PlayTimeToStringConverter}}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="{x:Static properties:Strings.PlayLogHistogram_Median}"/>
-                <Run Text="{Binding MedianPlayTime, Mode=OneWay, Converter={StaticResource PlayTimeToStringConverter}}"/>
-            </TextBlock>
-            <TextBlock>
-                <Run Text="{x:Static properties:Strings.PlayLogHistogram_Maximum}"/>
-                <Run Text="{Binding MaximumPlayTime, Mode=OneWay, Converter={StaticResource PlayTimeToStringConverter}}"/>
-            </TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static properties:Strings.PlayLogHistogram_Average}"/>
+                <TextBlock Text="{Binding AveragePlayTime, Mode=OneWay, Converter={StaticResource PlayTimeToStringConverter}}" Margin="7 0 0 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static properties:Strings.PlayLogHistogram_Median}"/>
+                <TextBlock Text="{Binding MedianPlayTime, Mode=OneWay, Converter={StaticResource PlayTimeToStringConverter}}" Margin="7 0 0 0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static properties:Strings.PlayLogHistogram_Maximum}"/>
+                <TextBlock Text="{Binding MaximumPlayTime, Mode=OneWay, Converter={StaticResource PlayTimeToStringConverter}}" Margin="7 0 0 0"/>
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

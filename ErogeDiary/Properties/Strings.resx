@@ -147,7 +147,7 @@
     <value>未攻略</value>
   </data>
   <data name="Home_FilterLabel" xml:space="preserve">
-    <value>絞り込み：</value>
+    <value>絞り込み</value>
   </data>
   <data name="Home_Order_ByBrand" xml:space="preserve">
     <value>ブランド順</value>
@@ -165,16 +165,16 @@
     <value>最近プレイした順</value>
   </data>
   <data name="Home_OrderLabel" xml:space="preserve">
-    <value>並び替え：</value>
+    <value>並び替え</value>
   </data>
   <data name="Home_RegisterGame" xml:space="preserve">
     <value>ゲームを登録</value>
   </data>
   <data name="Main_Monitoring" xml:space="preserve">
-    <value>計測中：</value>
+    <value>計測中</value>
   </data>
   <data name="Main_TotalPlayTime" xml:space="preserve">
-    <value>合計プレイ時間：</value>
+    <value>合計プレイ時間</value>
   </data>
   <data name="OpenFile_SelectExecutable" xml:space="preserve">
     <value>ゲームの実行ファイルを選択してください</value>
@@ -183,7 +183,7 @@
     <value>サムネイル画像を選択してください</value>
   </data>
   <data name="PlayLogHistogram_Average" xml:space="preserve">
-    <value>プレイ時間の平均値  </value>
+    <value>プレイ時間の平均値</value>
   </data>
   <data name="PlayLogHistogram_Bucket_1Hour" xml:space="preserve">
     <value>1時間</value>
@@ -195,19 +195,19 @@
     <value>{0}時間～</value>
   </data>
   <data name="PlayLogHistogram_Maximum" xml:space="preserve">
-    <value>プレイ時間の最大値  </value>
+    <value>プレイ時間の最大値</value>
   </data>
   <data name="PlayLogHistogram_Median" xml:space="preserve">
-    <value>プレイ時間の中央値  </value>
+    <value>プレイ時間の中央値</value>
   </data>
   <data name="PlayLogHistogram_Title" xml:space="preserve">
     <value>間隔でまとめたプレイ時間の頻度</value>
   </data>
   <data name="PlayLogs_FirstPlayed" xml:space="preserve">
-    <value>初回プレイ  </value>
+    <value>初回プレイ</value>
   </data>
   <data name="PlayLogs_LastPlayed" xml:space="preserve">
-    <value>最終プレイ  </value>
+    <value>最終プレイ</value>
   </data>
   <data name="PlayLogs_LastYear" xml:space="preserve">
     <value>過去1年</value>
