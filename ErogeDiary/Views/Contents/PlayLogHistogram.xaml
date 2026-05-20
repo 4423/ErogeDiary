@@ -24,7 +24,7 @@
                                     TooltipLabelFormatter="{Binding SelectedBucket.TooltipLabelFormatter}"
                                     HorizontalAlignment="Left" Margin="20 0 0 10"/>
                 <!-- プレイ履歴がない場合 -->
-                <TextBlock Text="No Data" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9"
+                <TextBlock Text="{x:Static properties:Strings.PlayLogHistogram_NoData}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.9"
                            Visibility="{Binding HasPlayLogs, Converter={StaticResource NegativeBooleanToVisibilityConverter}}"/>
             </Grid>
             <!-- GameDetailPage をマウスホイールで移動できたほうがストレスが無い -->

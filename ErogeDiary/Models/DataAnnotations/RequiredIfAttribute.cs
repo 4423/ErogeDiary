@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
+using ErogeDiary.Properties;
+
 namespace ErogeDiary.Models.DataAnnotations;
     
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
@@ -34,7 +36,7 @@ public class RequiredIfAttribute : ValidationAttribute
         if (conditionProperty == null)
         {
             return new ValidationResult(
-                string.Format(CultureInfo.CurrentCulture, "Could not find a property named '{0}'.", ConditionProperty));
+                string.Format(CultureInfo.CurrentCulture, Strings.Validation_PropertyNotFoundFormat, ConditionProperty));
         }
 
         var conditionValue = conditionProperty.GetValue(validationContext.ObjectInstance);

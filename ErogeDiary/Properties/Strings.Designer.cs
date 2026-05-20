@@ -620,6 +620,15 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
+        /// No Data のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlayLogHistogram_NoData {
+            get {
+                return ResourceManager.GetString("PlayLogHistogram_NoData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// 間隔でまとめたプレイ時間の頻度 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string PlayLogHistogram_Title {
@@ -914,6 +923,15 @@ namespace ErogeDiary.Properties {
         public static string Validation_ImageUriRequired {
             get {
                 return ResourceManager.GetString("Validation_ImageUriRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// プロパティ '{0}' が見つかりません。 のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Validation_PropertyNotFoundFormat {
+            get {
+                return ResourceManager.GetString("Validation_PropertyNotFoundFormat", resourceCulture);
             }
         }
         

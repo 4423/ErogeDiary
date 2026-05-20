@@ -200,6 +200,9 @@
   <data name="PlayLogHistogram_Median" xml:space="preserve">
     <value>プレイ時間の中央値</value>
   </data>
+  <data name="PlayLogHistogram_NoData" xml:space="preserve">
+    <value>No Data</value>
+  </data>
   <data name="PlayLogHistogram_Title" xml:space="preserve">
     <value>間隔でまとめたプレイ時間の頻度</value>
   </data>
@@ -299,6 +302,9 @@
   </data>
   <data name="Validation_ImageUriRequired" xml:space="preserve">
     <value>サムネイル画像の場所を入力してください。</value>
+  </data>
+  <data name="Validation_PropertyNotFoundFormat" xml:space="preserve">
+    <value>プロパティ '{0}' が見つかりません。</value>
   </data>
   <data name="Validation_PlayTimeRequired" xml:space="preserve">
     <value>プレイ時間を入力してください。</value>
