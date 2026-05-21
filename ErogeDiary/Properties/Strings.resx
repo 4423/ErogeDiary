@@ -194,6 +194,9 @@
   <data name="PlayLogHistogram_BucketLabelFormat" xml:space="preserve">
     <value>{0}時間～</value>
   </data>
+  <data name="PlayLogHistogram_CountTooltipFormat" xml:space="preserve">
+    <value>{0}回</value>
+  </data>
   <data name="PlayLogHistogram_Maximum" xml:space="preserve">
     <value>プレイ時間の最大値</value>
   </data>

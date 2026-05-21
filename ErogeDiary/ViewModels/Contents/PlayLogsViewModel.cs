@@ -1,5 +1,4 @@
 using ErogeDiary.Controls.CalendarHeatmap;
-using ErogeDiary.Controls.Controls.CalendarHeatmap;
 using ErogeDiary.Models;
 using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
@@ -139,7 +138,7 @@ public partial class PlayLogsViewModel : ObservableObject
         Update();
     }
 
-    public ColorConverterDelegate ColorConverter { get; } = (points) =>
+    public CalendarHeatmapCellBrushSelector CellBrushSelector { get; } = (date, points) =>
     {
         var totalHours = points.Sum(p => p.Value);
         return totalHours switch
@@ -162,7 +161,7 @@ public partial class PlayLogsViewModel : ObservableObject
         public static SolidColorBrush Level4 { get; } = fromColorCode("#e491a5"); // 6h～
     }
 
-    public TooltipLabelFormatterDelegate TooltipLabelFormatter { get; } = (date, points) =>
+    public CalendarHeatmapCellToolTipSelector CellToolTipSelector { get; } = (date, points) =>
         $"""
         {date}
         {string.Format(CultureInfo.CurrentCulture, Strings.PlayLogs_TooltipHoursFormat, CeilingWithDecimalPlaces(points.Sum(p => p.Value), 1))}

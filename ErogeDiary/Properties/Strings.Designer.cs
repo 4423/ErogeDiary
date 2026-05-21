@@ -602,6 +602,15 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
+        /// {0}回 のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PlayLogHistogram_CountTooltipFormat {
+            get {
+                return ResourceManager.GetString("PlayLogHistogram_CountTooltipFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// プレイ時間の最大値 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string PlayLogHistogram_Maximum {

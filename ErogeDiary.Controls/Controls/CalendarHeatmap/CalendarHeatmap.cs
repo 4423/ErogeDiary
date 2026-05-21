@@ -1,26 +1,23 @@
-﻿using ErogeDiary.Controls.Controls.CalendarHeatmap;
-using ErogeDiary.Controls.Properties;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ErogeDiary.Controls.CalendarHeatmap;
 
 public class CalendarHeatmap : Control
 {
-    private static readonly int CELL_SIZE = 13;
-    private static readonly int NUM_OF_DAYS_IN_WEEK = 7;
-
+    private const int CELL_SIZE = 13;
+    private const int NUM_OF_DAYS_IN_WEEK = 7;
 
     static CalendarHeatmap()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(CalendarHeatmap),
             new FrameworkPropertyMetadata(typeof(CalendarHeatmap)));
     }
-
 
     public CalendarHeatmapData? ChartData
     {
@@ -29,33 +26,54 @@ public class CalendarHeatmap : Control
     }
 
     public static readonly DependencyProperty ChartDataProperty =
-        register<CalendarHeatmapData?>(nameof(ChartData));
+        RegisterChartProperty<CalendarHeatmapData?>(nameof(ChartData));
 
-    public ColorConverterDelegate ColorConverter
+    public DayOfWeek? FirstDayOfWeek
     {
-        get { return (ColorConverterDelegate)GetValue(ColorConverterProperty); }
-        set { SetValue(ColorConverterProperty, value); }
+        get { return (DayOfWeek?)GetValue(FirstDayOfWeekProperty); }
+        set { SetValue(FirstDayOfWeekProperty, value); }
     }
 
-    public static readonly DependencyProperty ColorConverterProperty =
-        register<ColorConverterDelegate>(nameof(ColorConverter));
+    public static readonly DependencyProperty FirstDayOfWeekProperty =
+        RegisterChartProperty<DayOfWeek?>(nameof(FirstDayOfWeek));
 
-    public TooltipLabelFormatterDelegate TooltipLabelFormatter
+    public CalendarHeatmapDayLabelVisibility DayLabelVisibility
     {
-        get { return (TooltipLabelFormatterDelegate)GetValue(TooltipLabelFormatterProperty); }
-        set { SetValue(TooltipLabelFormatterProperty, value); }
+        get { return (CalendarHeatmapDayLabelVisibility)GetValue(DayLabelVisibilityProperty); }
+        set { SetValue(DayLabelVisibilityProperty, value); }
     }
 
-    public static readonly DependencyProperty TooltipLabelFormatterProperty =
-        register<TooltipLabelFormatterDelegate>(nameof(TooltipLabelFormatter));
-
-    private static DependencyProperty register<Tprop>(string name) =>
+    public static readonly DependencyProperty DayLabelVisibilityProperty =
         DependencyProperty.Register(
-            name, 
+            nameof(DayLabelVisibility),
+            typeof(CalendarHeatmapDayLabelVisibility),
+            typeof(CalendarHeatmap),
+            new PropertyMetadata(CalendarHeatmapDayLabelVisibility.Sparse, new PropertyChangedCallback(OnChartPropertyChanged)));
+
+    public CalendarHeatmapCellBrushSelector? CellBrushSelector
+    {
+        get { return (CalendarHeatmapCellBrushSelector?)GetValue(CellBrushSelectorProperty); }
+        set { SetValue(CellBrushSelectorProperty, value); }
+    }
+
+    public static readonly DependencyProperty CellBrushSelectorProperty =
+        RegisterChartProperty<CalendarHeatmapCellBrushSelector?>(nameof(CellBrushSelector));
+
+    public CalendarHeatmapCellToolTipSelector? CellToolTipSelector
+    {
+        get { return (CalendarHeatmapCellToolTipSelector?)GetValue(CellToolTipSelectorProperty); }
+        set { SetValue(CellToolTipSelectorProperty, value); }
+    }
+
+    public static readonly DependencyProperty CellToolTipSelectorProperty =
+        RegisterChartProperty<CalendarHeatmapCellToolTipSelector?>(nameof(CellToolTipSelector));
+
+    private static DependencyProperty RegisterChartProperty<Tprop>(string name) =>
+        DependencyProperty.Register(
+            name,
             typeof(Tprop),
             typeof(CalendarHeatmap),
             new PropertyMetadata(new PropertyChangedCallback(OnChartPropertyChanged)));
-
 
     private static void OnChartPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -69,25 +87,39 @@ public class CalendarHeatmap : Control
         UpdateChart();
     }
 
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.Property == LanguageProperty)
+        {
+            UpdateChart();
+        }
+    }
+
     private void UpdateChart()
     {
-        var cells = ChartData == null || ColorConverter == null || TooltipLabelFormatter == null
-            ? new List<Cell>()
-            : ConvertToCells(ChartData).ToList();
+        var labelCulture = GetEffectiveLabelCulture();
+        var firstDayOfWeek = GetEffectiveFirstDayOfWeek();
+        var cells = ChartData == null
+            ? []
+            : ConvertToCells(ChartData, firstDayOfWeek).ToList();
 
-        RenderMonthLabels(cells);
+        RenderDayLabels(labelCulture, firstDayOfWeek);
+        RenderMonthLabels(cells, labelCulture);
         RenderHeatmap(cells);
     }
 
     // 各ゲームの CalendarHeatmapPoint を Grid のどの点に配置するかを表す内部構造
     private record Cell(
-        int Row, 
+        int Row,
         int Col,
         DateOnly Date,
-        IReadOnlyList<CalendarHeatmapPoint> CalendarHeatmapPoints
+        IReadOnlyList<CalendarHeatmapPoint> Points
     );
 
-    private IEnumerable<Cell> ConvertToCells(CalendarHeatmapData chartData) {
+    private IEnumerable<Cell> ConvertToCells(CalendarHeatmapData chartData, DayOfWeek firstDayOfWeek)
+    {
         if (chartData.Range.Start > chartData.Range.End)
         {
             yield break;
@@ -107,12 +139,13 @@ public class CalendarHeatmap : Control
 
         // Row/Col に対するプレイ記録に変換
         var daysBetweenStartAndEnd = chartData.Range.End.DayNumber - chartData.Range.Start.DayNumber + 1;
+        var startDayOffset = GetDayOffset(chartData.Range.Start.DayOfWeek, firstDayOfWeek);
         for (int offsetDays = 0; offsetDays < daysBetweenStartAndEnd; offsetDays++)
         {
             var date = chartData.Range.Start.AddDays(offsetDays);
 
-            int row = (int)date.DayOfWeek;
-            int col = ((int)chartData.Range.Start.DayOfWeek + offsetDays) / NUM_OF_DAYS_IN_WEEK;
+            int row = GetDayOffset(date.DayOfWeek, firstDayOfWeek);
+            int col = (startDayOffset + offsetDays) / NUM_OF_DAYS_IN_WEEK;
 
             pointsByDate.TryGetValue(date, out var points);
 
@@ -120,7 +153,40 @@ public class CalendarHeatmap : Control
         }
     }
 
-    private void RenderMonthLabels(IReadOnlyCollection<Cell> cells)
+    private void RenderDayLabels(CultureInfo culture, DayOfWeek firstDayOfWeek)
+    {
+        var dayLabelArea = GetTemplateChild("DayLabelAreaGrid") as Grid;
+        if (dayLabelArea == null)
+        {
+            return;
+        }
+
+        dayLabelArea.RowDefinitions.Clear();
+        dayLabelArea.Children.Clear();
+
+        for (int i = 0; i < NUM_OF_DAYS_IN_WEEK; i++)
+        {
+            dayLabelArea.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = new GridLength(CELL_SIZE, GridUnitType.Pixel)
+            });
+
+            if (!ShouldRenderDayLabel(i))
+            {
+                continue;
+            }
+
+            var dayOfWeek = AddDays(firstDayOfWeek, i);
+            var textBlock = new TextBlock()
+            {
+                Text = culture.DateTimeFormat.ShortestDayNames[(int)dayOfWeek],
+            };
+            Grid.SetRow(textBlock, i);
+            dayLabelArea.Children.Add(textBlock);
+        }
+    }
+
+    private void RenderMonthLabels(IReadOnlyCollection<Cell> cells, CultureInfo culture)
     {
         var monthLabelArea = GetTemplateChild("MonthLabelAreaGrid") as Grid;
         if (monthLabelArea == null)
@@ -159,7 +225,7 @@ public class CalendarHeatmap : Control
 
             var textBlock = new TextBlock()
             {
-                Text = string.Format(CultureInfo.CurrentCulture, Strings.CalendarHeatmap_MonthFormat, firstRowCells.Key.Month)
+                Text = new DateOnly(firstRowCells.Key.Year, firstRowCells.Key.Month, 1).ToString("MMM", culture)
             };
 
             var firstColumn = firstRowCells.Min(p => p.Col);
@@ -209,8 +275,8 @@ public class CalendarHeatmap : Control
         {
             var border = new Border()
             {
-                ToolTip = TooltipLabelFormatter.Invoke(cell.Date, cell.CalendarHeatmapPoints),
-                Background = ColorConverter.Invoke(cell.CalendarHeatmapPoints),
+                ToolTip = CellToolTipSelector?.Invoke(cell.Date, cell.Points),
+                Background = CellBrushSelector?.Invoke(cell.Date, cell.Points) ?? SystemColors.ControlDarkBrush,
             };
 
             Grid.SetRow(border, cell.Row);
@@ -219,4 +285,40 @@ public class CalendarHeatmap : Control
             heatmapArea.Children.Add(border);
         }
     }
+
+    private CultureInfo GetEffectiveLabelCulture()
+    {
+        var languageValueSource = DependencyPropertyHelper.GetValueSource(this, LanguageProperty);
+        if (languageValueSource.BaseValueSource == BaseValueSource.Default)
+        {
+            return CultureInfo.CurrentUICulture;
+        }
+
+        try
+        {
+            return Language.GetSpecificCulture();
+        }
+        catch (InvalidOperationException)
+        {
+            return CultureInfo.CurrentUICulture;
+        }
+    }
+
+    private DayOfWeek GetEffectiveFirstDayOfWeek() =>
+        FirstDayOfWeek ?? CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+
+    private static int GetDayOffset(DayOfWeek dayOfWeek, DayOfWeek firstDayOfWeek) =>
+        ((int)dayOfWeek - (int)firstDayOfWeek + NUM_OF_DAYS_IN_WEEK) % NUM_OF_DAYS_IN_WEEK;
+
+    private static DayOfWeek AddDays(DayOfWeek dayOfWeek, int days) =>
+        (DayOfWeek)(((int)dayOfWeek + days) % NUM_OF_DAYS_IN_WEEK);
+
+    private bool ShouldRenderDayLabel(int row) =>
+        DayLabelVisibility switch
+        {
+            CalendarHeatmapDayLabelVisibility.None => false,
+            CalendarHeatmapDayLabelVisibility.Sparse => row is 1 or 3 or 5,
+            CalendarHeatmapDayLabelVisibility.All => true,
+            _ => false,
+        };
 }

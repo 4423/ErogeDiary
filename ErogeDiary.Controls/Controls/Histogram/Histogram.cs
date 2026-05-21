@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ErogeDiary.Controls.Properties;
 using System.Collections.Specialized;
 using System.Globalization;
 using System.Linq;
@@ -10,6 +9,7 @@ using System.Windows.Shapes;
 namespace ErogeDiary.Controls.Histogram;
 
 public delegate string TooltipLabelFormatterDelegate(int bucketIndex);
+public delegate object? BucketToolTipFormatterDelegate(int bucketIndex, int bucketValue);
 
 public class Histogram : Control
 {
@@ -46,6 +46,14 @@ public class Histogram : Control
     }
     public static readonly DependencyProperty TooltipLabelFormatterProperty =
         register<TooltipLabelFormatterDelegate?>(nameof(TooltipLabelFormatter));
+
+    public BucketToolTipFormatterDelegate? BucketToolTipFormatter
+    {
+        get { return (BucketToolTipFormatterDelegate?)GetValue(BucketToolTipFormatterProperty); }
+        set { SetValue(BucketToolTipFormatterProperty, value); }
+    }
+    public static readonly DependencyProperty BucketToolTipFormatterProperty =
+        register<BucketToolTipFormatterDelegate?>(nameof(BucketToolTipFormatter));
 
     private static DependencyProperty register<Tprop>(string name) =>
         DependencyProperty.Register(
@@ -129,7 +137,8 @@ public class Histogram : Control
             var rect = new Rectangle()
             {
                 Height = height,
-                ToolTip = string.Format(CultureInfo.CurrentCulture, Strings.Histogram_CountTooltipFormat, bucketValue)
+                ToolTip = BucketToolTipFormatter?.Invoke(column, bucketValue)
+                    ?? bucketValue.ToString(CultureInfo.CurrentCulture)
             };
             Grid.SetRow(rect, 0);
             Grid.SetColumn(rect, column);

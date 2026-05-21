@@ -71,6 +71,9 @@ public partial class PlayLogHistogramViewModel : ObservableObject
         TooltipLabelFormatterDelegate TooltipLabelFormatter
     );
 
+    public BucketToolTipFormatterDelegate BucketToolTipFormatter { get; } = (index, count) =>
+        string.Format(CultureInfo.CurrentCulture, Strings.PlayLogHistogram_CountTooltipFormat, count);
+
     [ObservableProperty]
     public partial TimeSpan AveragePlayTime { get; private set; }
 
