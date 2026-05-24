@@ -14,6 +14,7 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,6 +48,7 @@ public partial class App : PrismApplication
         }
 
         UpgradeSettingsIfNeeded();
+        ApplySavedUiCulture();
 
         using (var dbContext = new ErogeDiaryDbContext())
         {
@@ -172,6 +174,17 @@ public partial class App : PrismApplication
         settingsStore.Upgrade();
         settingsStore.UpgradeRequired = false;
         settingsStore.Save();
+    }
+
+    private void ApplySavedUiCulture()
+    {
+        var settingsStore = new ApplicationSettingsStore();
+        var culture = SupportedLanguages.GetCultureOrDefault(settingsStore.Language);
+
+        // Apply only the UI language; keep regional formatting and week starts from the user's environment.
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+        Thread.CurrentThread.CurrentUICulture = culture;
+        Strings.Culture = culture;
     }
 
     private void WriteErrorLog(Exception ex, string source)
