@@ -910,6 +910,15 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
+        /// 変更は次回起動時に反映されます。 のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_LanguageRestartRequired {
+            get {
+                return ResourceManager.GetString("Settings_LanguageRestartRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// 設定 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Title {
