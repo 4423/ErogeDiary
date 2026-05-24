@@ -910,15 +910,6 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
-        /// 日本語 のようなローカライズされた文字列を検索します。
-        /// </summary>
-        public static string Settings_Language_Japanese {
-            get {
-                return ResourceManager.GetString("Settings_Language_Japanese", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         /// 設定 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Title {

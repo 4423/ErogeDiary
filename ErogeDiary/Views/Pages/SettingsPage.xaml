@@ -12,7 +12,23 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     Title="SettingsPage">
 
-    <TextBlock Text="{x:Static properties:Strings.Settings_Title}"
-               Style="{StaticResource TitleTextBlockStyle}"/>
+    <ScrollViewer>
+        <StackPanel Margin="35 10 35 24">
+            <TextBlock Text="{x:Static properties:Strings.Settings_Title}"
+                       Style="{StaticResource TitleTextBlockStyle}"/>
+
+            <StackPanel Margin="0 24 0 0"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <TextBlock Text="{x:Static properties:Strings.Settings_Language}"
+                           VerticalAlignment="Center"
+                           Margin="0 0 12 0"/>
+                <ComboBox ItemsSource="{Binding LanguageOptions}"
+                          SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}"
+                          DisplayMemberPath="DisplayName"
+                          Width="160"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
 
 </ui:Page>

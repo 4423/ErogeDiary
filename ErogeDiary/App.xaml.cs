@@ -46,6 +46,8 @@ public partial class App : PrismApplication
             return;
         }
 
+        UpgradeSettingsIfNeeded();
+
         using (var dbContext = new ErogeDiaryDbContext())
         {
             dbContext.Database.Migrate();
@@ -69,6 +71,7 @@ public partial class App : PrismApplication
 
         containerRegistry.Register<GameMonitor>();
         containerRegistry.Register<ErogameScapeClient>();
+        containerRegistry.RegisterSingleton<IApplicationSettingsStore, ApplicationSettingsStore>();
 
         containerRegistry.Register<IMessageDialog, MessageDialog>();
         containerRegistry.Register<IOpenFileDialog, OpenFileDialog>();
@@ -155,6 +158,20 @@ public partial class App : PrismApplication
             + $"Source: {source}\n"
             + $"{ex.Message}";
         MessageBox.Show(message, Strings.Dialog_ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+
+    private void UpgradeSettingsIfNeeded()
+    {
+        // User-scoped settings are stored per app version, so copy previous values after an upgrade.
+        var settingsStore = new ApplicationSettingsStore();
+        if (!settingsStore.UpgradeRequired)
+        {
+            return;
+        }
+
+        settingsStore.Upgrade();
+        settingsStore.UpgradeRequired = false;
+        settingsStore.Save();
     }
 
     private void WriteErrorLog(Exception ex, string source)
