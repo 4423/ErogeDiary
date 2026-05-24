@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32901.215
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11806.211 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErogeDiary", "ErogeDiary\ErogeDiary.csproj", "{229D192A-5691-44CB-B784-CB72EBEA9B5F}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeDiary.ErogameScape", "ErogeDiary.ErogameScape\ErogeDiary.ErogameScape.csproj", "{F4F6837C-B9E0-4A22-BCCD-ED11A0E2BAE2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeDiary.Tests", "ErogeDiary.Tests\ErogeDiary.Tests.csproj", "{2ED766C9-D95D-4501-BF99-558E5CC90888}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeDiary.Controls.ModernColorPicker", "ErogeDiary.Controls.ModernColorPicker\ErogeDiary.Controls.ModernColorPicker.csproj", "{43355544-A724-4FE0-BAB1-104741F3EB1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeDiary.Controls.ModernColorPicker.Tests", "ErogeDiary.Controls.ModernColorPicker.Tests\ErogeDiary.Controls.ModernColorPicker.Tests.csproj", "{5E812E06-C338-495B-9788-2DA6BB661964}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErogeDiary.Controls.ModernColorPicker.Sample", "ErogeDiary.Controls.ModernColorPicker.Sample\ErogeDiary.Controls.ModernColorPicker.Sample.csproj", "{4C9F6F97-7462-4A3B-B05C-77D65C382E77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{2ED766C9-D95D-4501-BF99-558E5CC90888}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2ED766C9-D95D-4501-BF99-558E5CC90888}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2ED766C9-D95D-4501-BF99-558E5CC90888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43355544-A724-4FE0-BAB1-104741F3EB1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43355544-A724-4FE0-BAB1-104741F3EB1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43355544-A724-4FE0-BAB1-104741F3EB1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43355544-A724-4FE0-BAB1-104741F3EB1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E812E06-C338-495B-9788-2DA6BB661964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E812E06-C338-495B-9788-2DA6BB661964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E812E06-C338-495B-9788-2DA6BB661964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E812E06-C338-495B-9788-2DA6BB661964}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C9F6F97-7462-4A3B-B05C-77D65C382E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C9F6F97-7462-4A3B-B05C-77D65C382E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C9F6F97-7462-4A3B-B05C-77D65C382E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C9F6F97-7462-4A3B-B05C-77D65C382E77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

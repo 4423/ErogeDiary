@@ -1,0 +1,21 @@
+<Window x:Class="ErogeDiary.Controls.ModernColorPicker.Sample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:colorPicker="clr-namespace:ErogeDiary.Controls.ModernColorPicker;assembly=ErogeDiary.Controls.ModernColorPicker"
+        Title="ModernColorPicker Sample"
+        Width="560"
+        Height="560"
+        MinWidth="520"
+        MinHeight="520"
+        Background="#F3F3F3">
+    <ScrollViewer>
+        <StackPanel Margin="32">
+            <colorPicker:ModernColorPicker x:Name="Picker"
+                                           Padding="16"
+                                           Background="White"
+                                           BorderBrush="#C8C8C8"
+                                           BorderThickness="1"
+                                           SelectedColor="#7651D4" />
+        </StackPanel>
+    </ScrollViewer>
+</Window>
