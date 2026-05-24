@@ -58,7 +58,7 @@
     <value>Launch game</value>
   </data>
   <data name="Game_DeleteRegistration" xml:space="preserve">
-    <value>Remove game registration</value>
+    <value>Unregister game</value>
   </data>
   <data name="Game_DeleteRegistrationConfirmation" xml:space="preserve">
     <value>Remove this game registration?
@@ -198,7 +198,7 @@ Save data and the game files will not be deleted.</value>
     <value>30 minutes</value>
   </data>
   <data name="PlayLogHistogram_BucketLabelFormat" xml:space="preserve">
-    <value>{0} hours or more</value>
+    <value>{0} h+</value>
   </data>
   <data name="PlayLogHistogram_CountTooltipFormat" xml:space="preserve">
     <value>{0} times</value>
@@ -225,7 +225,7 @@ Save data and the game files will not be deleted.</value>
     <value>Past year</value>
   </data>
   <data name="PlayLogs_PlayHistorySuffix" xml:space="preserve">
-    <value> play history</value>
+    <value>play history</value>
   </data>
   <data name="PlayLogs_TooltipHoursFormat" xml:space="preserve">
     <value>{0} hours</value>

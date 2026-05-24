@@ -13,20 +13,21 @@ namespace ErogeDiary.Models
     {
         public static string ToPlayTimeString(this TimeSpan timeSpan)
         {
-            var res = "";
+            var parts = new List<string>();
             if (((int)timeSpan.TotalHours) > 0)
             {
-                res += string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_HoursFormat, (int)timeSpan.TotalHours);
+                parts.Add(string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_HoursFormat, (int)timeSpan.TotalHours));
             }
             if (timeSpan.Minutes > 0)
             {
-                res += string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_MinutesFormat, timeSpan.Minutes);
+                parts.Add(string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_MinutesFormat, timeSpan.Minutes));
             }
             if (timeSpan.Seconds > 0)
             {
-                res += string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_SecondsFormat, timeSpan.Seconds);
+                parts.Add(string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_SecondsFormat, timeSpan.Seconds));
             }
-            return res;
+            var separator = parts.Any(part => part.Contains(' ')) ? " " : "";
+            return string.Join(separator, parts);
         }
 
         public static string ToZeroPaddingStringWithoutDays(this TimeSpan timeSpan)
