@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_UnexpectedError" xml:space="preserve">
+    <value>An unexpected error occurred.</value>
+  </data>
+  <data name="Common_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Common_Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common_Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="DateFormat_Long" xml:space="preserve">
+    <value>MMMM d, yyyy</value>
+  </data>
+  <data name="Dialog_ConfirmTitle" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Dialog_ErrorTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Dialog_InfoTitle" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="FileFilter_Executable" xml:space="preserve">
+    <value>Executable files (*.exe)|*.exe</value>
+  </data>
+  <data name="FileFilter_Image" xml:space="preserve">
+    <value>Image files (*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
+  <data name="Game_ActionStart" xml:space="preserve">
+    <value>Launch game</value>
+  </data>
+  <data name="Game_DeleteRegistration" xml:space="preserve">
+    <value>Remove game registration</value>
+  </data>
+  <data name="Game_DeleteRegistrationConfirmation" xml:space="preserve">
+    <value>Remove this game registration?
+Save data and the game files will not be deleted.</value>
+  </data>
+  <data name="Game_DeleteRegistrationSucceeded" xml:space="preserve">
+    <value>Registration removed.</value>
+  </data>
+  <data name="Game_DmmLaunchUnavailable" xml:space="preserve">
+    <value>Games installed with DMM GAME PLAYER cannot be launched from here.</value>
+  </data>
+  <data name="Game_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Game_ExecutablePathMissing" xml:space="preserve">
+    <value>The executable file path is not set.</value>
+  </data>
+  <data name="Game_InfoMissingForDelete" xml:space="preserve">
+    <value>Could not remove the registration because the game information was not found.</value>
+  </data>
+  <data name="Game_NotPlayed" xml:space="preserve">
+    <value>Not played</value>
+  </data>
+  <data name="Game_StartFailedFormat" xml:space="preserve">
+    <value>Failed to launch the game.
+{0}</value>
+  </data>
+  <data name="GameEdit_Title" xml:space="preserve">
+    <value>Edit game</value>
+  </data>
+  <data name="GameField_Brand" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="GameField_Cleared" xml:space="preserve">
+    <value>Cleared</value>
+  </data>
+  <data name="GameField_ClearedAt" xml:space="preserve">
+    <value>Clear date</value>
+  </data>
+  <data name="GameField_DmmInstalled" xml:space="preserve">
+    <value>Installed with DMM GAME PLAYER</value>
+  </data>
+  <data name="GameField_ErogameScapeUrl" xml:space="preserve">
+    <value>ErogameScape game URL</value>
+  </data>
+  <data name="GameField_ExecutableFilePath" xml:space="preserve">
+    <value>Executable file path</value>
+  </data>
+  <data name="GameField_ImageLocation" xml:space="preserve">
+    <value>Thumbnail image location (URL or file path)</value>
+  </data>
+  <data name="GameField_ReleaseDate" xml:space="preserve">
+    <value>Release date</value>
+  </data>
+  <data name="GameField_Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="GameField_WindowTitle" xml:space="preserve">
+    <value>Title shown in the game window</value>
+  </data>
+  <data name="GameRegistration_AutoFillFromErogameScape" xml:space="preserve">
+    <value>Auto-fill from ErogameScape</value>
+  </data>
+  <data name="GameRegistration_DuplicateGame" xml:space="preserve">
+    <value>The same game is already registered.</value>
+  </data>
+  <data name="GameRegistration_InvalidErogameScapeUrl" xml:space="preserve">
+    <value>Invalid URL</value>
+  </data>
+  <data name="GameRegistration_RegisterButton" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="GameRegistration_Title" xml:space="preserve">
+    <value>Register game</value>
+  </data>
+  <data name="GameRegistration_UrlExample" xml:space="preserve">
+    <value>Example: https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/game.php?game=12345</value>
+  </data>
+  <data name="Home_Filter_All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Home_Filter_Cleared" xml:space="preserve">
+    <value>Cleared</value>
+  </data>
+  <data name="Home_Filter_NotCleared" xml:space="preserve">
+    <value>Not cleared</value>
+  </data>
+  <data name="Home_FilterLabel" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Home_Order_ByBrand" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="Home_Order_ByLongPlayTime" xml:space="preserve">
+    <value>Longest play time</value>
+  </data>
+  <data name="Home_Order_ByNewRegistration" xml:space="preserve">
+    <value>Recently registered</value>
+  </data>
+  <data name="Home_Order_ByNewReleaseDate" xml:space="preserve">
+    <value>Newest release date</value>
+  </data>
+  <data name="Home_Order_ByRecentPlay" xml:space="preserve">
+    <value>Recently played</value>
+  </data>
+  <data name="Home_OrderLabel" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="Home_RegisterGame" xml:space="preserve">
+    <value>Register game</value>
+  </data>
+  <data name="Main_Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Main_Monitoring" xml:space="preserve">
+    <value>Tracking</value>
+  </data>
+  <data name="Main_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Main_TotalPlayTime" xml:space="preserve">
+    <value>Total play time</value>
+  </data>
+  <data name="OpenFile_SelectExecutable" xml:space="preserve">
+    <value>Select the game executable file</value>
+  </data>
+  <data name="OpenFile_SelectThumbnail" xml:space="preserve">
+    <value>Select a thumbnail image</value>
+  </data>
+  <data name="PlayLogHistogram_Average" xml:space="preserve">
+    <value>Average play time</value>
+  </data>
+  <data name="PlayLogHistogram_Bucket_1Hour" xml:space="preserve">
+    <value>1 hour</value>
+  </data>
+  <data name="PlayLogHistogram_Bucket_30Minutes" xml:space="preserve">
+    <value>30 minutes</value>
+  </data>
+  <data name="PlayLogHistogram_BucketLabelFormat" xml:space="preserve">
+    <value>{0} hours or more</value>
+  </data>
+  <data name="PlayLogHistogram_CountTooltipFormat" xml:space="preserve">
+    <value>{0} times</value>
+  </data>
+  <data name="PlayLogHistogram_Maximum" xml:space="preserve">
+    <value>Maximum play time</value>
+  </data>
+  <data name="PlayLogHistogram_Median" xml:space="preserve">
+    <value>Median play time</value>
+  </data>
+  <data name="PlayLogHistogram_NoData" xml:space="preserve">
+    <value>No Data</value>
+  </data>
+  <data name="PlayLogHistogram_Title" xml:space="preserve">
+    <value>Play time frequency by interval</value>
+  </data>
+  <data name="PlayLogs_FirstPlayed" xml:space="preserve">
+    <value>First played</value>
+  </data>
+  <data name="PlayLogs_LastPlayed" xml:space="preserve">
+    <value>Last played</value>
+  </data>
+  <data name="PlayLogs_LastYear" xml:space="preserve">
+    <value>Past year</value>
+  </data>
+  <data name="PlayLogs_PlayHistorySuffix" xml:space="preserve">
+    <value> play history</value>
+  </data>
+  <data name="PlayLogs_TooltipHoursFormat" xml:space="preserve">
+    <value>{0} hours</value>
+  </data>
+  <data name="PlayTime_HoursFormat" xml:space="preserve">
+    <value>{0} h</value>
+  </data>
+  <data name="PlayTime_MinutesFormat" xml:space="preserve">
+    <value>{0} m</value>
+  </data>
+  <data name="PlayTime_SecondsFormat" xml:space="preserve">
+    <value>{0} s</value>
+  </data>
+  <data name="Root_Add" xml:space="preserve">
+    <value>Add route</value>
+  </data>
+  <data name="Root_AllocateAllUnallocatedPlayTime" xml:space="preserve">
+    <value>Allocate all unallocated play time to the route</value>
+  </data>
+  <data name="Root_AssignedPlayTimeHeader" xml:space="preserve">
+    <value>Play time allocated to the route</value>
+  </data>
+  <data name="Root_ClearedAtHeader" xml:space="preserve">
+    <value>Route clear date</value>
+  </data>
+  <data name="Root_ClearedCheckBox" xml:space="preserve">
+    <value>Route cleared</value>
+  </data>
+  <data name="Root_ClearedTooltipFormat" xml:space="preserve">
+    <value>Cleared on {0}</value>
+  </data>
+  <data name="Root_ColorTooltip" xml:space="preserve">
+    <value>Route color</value>
+  </data>
+  <data name="Root_Edit" xml:space="preserve">
+    <value>Edit route</value>
+  </data>
+  <data name="Root_EditTitle" xml:space="preserve">
+    <value>Edit route</value>
+  </data>
+  <data name="Root_NameHeader" xml:space="preserve">
+    <value>Route name</value>
+  </data>
+  <data name="Root_NewNameHeader" xml:space="preserve">
+    <value>New route name</value>
+  </data>
+  <data name="Root_PlayTimeMaxErrorFormat" xml:space="preserve">
+    <value>Enter {0} or less for the play time allocated to the route.</value>
+  </data>
+  <data name="Root_PlayTimeMinOneSecondError" xml:space="preserve">
+    <value>Enter at least 1 second for the play time allocated to the route.</value>
+  </data>
+  <data name="Root_RegistrationTitle" xml:space="preserve">
+    <value>Add route</value>
+  </data>
+  <data name="Root_Remove" xml:space="preserve">
+    <value>Remove route</value>
+  </data>
+  <data name="Root_RemoveFailed" xml:space="preserve">
+    <value>Failed to remove the route.</value>
+  </data>
+  <data name="Root_RemoveTitle" xml:space="preserve">
+    <value>Remove route</value>
+  </data>
+  <data name="Root_UnallocatedLabel" xml:space="preserve">
+    <value>(Unallocated route)</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Display language</value>
+  </data>
+  <data name="Settings_LanguageRestartRequired" xml:space="preserve">
+    <value>Changes take effect the next time you start the app.</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Thumbnail_DownloadFailedFormat" xml:space="preserve">
+    <value>Failed to download the thumbnail image.
+{0}</value>
+  </data>
+  <data name="Validation_BrandRequired" xml:space="preserve">
+    <value>Enter a brand.</value>
+  </data>
+  <data name="Validation_ClearedAtRequired" xml:space="preserve">
+    <value>Enter a clear date.</value>
+  </data>
+  <data name="Validation_ExecutableFilePathRequired" xml:space="preserve">
+    <value>Enter the executable file path.</value>
+  </data>
+  <data name="Validation_FileNotFound" xml:space="preserve">
+    <value>No file exists at the specified location.</value>
+  </data>
+  <data name="Validation_ImageUriRequired" xml:space="preserve">
+    <value>Enter a thumbnail image location.</value>
+  </data>
+  <data name="Validation_PropertyNotFoundFormat" xml:space="preserve">
+    <value>Property '{0}' was not found.</value>
+  </data>
+  <data name="Validation_PlayTimeRequired" xml:space="preserve">
+    <value>Enter play time.</value>
+  </data>
+  <data name="Validation_ReleaseDateRequired" xml:space="preserve">
+    <value>Enter a release date.</value>
+  </data>
+  <data name="Validation_RootNameRequired" xml:space="preserve">
+    <value>Enter a route name.</value>
+  </data>
+  <data name="Validation_TimeSpanFormat" xml:space="preserve">
+    <value>Invalid time format.</value>
+  </data>
+  <data name="Validation_TitleRequired" xml:space="preserve">
+    <value>Enter a title.</value>
+  </data>
+  <data name="Validation_ValidExtensionsFormat" xml:space="preserve">
+    <value>Valid extensions are {0}.</value>
+  </data>
+  <data name="Validation_WindowTitleRequired" xml:space="preserve">
+    <value>Enter a window title.</value>
+  </data>
+</root>
