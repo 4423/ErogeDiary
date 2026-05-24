@@ -28,6 +28,7 @@ namespace ErogeDiary
         {
             containerRegistry.RegisterForNavigation<GameDetailPage>(nameof(GameDetailPage));
             containerRegistry.RegisterForNavigation<HomePage>(nameof(HomePage));
+            containerRegistry.RegisterForNavigation<SettingsPage>(nameof(SettingsPage));
         }
     }
 
@@ -40,6 +41,11 @@ namespace ErogeDiary
 
         public static void RequestNavigate(IRegionManager regionManager, string source, NavigationParameters? parameters = null)
         {
+            if (IsCurrentNavigationTarget(regionManager, source, parameters))
+            {
+                return;
+            }
+
             if (parameters == null)
             {
                 regionManager.RequestNavigate(RegionName, source);
@@ -55,5 +61,24 @@ namespace ErogeDiary
 
         public static void RequestNavigateToGameDetailPage(IRegionManager regionManager, NavigationParameters? parameters = null)
             => RequestNavigate(regionManager, nameof(GameDetailPage), parameters);
+
+        public static void RequestNavigateToSettingsPage(IRegionManager regionManager, NavigationParameters? parameters = null)
+            => RequestNavigate(regionManager, nameof(SettingsPage), parameters);
+
+        private static bool IsCurrentNavigationTarget(
+            IRegionManager regionManager,
+            string source,
+            NavigationParameters? parameters)
+        {
+            if (parameters != null)
+            {
+                return false;
+            }
+
+            var currentUri = GetNavigationService(regionManager).Journal.CurrentEntry?.Uri;
+            var currentSource = currentUri?.OriginalString;
+
+            return string.Equals(currentSource, source, StringComparison.Ordinal);
+        }
     }
 }

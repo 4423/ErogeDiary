@@ -170,8 +170,14 @@
   <data name="Home_RegisterGame" xml:space="preserve">
     <value>ゲームを登録</value>
   </data>
+  <data name="Main_Home" xml:space="preserve">
+    <value>ホーム</value>
+  </data>
   <data name="Main_Monitoring" xml:space="preserve">
     <value>計測中</value>
+  </data>
+  <data name="Main_Settings" xml:space="preserve">
+    <value>設定</value>
   </data>
   <data name="Main_TotalPlayTime" xml:space="preserve">
     <value>合計プレイ時間</value>
@@ -286,6 +292,15 @@
   </data>
   <data name="Root_UnallocatedLabel" xml:space="preserve">
     <value>（未割り当てのルート）</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>表示言語</value>
+  </data>
+  <data name="Settings_Language_Japanese" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>設定</value>
   </data>
   <data name="Thumbnail_DownloadFailedFormat" xml:space="preserve">
     <value>サムネイル画像の取得に失敗しました。

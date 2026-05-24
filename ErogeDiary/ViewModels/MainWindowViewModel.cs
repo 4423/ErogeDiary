@@ -94,6 +94,18 @@ namespace ErogeDiary.ViewModels
         }
 
         [RelayCommand]
+        private void OpenSettings()
+        {
+            NavigationHelper.RequestNavigateToSettingsPage(regionManager);
+        }
+
+        [RelayCommand]
+        private void OpenHome()
+        {
+            NavigationHelper.RequestNavigateToHomePage(regionManager);
+        }
+
+        [RelayCommand]
         private void RootFrameNavigated()
         {
             IsBackButtonVisible = navigationService.Journal.CanGoBack;

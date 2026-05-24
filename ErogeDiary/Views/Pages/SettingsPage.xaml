@@ -1,0 +1,18 @@
+<ui:Page
+    x:Class="ErogeDiary.Views.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:properties="clr-namespace:ErogeDiary.Properties"
+    mc:Ignorable="d"
+    d:DesignHeight="450" d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Title="SettingsPage">
+
+    <TextBlock Text="{x:Static properties:Strings.Settings_Title}"
+               Style="{StaticResource TitleTextBlockStyle}"/>
+
+</ui:Page>

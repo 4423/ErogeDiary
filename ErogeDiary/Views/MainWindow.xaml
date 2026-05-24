@@ -9,43 +9,99 @@
         xmlns:local="clr-namespace:ErogeDiary.Views"
         xmlns:properties="clr-namespace:ErogeDiary.Properties"
         xmlns:input="clr-namespace:ErogeDiary.Views.Input"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         mc:Ignorable="d"
         Background="#1f2022"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.RequestedTheme="Dark"
         ui:ThemeManager.IsThemeAware="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
-        ui:TitleBar.IsBackButtonVisible="{Binding IsBackButtonVisible}"
-        ui:TitleBar.BackButtonCommand="{Binding GoBackCommand}"
-        ui:TitleBar.BackButtonStyle="{DynamicResource AppTitleBarBackButtonStyle}"
-        prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="ErogeDiary" Height="515" Width="830" 
-        MinWidth="640" MinHeight="350"
-        MouseUp="WindowMouseUp">
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Title="ErogeDiary" Height="515" Width="830" 
+    MinWidth="640" MinHeight="350"
+    MouseUp="WindowMouseUp">
     <Window.InputBindings>
         <input:XButtonMouseBinding Gesture="XButton1" Command="{Binding GoBackCommand}"/>
     </Window.InputBindings>
 
     <Window.Resources>
-        <Style x:Key="AppTitleBarBackButtonStyle" TargetType="ui:TitleBarButton" BasedOn="{StaticResource TitleBarBackButtonStyle}">
-            <Setter Property="Width" Value="35"/>
-            <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListLowBrush}"/>
-            <Setter Property="HoverBackground" Value="{DynamicResource SystemControlHighlightListMediumBrush}"/>
+        <Style x:Key="AppTitleBarButtonStyle" TargetType="{x:Type ButtonBase}">
+            <Setter Property="Width" Value="47"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ButtonBase}">
+                        <Border x:Name="Root"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Root"
+                                        Property="Opacity"
+                                        Value="0.45"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Root"
+                                        Property="Background"
+                                        Value="{DynamicResource SystemControlHighlightListLowBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Root"
+                                        Property="Background"
+                                        Value="{DynamicResource SystemControlHighlightListMediumBrush}"/>
+                            </Trigger>
+                            <Trigger Property="ToggleButton.IsChecked" Value="True">
+                                <Setter TargetName="Root"
+                                        Property="Background"
+                                        Value="{DynamicResource SystemControlHighlightListLowBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" 
-                    Margin="0 0 160 0"
-                    HorizontalAlignment="Right"
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center">
-            <!--<ui:HyperlinkButton Content="設定" FontSize="12" Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"/>-->
+            <Button Command="{Binding GoBackCommand}"
+                    IsEnabled="{Binding IsBackButtonVisible}"
+                    Style="{StaticResource AppTitleBarButtonStyle}">
+                <TextBlock Text="&#xE72B;"
+                           FontFamily="Segoe MDL2 Assets"
+                           FontSize="12"/>
+            </Button>
+            <Button Command="{Binding OpenHomeCommand}"
+                    ToolTip="{x:Static properties:Strings.Main_Home}"
+                    Style="{StaticResource AppTitleBarButtonStyle}">
+                <TextBlock Text="&#xE80F;"
+                           FontFamily="Segoe MDL2 Assets"
+                           FontSize="14"/>
+            </Button>
+            <Button Command="{Binding OpenSettingsCommand}"
+                    ToolTip="{x:Static properties:Strings.Main_Settings}"
+                    Style="{StaticResource AppTitleBarButtonStyle}">
+                <TextBlock Text="&#xE713;"
+                           FontFamily="Segoe MDL2 Assets"
+                           FontSize="13"/>
+            </Button>
         </StackPanel>
 
         <Grid Grid.Row="1">

@@ -59,6 +59,7 @@ public partial class App : PrismApplication
         base.ConfigureViewModelLocator();
         ViewModelLocationProvider.Register<HomePage, HomeViewModel>();
         ViewModelLocationProvider.Register<GameDetailPage, GameDetailViewModel>();
+        ViewModelLocationProvider.Register<SettingsPage, SettingsViewModel>();
     }
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)

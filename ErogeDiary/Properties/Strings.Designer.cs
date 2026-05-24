@@ -528,13 +528,33 @@ namespace ErogeDiary.Properties {
                 return ResourceManager.GetString("Home_RegisterGame", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        /// ホーム のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Main_Home
+        {
+            get
+            {
+                return ResourceManager.GetString("Main_Home", resourceCulture);
+            }
+        }
+
         /// <summary>
         /// 計測中 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Main_Monitoring {
             get {
                 return ResourceManager.GetString("Main_Monitoring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// 設定 のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Main_Settings {
+            get {
+                return ResourceManager.GetString("Main_Settings", resourceCulture);
             }
         }
         
@@ -877,6 +897,33 @@ namespace ErogeDiary.Properties {
         public static string Root_UnallocatedLabel {
             get {
                 return ResourceManager.GetString("Root_UnallocatedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// 表示言語 のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Language {
+            get {
+                return ResourceManager.GetString("Settings_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// 日本語 のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Language_Japanese {
+            get {
+                return ResourceManager.GetString("Settings_Language_Japanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// 設定 のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Title {
+            get {
+                return ResourceManager.GetString("Settings_Title", resourceCulture);
             }
         }
         
