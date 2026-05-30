@@ -11,7 +11,7 @@
         xmlns:input="clr-namespace:ErogeDiary.Views.Input"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         mc:Ignorable="d"
-        Background="#1f2022"
+        Background="{DynamicResource AppWindowBackgroundBrush}"
         ui:WindowHelper.UseModernWindowStyle="True"
         ui:ThemeManager.RequestedTheme="Dark"
         ui:ThemeManager.IsThemeAware="True"

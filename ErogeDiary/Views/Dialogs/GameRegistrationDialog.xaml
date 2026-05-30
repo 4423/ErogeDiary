@@ -45,7 +45,7 @@
                                            Visibility="{Binding IsInvalidErogameScapeUrl, 
                                                 Converter={StaticResource BooleanToVisibilityConverter}}"
                                            Margin="0 6 0 0"
-                                           Foreground="Red"
+                                           Foreground="{DynamicResource SystemControlErrorTextForegroundBrush}"
                                            Style="{StaticResource CaptionTextBlockStyle}"/>
                                 <TextBlock Margin="0 6" TextWrapping="Wrap" 
                                            Style="{StaticResource CaptionTextBlockStyle}">

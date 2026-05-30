@@ -26,7 +26,7 @@
             <StackPanel.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="FontSize" Value="11"/>
-                    <Setter Property="Foreground" Value="#DDD"/>
+                    <Setter Property="Foreground" Value="{DynamicResource PlayLogSummaryForegroundBrush}"/>
                 </Style>
             </StackPanel.Resources>
             <StackPanel Orientation="Horizontal" Visibility="{Binding FirstPlayedAt}">

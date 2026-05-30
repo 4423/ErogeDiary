@@ -41,6 +41,11 @@
                 <ResourceDictionary Source="Views/Styles/SplitButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="#1F2022"/>
+            <SolidColorBrush x:Key="GameThumbnailActionOverlayBrush" Color="#88000000"/>
+            <SolidColorBrush x:Key="GameBrandForegroundBrush" Color="Gray"/>
+            <SolidColorBrush x:Key="PlayLogSummaryForegroundBrush" Color="#DDDDDD"/>
+
             <converter:BooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
             <converter:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter"/>
             <converter:InstallationTypeToBooleanConverter x:Key="InstallationTypeToBooleanConverter"/>

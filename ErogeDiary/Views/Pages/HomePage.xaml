@@ -148,8 +148,8 @@
                             <Button x:Name="PlayButton" 
                                     Visibility="{Binding CanLaunch, Converter={StaticResource BooleanToVisibilityConverter}}"
                                     Opacity="1"
-                                    Background="#88000000"
-                                    Foreground="White"
+                                    Background="{DynamicResource GameThumbnailActionOverlayBrush}"
+                                    Foreground="{DynamicResource SystemControlForegroundChromeWhiteBrush}"
                                     ToolTip="{x:Static properties:Strings.Game_ActionStart}"
                                     Command="{Binding Path=DataContext.StartGameCommand,
                                         RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:Page}}}"
@@ -172,7 +172,7 @@
                                    Margin="0 5 0 2"/>
                         <TextBlock Grid.Row="2" 
                                    Text="{Binding Path=Brand}"
-                                   Foreground="Gray"
+                                   Foreground="{DynamicResource GameBrandForegroundBrush}"
                                    FontSize="13"/>
                     </Grid>
                 </DataTemplate>
