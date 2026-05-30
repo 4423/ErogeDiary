@@ -12,27 +12,12 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 namespace ErogeDiary.ViewModels.Pages;
 
-public partial class GameDetailViewModel : ObservableObject, INavigationAware
+public partial class GameDetailViewModel(
+    ErogeDiaryDbContext database,
+    IRegionManager regionManager,
+    IMessageDialog messageDialog,
+    IDialogService dialogService) : ObservableObject, INavigationAware
 {
-    private ErogeDiaryDbContext database;
-    private IRegionManager regionManager;
-    private IMessageDialog messageDialog;
-    private IDialogService dialogService;
-
-
-    public GameDetailViewModel(
-        ErogeDiaryDbContext database,
-        IRegionManager regionManager,
-        IMessageDialog messageDialog,
-        IDialogService dialogService)
-    {
-        this.database = database;
-        this.regionManager = regionManager;
-        this.messageDialog = messageDialog;
-        this.dialogService = dialogService;
-    }
-
-
     [ObservableProperty]
     private Game? game;
 

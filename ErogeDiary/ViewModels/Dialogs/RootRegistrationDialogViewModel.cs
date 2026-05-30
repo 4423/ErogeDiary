@@ -12,21 +12,11 @@ using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels.Dialogs;
 
-public partial class RootRegistrationDialogViewModel : BindableDialogBase
+public partial class RootRegistrationDialogViewModel(
+    ErogeDiaryDbContext database,
+    IMessageDialog messageDialog) : BindableDialogBase
 {
-    private ErogeDiaryDbContext database;
-    private IMessageDialog messageDialog;
     private Game? game;
-
-
-    public RootRegistrationDialogViewModel(
-        ErogeDiaryDbContext database,
-        IMessageDialog messageDialog)
-    {
-        this.database = database;
-        this.messageDialog = messageDialog;
-    }
-
 
     [ObservableProperty]
     private VerifiableRoot? verifiableRoot;

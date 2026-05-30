@@ -86,18 +86,11 @@ public partial class HomeViewModel : ObservableObject
         }
     }
 
-    public class GameOrder
+    public class GameOrder(string displayName, string propertyName, ListSortDirection direction)
     {
-        public string DisplayName { get; set; }
-        public string PropertyName { get; set; }
-        public ListSortDirection SortDirection { get; set; }
-
-        public GameOrder(string displayName, string propertyName, ListSortDirection direction)
-        {
-            DisplayName = displayName;
-            PropertyName = propertyName;
-            SortDirection = direction;
-        }
+        public string DisplayName { get; set; } = displayName;
+        public string PropertyName { get; set; } = propertyName;
+        public ListSortDirection SortDirection { get; set; } = direction;
 
         public SortDescription ToSortDescription()
             => new SortDescription(PropertyName, SortDirection);

@@ -10,23 +10,12 @@ using System.Windows.Media;
 
 namespace ErogeDiary.ViewModels.Pages;
 
-public partial class SettingsViewModel : ObservableObject
+public partial class SettingsViewModel(IApplicationSettingsStore settingsStore, IDialogService dialogService) : ObservableObject
 {
-    private readonly IApplicationSettingsStore settingsStore;
-    private readonly IDialogService dialogService;
-
-    public SettingsViewModel(IApplicationSettingsStore settingsStore, IDialogService dialogService)
-    {
-        this.settingsStore = settingsStore;
-        this.dialogService = dialogService;
-        selectedLanguage = SupportedLanguages.FindOrDefault(settingsStore.Language);
-        themeAccentColor = Models.ThemeAccentColor.ParseOrDefault(Settings.Default.ThemeAccentColor);
-    }
-
     public IReadOnlyList<LanguageOption> LanguageOptions { get; } = SupportedLanguages.All;
 
     [ObservableProperty]
-    private LanguageOption selectedLanguage;
+    private LanguageOption selectedLanguage = SupportedLanguages.FindOrDefault(settingsStore.Language);
 
     partial void OnSelectedLanguageChanged(LanguageOption value)
     {
@@ -35,7 +24,7 @@ public partial class SettingsViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private Color themeAccentColor;
+    private Color themeAccentColor = Models.ThemeAccentColor.ParseOrDefault(Settings.Default.ThemeAccentColor);
 
     [RelayCommand]
     private void ChangeThemeAccentColor()

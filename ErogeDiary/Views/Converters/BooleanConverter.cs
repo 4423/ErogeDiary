@@ -5,18 +5,11 @@ using System.Windows.Data;
 
 namespace ErogeDiary.Views.Converters;
 
-public class BooleanConverter<T> : IValueConverter
+public class BooleanConverter<T>(T trueValue, T falseValue, BooleanConverterDirection direction) : IValueConverter
 {
-    public BooleanConverter(T trueValue, T falseValue, BooleanConverterDirection direction)
-    {
-        this.True = trueValue;
-        this.False = falseValue;
-        this.Direction = direction;
-    }
-
-    public T True { get; set; }
-    public T False { get; set; }
-    public BooleanConverterDirection Direction { get; set; }
+    public T True { get; set; } = trueValue;
+    public T False { get; set; } = falseValue;
+    public BooleanConverterDirection Direction { get; set; } = direction;
 
     public object? Convert(object? value, Type targetType, object parameter, CultureInfo culture)
     {

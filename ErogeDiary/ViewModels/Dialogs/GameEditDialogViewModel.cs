@@ -11,24 +11,12 @@ using System.Threading.Tasks;
 
 namespace ErogeDiary.ViewModels.Dialogs;
 
-public partial class GameEditDialogViewModel : BindableDialogBase
+public partial class GameEditDialogViewModel(
+    ErogeDiaryDbContext database,
+    IMessageDialog messageDialog,
+    IOpenFileDialog openFileDialog) : BindableDialogBase
 {
-    private ErogeDiaryDbContext database;
-    private IMessageDialog messageDialog;
-    private IOpenFileDialog openFileDialog;
     private Game? originalGame;
-
-
-    public GameEditDialogViewModel(
-        ErogeDiaryDbContext database, 
-        IMessageDialog messageDialog, 
-        IOpenFileDialog openFileDialog)
-    {
-        this.database = database;
-        this.messageDialog = messageDialog;
-        this.openFileDialog = openFileDialog;
-    }
-
 
     public override void OnDialogOpened(IDialogParameters parameters)
     {

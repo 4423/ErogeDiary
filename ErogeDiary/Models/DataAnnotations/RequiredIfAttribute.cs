@@ -7,18 +7,11 @@ using ErogeDiary.Properties;
 namespace ErogeDiary.Models.DataAnnotations;
     
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
-public class RequiredIfAttribute : ValidationAttribute
+public class RequiredIfAttribute(string conditionProperty, object conditionPropertyValue) : ValidationAttribute
 {
-    public string ConditionProperty { get; private set; }
-    public object ConditionPropertyValue { get; private set; }
+    public string ConditionProperty { get; private set; } = conditionProperty;
+    public object ConditionPropertyValue { get; private set; } = conditionPropertyValue;
     public override bool RequiresValidationContext { get { return true; } }
-
-
-    public RequiredIfAttribute(string conditionProperty, object conditionPropertyValue)
-    {
-        ConditionProperty = conditionProperty;
-        ConditionPropertyValue = conditionPropertyValue;
-    }
 
 
     protected virtual bool IsValidIfShouldValidate(object? value)

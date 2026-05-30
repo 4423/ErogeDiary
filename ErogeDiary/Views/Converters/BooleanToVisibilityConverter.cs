@@ -7,8 +7,5 @@ using System.Windows;
 
 namespace ErogeDiary.Views.Converters;
 
-public class BooleanToVisibilityConverter : BooleanConverter<Visibility>
-{
-    public BooleanToVisibilityConverter() : 
-        base(Visibility.Visible, Visibility.Collapsed, BooleanConverterDirection.FromBoolean) { } 
-}
+public class BooleanToVisibilityConverter() : BooleanConverter<Visibility>(Visibility.Visible, Visibility.Collapsed,
+    BooleanConverterDirection.FromBoolean);

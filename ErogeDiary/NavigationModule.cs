@@ -10,15 +10,8 @@ using System.Threading.Tasks;
 
 namespace ErogeDiary;
 
-public class NavigationModule : IModule
+public class NavigationModule(IRegionManager regionManager) : IModule
 {
-    private IRegionManager regionManager;
-
-    public NavigationModule(IRegionManager regionManager)
-    {
-        this.regionManager = regionManager;
-    }
-
     public void OnInitialized(IContainerProvider containerProvider)
     {
         NavigationHelper.RequestNavigateToHomePage(regionManager);

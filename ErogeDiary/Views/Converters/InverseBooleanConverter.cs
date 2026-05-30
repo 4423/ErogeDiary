@@ -8,7 +8,4 @@ using System.Windows.Data;
 
 namespace ErogeDiary.Views.Converters;
 
-public class InverseBooleanConverter : BooleanConverter<bool>
-{
-    public InverseBooleanConverter() : base(false, true, BooleanConverterDirection.FromBoolean) { }
-}
+public class InverseBooleanConverter() : BooleanConverter<bool>(false, true, BooleanConverterDirection.FromBoolean);

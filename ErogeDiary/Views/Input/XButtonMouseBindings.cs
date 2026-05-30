@@ -33,15 +33,8 @@ internal class XButtonMouseGestureConverter : MouseGestureConverter
 }
 
 
-internal class XButtonMouseGesture : MouseGesture
+internal class XButtonMouseGesture(MouseButton mouseButton) : MouseGesture
 {
-    private MouseButton mouseButton;
-
-    public XButtonMouseGesture(MouseButton mouseButton)
-    {
-        this.mouseButton = mouseButton;
-    }
-
     public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
     {
         var device = inputEventArgs.Device as MouseDevice;
