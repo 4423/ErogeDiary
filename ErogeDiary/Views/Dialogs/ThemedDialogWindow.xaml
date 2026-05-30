@@ -6,7 +6,6 @@
         Background="{DynamicResource DialogBackgroundBrush}"
         BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
         BorderThickness="1"
-        ResizeMode="CanResize"
         SnapsToDevicePixels="True"
         UseLayoutRounding="True"
         WindowStyle="None"

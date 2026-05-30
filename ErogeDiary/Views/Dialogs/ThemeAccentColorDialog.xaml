@@ -1,0 +1,63 @@
+<UserControl x:Class="ErogeDiary.Views.Dialogs.ThemeAccentColorDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:properties="clr-namespace:ErogeDiary.Properties"
+             xmlns:colorPicker="clr-namespace:ErogeDiary.Controls.ModernColorPicker;assembly=ErogeDiary.Controls.ModernColorPicker"
+             mc:Ignorable="d"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:Width="364"
+             d:Height="570">
+
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="Width" Value="364"/>
+            <Setter Property="Height" Value="570"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="ResizeMode" Value="NoResize"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+
+    <ScrollViewer Style="{StaticResource DialogScrollViewerStyle}">
+        <StackPanel Margin="24 0">
+            <TextBlock Text="{x:Static properties:Strings.ThemeAccentColorDialog_Title}"
+                       Style="{StaticResource TitleTextBlockStyle}"/>
+
+            <StackPanel Margin="0 24 0 0">
+                <colorPicker:ModernColorPicker x:Name="AccentColorPicker"
+                                               SelectedColor="{Binding ThemeAccentColor, Mode=TwoWay}"/>
+
+                <TextBox x:Name="ColorCodeTextBox"
+                         Text="{Binding ThemeAccentColorCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Width="132"
+                         Margin="0 20 0 0"
+                         HorizontalAlignment="Left"
+                         IsUndoEnabled="True"
+                         CharacterCasing="Upper"
+                         MaxLength="7"/>
+
+                <Border Height="32"
+                        Margin="0 20 0 0">
+                    <Border.Background>
+                        <SolidColorBrush Color="{Binding ThemeAccentColor}"/>
+                    </Border.Background>
+                    <TextBlock Text="{x:Static properties:Strings.ThemeAccentColorDialog_Preview}"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 24 0 0">
+                <Button Content="{x:Static properties:Strings.Common_Ok}"
+                        Command="{Binding ApplyCommand}"/>
+                <Button Content="{x:Static properties:Strings.Common_Cancel}"
+                        Command="{Binding CancelCommand}"
+                        Margin="24 0 0 0"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

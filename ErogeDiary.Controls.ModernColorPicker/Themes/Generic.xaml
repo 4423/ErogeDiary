@@ -5,21 +5,9 @@
 
     <controls:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 
-    <Style x:Key="ColorCodeTextBoxStyle" TargetType="{x:Type TextBox}">
-        <Setter Property="Width" Value="132" />
-        <Setter Property="MinHeight" Value="32" />
-        <Setter Property="Padding" Value="10 6" />
-        <Setter Property="BorderBrush" Value="#9D9D9D" />
-        <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="Background" Value="White" />
-        <Setter Property="Foreground" Value="#1F1F1F" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-    </Style>
-
     <Style TargetType="{x:Type controls:ModernColorPicker}">
-        <Setter Property="Width" Value="440" />
+        <Setter Property="Width" Value="312" />
+        <Setter Property="Focusable" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:ModernColorPicker}">
@@ -31,10 +19,10 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="44" />
+                                    <ColumnDefinition Width="56" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="334" />
+                                    <RowDefinition Height="256" />
                                     <RowDefinition Height="32" />
                                 </Grid.RowDefinitions>
 
@@ -118,14 +106,6 @@
                                             BorderThickness="1"
                                             CornerRadius="3" />
                                 </Canvas>
-                            </Grid>
-
-                            <Grid Margin="0 20 0 0">
-                                <TextBox Text="{Binding ColorCode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                                         Style="{StaticResource ColorCodeTextBoxStyle}"
-                                         HorizontalAlignment="Left"
-                                         CharacterCasing="Upper"
-                                         MaxLength="7" />
                             </Grid>
                         </StackPanel>
                     </Border>

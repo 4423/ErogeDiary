@@ -24,6 +24,9 @@
   <data name="Common_Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="Common_Change" xml:space="preserve">
+    <value>Change</value>
+  </data>
   <data name="Common_Complete" xml:space="preserve">
     <value>Complete</value>
   </data>
@@ -299,8 +302,17 @@ Save data and the game files will not be deleted.</value>
   <data name="Settings_LanguageRestartRequired" xml:space="preserve">
     <value>Changes take effect the next time you start the app.</value>
   </data>
+  <data name="Settings_ThemeAccentColor" xml:space="preserve">
+    <value>Accent color</value>
+  </data>
   <data name="Settings_Title" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="ThemeAccentColorDialog_Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="ThemeAccentColorDialog_Title" xml:space="preserve">
+    <value>Accent color</value>
   </data>
   <data name="Thumbnail_DownloadFailedFormat" xml:space="preserve">
     <value>Failed to download the thumbnail image.

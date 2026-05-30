@@ -96,6 +96,15 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
+        /// 変更 のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_Change {
+            get {
+                return ResourceManager.GetString("Common_Change", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// 完了 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_Complete {
@@ -919,11 +928,38 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
+        /// アクセントカラー のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_ThemeAccentColor {
+            get {
+                return ResourceManager.GetString("Settings_ThemeAccentColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// 設定 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Title {
             get {
                 return ResourceManager.GetString("Settings_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// プレビュー のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeAccentColorDialog_Preview {
+            get {
+                return ResourceManager.GetString("ThemeAccentColorDialog_Preview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// アクセントカラー のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ThemeAccentColorDialog_Title {
+            get {
+                return ResourceManager.GetString("ThemeAccentColorDialog_Title", resourceCulture);
             }
         }
         

@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ErogeDiary.Controls\ErogeDiary.Controls.csproj" />
+    <ProjectReference Include="..\ErogeDiary.Controls.ModernColorPicker\ErogeDiary.Controls.ModernColorPicker.csproj" />
     <ProjectReference Include="..\ErogeDiary.ErogameScape\ErogeDiary.ErogameScape.csproj" />
   </ItemGroup>
 

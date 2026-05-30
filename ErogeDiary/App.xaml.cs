@@ -85,6 +85,7 @@ public partial class App : PrismApplication
         containerRegistry.RegisterDialog<RootRegistrationDialog, RootRegistrationDialogViewModel>();
         containerRegistry.RegisterDialog<RootEditDialog, RootEditDialogViewModel>();
         containerRegistry.RegisterDialog<RootRemoveDialog, RootRemoveDialogViewModel>();
+        containerRegistry.RegisterDialog<ThemeAccentColorDialog, ThemeAccentColorDialogViewModel>();
     }
 
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

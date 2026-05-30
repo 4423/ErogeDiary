@@ -3,12 +3,15 @@ using ErogeDiary.Models.Database;
 using ErogeDiary.Models.Database.Entities;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ErogeDiary.Properties;
 using Prism.Regions;
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace ErogeDiary.ViewModels
 {
@@ -30,6 +33,9 @@ namespace ErogeDiary.ViewModels
             gameMonitor.GameStarted += GameStarted;
             gameMonitor.GameEnded += GameEnded;
             gameMonitor.ProgressChanged += ProgressChanged;
+            Settings.Default.PropertyChanged += SettingsChanged;
+
+            themeAccentBrush = new(ThemeAccentColor.ParseOrDefault(Settings.Default.ThemeAccentColor));
         }
 
 
@@ -75,6 +81,14 @@ namespace ErogeDiary.ViewModels
             TotalPlayTime = totalPlayTime;
         }
 
+        private void SettingsChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Settings.ThemeAccentColor))
+            {
+                ThemeAccentBrush = new(ThemeAccentColor.ParseOrDefault(Settings.Default.ThemeAccentColor));
+            }
+        }
+
         [ObservableProperty]
         private Game? activeGame;
 
@@ -116,5 +130,8 @@ namespace ErogeDiary.ViewModels
 
         [ObservableProperty]
         private bool isPlaying;
+
+        [ObservableProperty]
+        private SolidColorBrush themeAccentBrush = default!;
     }
 }

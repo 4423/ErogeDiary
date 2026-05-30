@@ -122,7 +122,7 @@
             </ui:Frame>
         </Grid>
 
-        <Grid Grid.Row="2" Background="#5B2C6F"
+        <Grid Grid.Row="2" Background="{Binding ThemeAccentBrush}"
               Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid Margin="8 8 10 8" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>

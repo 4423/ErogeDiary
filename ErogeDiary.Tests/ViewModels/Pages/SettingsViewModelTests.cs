@@ -1,4 +1,5 @@
 using ErogeDiary.Models;
+using ErogeDiary.Tests.TestDoubles;
 using ErogeDiary.ViewModels.Pages;
 using System.Linq;
 using Xunit;
@@ -12,7 +13,7 @@ public class SettingsViewModelTests
     {
         var settings = new StubApplicationSettingsStore { Language = "en" };
 
-        var viewModel = new SettingsViewModel(settings);
+        var viewModel = new SettingsViewModel(settings, new StubDialogService());
 
         Assert.Equal("en", viewModel.SelectedLanguage.Code);
     }
@@ -21,7 +22,7 @@ public class SettingsViewModelTests
     public void SelectedLanguageChanged_SavesLanguage()
     {
         var settings = new StubApplicationSettingsStore { Language = "ja" };
-        var viewModel = new SettingsViewModel(settings);
+        var viewModel = new SettingsViewModel(settings, new StubDialogService());
 
         viewModel.SelectedLanguage = viewModel.LanguageOptions.Single(x => x.Code == "en");
 
@@ -34,7 +35,7 @@ public class SettingsViewModelTests
     {
         var settings = new StubApplicationSettingsStore { Language = "unknown" };
 
-        var viewModel = new SettingsViewModel(settings);
+        var viewModel = new SettingsViewModel(settings, new StubDialogService());
 
         Assert.Equal("ja", viewModel.SelectedLanguage.Code);
     }
