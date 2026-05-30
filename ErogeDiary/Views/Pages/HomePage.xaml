@@ -84,7 +84,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0">
-                <ui:CommandBar>
+                <ui:CommandBar Background="Transparent">
                     <ui:AppBarButton Icon="Add" Label="{x:Static properties:Strings.Home_RegisterGame}" Command="{Binding GameRegistrationCommand}"/>
                 </ui:CommandBar>
             </StackPanel>

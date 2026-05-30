@@ -27,7 +27,7 @@
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="Margin" Value="2 2 0 0"/>
-                                    <Setter Property="Foreground" Value="#EEE"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}"/>
                                     <Setter Property="FontSize" Value="10"/>
                                 </Style>
                                 <Style TargetType="Line">

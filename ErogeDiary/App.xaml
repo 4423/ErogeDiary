@@ -22,6 +22,10 @@
                                 <ResourceDictionary Source="/ModernWpf;component/ThemeResources/Light.xaml" />
                             </ResourceDictionary.MergedDictionaries>
                             <SolidColorBrush x:Key="DialogBackgroundBrush" Color="White" />
+                            <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="White" />
+                            <SolidColorBrush x:Key="GameThumbnailActionOverlayBrush" Color="#88000000" />
+                            <SolidColorBrush x:Key="GameBrandForegroundBrush" Color="Gray" />
+                            <SolidColorBrush x:Key="PlayLogSummaryForegroundBrush" Color="#333333" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <ResourceDictionary.MergedDictionaries>
@@ -31,6 +35,10 @@
                             </ResourceDictionary.MergedDictionaries>
                             <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="{StaticResource SystemBaseHighColor}" />
                             <SolidColorBrush x:Key="DialogBackgroundBrush" Color="#1F2022" />
+                            <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="#1F2022" />
+                            <SolidColorBrush x:Key="GameThumbnailActionOverlayBrush" Color="#88000000" />
+                            <SolidColorBrush x:Key="GameBrandForegroundBrush" Color="Gray" />
+                            <SolidColorBrush x:Key="PlayLogSummaryForegroundBrush" Color="#DDDDDD" />
                         </ResourceDictionary>
                     </ui:ThemeResources.ThemeDictionaries>
                 </ui:ThemeResources>
@@ -40,11 +48,6 @@
                 <ResourceDictionary Source="Views/Styles/DialogStyle.xaml"/>
                 <ResourceDictionary Source="Views/Styles/SplitButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-            <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="#1F2022"/>
-            <SolidColorBrush x:Key="GameThumbnailActionOverlayBrush" Color="#88000000"/>
-            <SolidColorBrush x:Key="GameBrandForegroundBrush" Color="Gray"/>
-            <SolidColorBrush x:Key="PlayLogSummaryForegroundBrush" Color="#DDDDDD"/>
 
             <converter:BooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
             <converter:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter"/>

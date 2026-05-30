@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="600">
     <StackPanel>
-        <ui:CommandBar>
+        <ui:CommandBar Background="Transparent">
             <ui:AppBarButton Icon="Add" Label="{x:Static properties:Strings.Root_Add}" Command="{Binding AddRootCommand}"/>
             <ui:CommandBar.SecondaryCommands>
                 <ui:AppBarButton Icon="Edit" Label="{x:Static properties:Strings.Root_Edit}" Command="{Binding EditRootCommand}"/>
