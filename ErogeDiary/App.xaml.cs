@@ -73,7 +73,6 @@ public partial class App : PrismApplication
 
         containerRegistry.Register<GameMonitor>();
         containerRegistry.Register<ErogameScapeClient>();
-        containerRegistry.RegisterSingleton<IApplicationSettingsStore, ApplicationSettingsStore>();
 
         containerRegistry.Register<IMessageDialog, MessageDialog>();
         containerRegistry.Register<IOpenFileDialog, OpenFileDialog>();
@@ -166,21 +165,19 @@ public partial class App : PrismApplication
     private void UpgradeSettingsIfNeeded()
     {
         // User-scoped settings are stored per app version, so copy previous values after an upgrade.
-        var settingsStore = new ApplicationSettingsStore();
-        if (!settingsStore.UpgradeRequired)
+        if (!Settings.Default.UpgradeRequired)
         {
             return;
         }
 
-        settingsStore.Upgrade();
-        settingsStore.UpgradeRequired = false;
-        settingsStore.Save();
+        Settings.Default.Upgrade();
+        Settings.Default.UpgradeRequired = false;
+        Settings.Default.Save();
     }
 
     private void ApplySavedUiCulture()
     {
-        var settingsStore = new ApplicationSettingsStore();
-        var culture = SupportedLanguages.GetCultureOrDefault(settingsStore.Language);
+        var culture = SupportedLanguages.GetCultureOrDefault(Settings.Default.Language);
 
         // Apply only the UI language; keep regional formatting and week starts from the user's environment.
         CultureInfo.DefaultThreadCurrentUICulture = culture;

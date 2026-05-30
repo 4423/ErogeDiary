@@ -10,17 +10,17 @@ using System.Windows.Media;
 
 namespace ErogeDiary.ViewModels.Pages;
 
-public partial class SettingsViewModel(IApplicationSettingsStore settingsStore, IDialogService dialogService) : ObservableObject
+public partial class SettingsViewModel(IDialogService dialogService) : ObservableObject
 {
     public IReadOnlyList<LanguageOption> LanguageOptions { get; } = SupportedLanguages.All;
 
     [ObservableProperty]
-    private LanguageOption selectedLanguage = SupportedLanguages.FindOrDefault(settingsStore.Language);
+    private LanguageOption selectedLanguage = SupportedLanguages.FindOrDefault(Settings.Default.Language);
 
     partial void OnSelectedLanguageChanged(LanguageOption value)
     {
-        settingsStore.Language = value.Code;
-        settingsStore.Save();
+        Settings.Default.Language = value.Code;
+        Settings.Default.Save();
     }
 
     [ObservableProperty]
