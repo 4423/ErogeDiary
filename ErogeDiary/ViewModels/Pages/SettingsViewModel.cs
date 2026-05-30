@@ -14,12 +14,23 @@ public partial class SettingsViewModel(IDialogService dialogService) : Observabl
 {
     public IReadOnlyList<LanguageOption> LanguageOptions { get; } = SupportedLanguages.All;
 
+    public IReadOnlyList<ThemeOption> ThemeOptions { get; } = SupportedThemes.All;
+
     [ObservableProperty]
     private LanguageOption selectedLanguage = SupportedLanguages.FindOrDefault(Settings.Default.Language);
 
     partial void OnSelectedLanguageChanged(LanguageOption value)
     {
         Settings.Default.Language = value.Code;
+        Settings.Default.Save();
+    }
+
+    [ObservableProperty]
+    private ThemeOption selectedTheme = SupportedThemes.FindOrDefault(Settings.Default.Theme);
+
+    partial void OnSelectedThemeChanged(ThemeOption value)
+    {
+        Settings.Default.Theme = value.Code;
         Settings.Default.Save();
     }
 

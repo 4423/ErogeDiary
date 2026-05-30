@@ -937,6 +937,33 @@ namespace ErogeDiary.Properties {
         }
         
         /// <summary>
+        /// テーマ のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_Theme {
+            get {
+                return ResourceManager.GetString("Settings_Theme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// ダーク のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_ThemeDark {
+            get {
+                return ResourceManager.GetString("Settings_ThemeDark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        /// ライト のようなローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Settings_ThemeLight {
+            get {
+                return ResourceManager.GetString("Settings_ThemeLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         /// 設定 のようなローカライズされた文字列を検索します。
         /// </summary>
         public static string Settings_Title {

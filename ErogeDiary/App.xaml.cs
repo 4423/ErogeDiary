@@ -9,11 +9,13 @@ using ErogeDiary.Views;
 using ErogeDiary.Views.Dialogs;
 using ErogeDiary.Views.Pages;
 using Microsoft.EntityFrameworkCore;
+using ModernWpf;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
 using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Threading;
@@ -49,6 +51,8 @@ public partial class App : PrismApplication
 
         UpgradeSettingsIfNeeded();
         ApplySavedUiCulture();
+        ApplySavedTheme();
+        Settings.Default.PropertyChanged += SettingsChanged;
 
         using (var dbContext = new ErogeDiaryDbContext())
         {
@@ -182,6 +186,19 @@ public partial class App : PrismApplication
         CultureInfo.DefaultThreadCurrentUICulture = culture;
         Thread.CurrentThread.CurrentUICulture = culture;
         Strings.Culture = culture;
+    }
+
+    private void SettingsChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Settings.Theme))
+        {
+            ApplySavedTheme();
+        }
+    }
+
+    private void ApplySavedTheme()
+    {
+        ThemeManager.Current.ApplicationTheme = SupportedThemes.FindOrDefault(Settings.Default.Theme).Theme;
     }
 
     private void WriteErrorLog(Exception ex, string source)

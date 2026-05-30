@@ -36,6 +36,19 @@
             <StackPanel Margin="0 28 0 0">
                 <StackPanel Orientation="Horizontal"
                             VerticalAlignment="Center">
+                    <TextBlock Text="{x:Static properties:Strings.Settings_Theme}"
+                               VerticalAlignment="Center"
+                               Margin="0 0 12 0"/>
+                    <ComboBox ItemsSource="{Binding ThemeOptions}"
+                              SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                              DisplayMemberPath="DisplayName"
+                              Width="160"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="0 28 0 0">
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center">
                     <TextBlock Text="{x:Static properties:Strings.Settings_ThemeAccentColor}"
                                VerticalAlignment="Center"
                                Margin="0 0 12 0"/>

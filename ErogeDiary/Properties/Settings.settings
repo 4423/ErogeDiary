@@ -8,6 +8,9 @@
     <Setting Name="ThemeAccentColor" Type="System.String" Scope="User">
       <Value Profile="(Default)">#5B2C6F</Value>
     </Setting>
+    <Setting Name="Theme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Dark</Value>
+    </Setting>
     <Setting Name="UpgradeRequired" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>

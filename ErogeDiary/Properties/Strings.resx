@@ -305,6 +305,15 @@
   <data name="Settings_ThemeAccentColor" xml:space="preserve">
     <value>アクセントカラー</value>
   </data>
+  <data name="Settings_Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="Settings_ThemeDark" xml:space="preserve">
+    <value>ダーク</value>
+  </data>
+  <data name="Settings_ThemeLight" xml:space="preserve">
+    <value>ライト</value>
+  </data>
   <data name="Settings_Title" xml:space="preserve">
     <value>設定</value>
   </data>
