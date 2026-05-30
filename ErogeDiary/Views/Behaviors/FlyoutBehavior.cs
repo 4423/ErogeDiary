@@ -45,8 +45,7 @@ public class FlyoutBehavior
 
     private static void IsOpenChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        var fb = d as FlyoutBase;
-        if (fb == null)
+        if (d is not FlyoutBase fb)
         {
             return;
         }

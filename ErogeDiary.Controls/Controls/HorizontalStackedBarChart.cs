@@ -44,8 +44,7 @@ public class HorizontalStackedBarChart : Control
 
     private void UpdateChart()
     {
-        var chartArea = GetTemplateChild("ChartAreaGrid") as Grid;
-        if (chartArea == null)
+        if (GetTemplateChild("ChartAreaGrid") is not Grid chartArea)
         {
             return;
         }
@@ -81,14 +80,12 @@ public class HorizontalStackedBarChart : Control
 
     private void OnItemsSourceChanged(object oldValue, object newValue)
     {
-        var oldValueINotifyCollectionChanged = oldValue as INotifyCollectionChanged;
-        if (oldValueINotifyCollectionChanged != null)
+        if (oldValue is INotifyCollectionChanged oldValueINotifyCollectionChanged)
         {
             oldValueINotifyCollectionChanged.CollectionChanged -= ItemsSourceCollectionChanged;
         }
 
-        var newValueINotifyCollectionChanged = newValue as INotifyCollectionChanged;
-        if (newValueINotifyCollectionChanged != null)
+        if (newValue is INotifyCollectionChanged newValueINotifyCollectionChanged)
         {
             newValueINotifyCollectionChanged.CollectionChanged += ItemsSourceCollectionChanged;
         }

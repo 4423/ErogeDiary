@@ -155,8 +155,7 @@ public class CalendarHeatmap : Control
 
     private void RenderDayLabels(CultureInfo culture, DayOfWeek firstDayOfWeek)
     {
-        var dayLabelArea = GetTemplateChild("DayLabelAreaGrid") as Grid;
-        if (dayLabelArea == null)
+        if (GetTemplateChild("DayLabelAreaGrid") is not Grid dayLabelArea)
         {
             return;
         }
@@ -188,8 +187,7 @@ public class CalendarHeatmap : Control
 
     private void RenderMonthLabels(IReadOnlyCollection<Cell> cells, CultureInfo culture)
     {
-        var monthLabelArea = GetTemplateChild("MonthLabelAreaGrid") as Grid;
-        if (monthLabelArea == null)
+        if (GetTemplateChild("MonthLabelAreaGrid") is not Grid monthLabelArea)
         {
             return; // 呼び出し元でエラーハンドリングするほどでもない
         }
@@ -238,8 +236,7 @@ public class CalendarHeatmap : Control
 
     private void RenderHeatmap(IReadOnlyCollection<Cell> cells)
     {
-        var heatmapArea = GetTemplateChild("HeatmapAreaGrid") as Grid;
-        if (heatmapArea == null)
+        if (GetTemplateChild("HeatmapAreaGrid") is not Grid heatmapArea)
         {
             return;
         }

@@ -72,14 +72,12 @@ public class Histogram : Control
 
     private void OnItemsSourceChanged(object oldValue, object newValue)
     {
-        var oldValueINotifyCollectionChanged = oldValue as INotifyCollectionChanged;
-        if (oldValueINotifyCollectionChanged != null)
+        if (oldValue is INotifyCollectionChanged oldValueINotifyCollectionChanged)
         {
             oldValueINotifyCollectionChanged.CollectionChanged -= ItemsSourceCollectionChanged;
         }
 
-        var newValueINotifyCollectionChanged = newValue as INotifyCollectionChanged;
-        if (newValueINotifyCollectionChanged != null)
+        if (newValue is INotifyCollectionChanged newValueINotifyCollectionChanged)
         {
             newValueINotifyCollectionChanged.CollectionChanged += ItemsSourceCollectionChanged;
         }
@@ -98,8 +96,7 @@ public class Histogram : Control
 
     private void UpdateChart()
     {
-        var chartArea = GetTemplateChild("PART_HistogramAreaGrid") as Grid;
-        if (chartArea == null)
+        if (GetTemplateChild("PART_HistogramAreaGrid") is not Grid chartArea)
         {
             return;
         }

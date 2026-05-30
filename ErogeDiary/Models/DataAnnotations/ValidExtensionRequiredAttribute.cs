@@ -37,8 +37,7 @@ public class ValidExtensionRequiredAttribute : ValidationAttribute
 
     public override bool IsValid(object? value)
     {
-        var fileName = value as string;
-        if (fileName != null)
+        if (value is string fileName)
         {
             return validExtensions.Contains(Path.GetExtension(fileName));
         }

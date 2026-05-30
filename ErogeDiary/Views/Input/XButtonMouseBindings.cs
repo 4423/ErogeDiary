@@ -37,8 +37,7 @@ internal class XButtonMouseGesture(MouseButton mouseButton) : MouseGesture
 {
     public override bool Matches(object targetElement, InputEventArgs inputEventArgs)
     {
-        var device = inputEventArgs.Device as MouseDevice;
-        if (device != null)
+        if (inputEventArgs.Device is MouseDevice device)
         {
             switch (mouseButton)
             {

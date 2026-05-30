@@ -19,8 +19,7 @@ public class FileExistRequiredIfAttribute : RequiredIfAttribute
 
     protected override bool IsValidIfShouldValidate(object? value)
     {
-        var fileName = value as string;
-        if (fileName == null)
+        if (value is not string fileName)
         {
             return false;
         }

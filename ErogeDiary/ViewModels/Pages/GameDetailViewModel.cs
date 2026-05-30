@@ -36,8 +36,7 @@ public partial class GameDetailViewModel(
 
     public void OnNavigatedTo(NavigationContext navigationContext)
     {
-        var game = navigationContext.Parameters["Game"] as Game;
-        if(game != null)
+        if (navigationContext.Parameters["Game"] is Game game)
         {
             Game = game;
         }

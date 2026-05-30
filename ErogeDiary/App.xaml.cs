@@ -108,8 +108,7 @@ public partial class App : PrismApplication
     {
         try
         {
-            var ex = e.ExceptionObject as Exception;
-            if (ex != null)
+            if (e.ExceptionObject is Exception ex)
             {
                 ReportFatalException(ex, source: nameof(AppDomain.CurrentDomain.UnhandledException));
             }
