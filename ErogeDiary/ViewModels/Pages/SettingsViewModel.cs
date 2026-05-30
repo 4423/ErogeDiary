@@ -8,55 +8,54 @@ using Prism.Services.Dialogs;
 using System.Collections.Generic;
 using System.Windows.Media;
 
-namespace ErogeDiary.ViewModels.Pages
+namespace ErogeDiary.ViewModels.Pages;
+
+public partial class SettingsViewModel : ObservableObject
 {
-    public partial class SettingsViewModel : ObservableObject
+    private readonly IApplicationSettingsStore settingsStore;
+    private readonly IDialogService dialogService;
+
+    public SettingsViewModel(IApplicationSettingsStore settingsStore, IDialogService dialogService)
     {
-        private readonly IApplicationSettingsStore settingsStore;
-        private readonly IDialogService dialogService;
+        this.settingsStore = settingsStore;
+        this.dialogService = dialogService;
+        selectedLanguage = SupportedLanguages.FindOrDefault(settingsStore.Language);
+        themeAccentColor = Models.ThemeAccentColor.ParseOrDefault(Settings.Default.ThemeAccentColor);
+    }
 
-        public SettingsViewModel(IApplicationSettingsStore settingsStore, IDialogService dialogService)
+    public IReadOnlyList<LanguageOption> LanguageOptions { get; } = SupportedLanguages.All;
+
+    [ObservableProperty]
+    private LanguageOption selectedLanguage;
+
+    partial void OnSelectedLanguageChanged(LanguageOption value)
+    {
+        settingsStore.Language = value.Code;
+        settingsStore.Save();
+    }
+
+    [ObservableProperty]
+    private Color themeAccentColor;
+
+    [RelayCommand]
+    private void ChangeThemeAccentColor()
+    {
+        var parameters = new DialogParameters
         {
-            this.settingsStore = settingsStore;
-            this.dialogService = dialogService;
-            selectedLanguage = SupportedLanguages.FindOrDefault(settingsStore.Language);
-            themeAccentColor = Models.ThemeAccentColor.ParseOrDefault(Settings.Default.ThemeAccentColor);
-        }
+            { ThemeAccentColorDialogViewModel.ThemeAccentColorParameterName, ThemeAccentColor }
+        };
 
-        public IReadOnlyList<LanguageOption> LanguageOptions { get; } = SupportedLanguages.All;
-
-        [ObservableProperty]
-        private LanguageOption selectedLanguage;
-
-        partial void OnSelectedLanguageChanged(LanguageOption value)
+        dialogService.ShowDialog(nameof(Views.Dialogs.ThemeAccentColorDialog), parameters, result =>
         {
-            settingsStore.Language = value.Code;
-            settingsStore.Save();
-        }
-
-        [ObservableProperty]
-        private Color themeAccentColor;
-
-        [RelayCommand]
-        private void ChangeThemeAccentColor()
-        {
-            var parameters = new DialogParameters
+            if (result.Result != ButtonResult.OK)
             {
-                { ThemeAccentColorDialogViewModel.ThemeAccentColorParameterName, ThemeAccentColor }
-            };
+                return;
+            }
 
-            dialogService.ShowDialog(nameof(Views.Dialogs.ThemeAccentColorDialog), parameters, result =>
-            {
-                if (result.Result != ButtonResult.OK)
-                {
-                    return;
-                }
-
-                var color = result.Parameters.GetValue<Color>(ThemeAccentColorDialogViewModel.ThemeAccentColorParameterName);
-                ThemeAccentColor = color;
-                Settings.Default.ThemeAccentColor = ColorCodeHelper.ToColorCode(color);
-                Settings.Default.Save();
-            });
-        }
+            var color = result.Parameters.GetValue<Color>(ThemeAccentColorDialogViewModel.ThemeAccentColorParameterName);
+            ThemeAccentColor = color;
+            Settings.Default.ThemeAccentColor = ColorCodeHelper.ToColorCode(color);
+            Settings.Default.Save();
+        });
     }
 }

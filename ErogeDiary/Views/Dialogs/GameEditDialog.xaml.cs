@@ -12,20 +12,19 @@ using System.Windows.Input;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ErogeDiary.Views.Dialogs
-{
-    public partial class GameEditDialog : UserControl
-    {
-        public GameEditDialog()
-        {
-            InitializeComponent();
-            this.Loaded += GameEditDialogLoaded;
-        }
+namespace ErogeDiary.Views.Dialogs;
 
-        private void GameEditDialogLoaded(object sender, RoutedEventArgs e)
-        {
-            var window = Window.GetWindow(this);
-            WindowIcon.RemoveIcon(window);
-        }
+public partial class GameEditDialog : UserControl
+{
+    public GameEditDialog()
+    {
+        InitializeComponent();
+        this.Loaded += GameEditDialogLoaded;
+    }
+
+    private void GameEditDialogLoaded(object sender, RoutedEventArgs e)
+    {
+        var window = Window.GetWindow(this);
+        WindowIcon.RemoveIcon(window);
     }
 }

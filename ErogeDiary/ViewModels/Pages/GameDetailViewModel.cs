@@ -10,120 +10,119 @@ using Prism.Services.Dialogs;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-namespace ErogeDiary.ViewModels.Pages
+namespace ErogeDiary.ViewModels.Pages;
+
+public partial class GameDetailViewModel : ObservableObject, INavigationAware
 {
-    public partial class GameDetailViewModel : ObservableObject, INavigationAware
+    private ErogeDiaryDbContext database;
+    private IRegionManager regionManager;
+    private IMessageDialog messageDialog;
+    private IDialogService dialogService;
+
+
+    public GameDetailViewModel(
+        ErogeDiaryDbContext database,
+        IRegionManager regionManager,
+        IMessageDialog messageDialog,
+        IDialogService dialogService)
     {
-        private ErogeDiaryDbContext database;
-        private IRegionManager regionManager;
-        private IMessageDialog messageDialog;
-        private IDialogService dialogService;
+        this.database = database;
+        this.regionManager = regionManager;
+        this.messageDialog = messageDialog;
+        this.dialogService = dialogService;
+    }
 
 
-        public GameDetailViewModel(
-            ErogeDiaryDbContext database,
-            IRegionManager regionManager,
-            IMessageDialog messageDialog,
-            IDialogService dialogService)
+    [ObservableProperty]
+    private Game? game;
+
+    partial void OnGameChanged(Game? value)
+    {
+        Roots = value == null ? null : new RootsViewModel(dialogService, value);
+        PlayLogs = value == null ? null : new PlayLogsViewModel(value, database);
+    }
+
+    [ObservableProperty]
+    private RootsViewModel? roots;
+
+    [ObservableProperty]
+    private PlayLogsViewModel? playLogs;
+
+
+    public void OnNavigatedTo(NavigationContext navigationContext)
+    {
+        var game = navigationContext.Parameters["Game"] as Game;
+        if(game != null)
         {
-            this.database = database;
-            this.regionManager = regionManager;
-            this.messageDialog = messageDialog;
-            this.dialogService = dialogService;
+            Game = game;
         }
+    }
 
+    public bool IsNavigationTarget(NavigationContext navigationContext)
+        => true;
 
-        [ObservableProperty]
-        private Game? game;
+    public void OnNavigatedFrom(NavigationContext navigationContext) {}
 
-        partial void OnGameChanged(Game? value)
+    [RelayCommand]
+    private async Task StartGameAsync()
+    {
+        try
         {
-            Roots = value == null ? null : new RootsViewModel(dialogService, value);
-            PlayLogs = value == null ? null : new PlayLogsViewModel(value, database);
-        }
-
-        [ObservableProperty]
-        private RootsViewModel? roots;
-
-        [ObservableProperty]
-        private PlayLogsViewModel? playLogs;
-
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            var game = navigationContext.Parameters["Game"] as Game;
-            if(game != null)
+            if (string.IsNullOrWhiteSpace(Game?.ExecutableFilePath))
             {
-                Game = game;
+                await messageDialog.ShowErrorAsync(Strings.Game_ExecutablePathMissing);
+                return;
             }
+
+            Process.Start(Game.ExecutableFilePath);
         }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-            => true;
-
-        public void OnNavigatedFrom(NavigationContext navigationContext) {}
-
-        [RelayCommand]
-        private async Task StartGameAsync()
+        catch (Exception ex)
         {
-            try
+            await messageDialog.ShowAsync(new MessageDialogParameters()
             {
-                if (string.IsNullOrWhiteSpace(Game?.ExecutableFilePath))
-                {
-                    await messageDialog.ShowErrorAsync(Strings.Game_ExecutablePathMissing);
-                    return;
-                }
-
-                Process.Start(Game.ExecutableFilePath);
-            }
-            catch (Exception ex)
-            {
-                await messageDialog.ShowAsync(new MessageDialogParameters()
-                {
-                    Title = Strings.Dialog_ErrorTitle,
-                    Message = string.Format(Strings.Game_StartFailedFormat, ex.Message),
-                    CloseButtonText = Strings.Common_Ok,
-                });
-            }
-        }
-
-        [RelayCommand]
-        private void EditGame()
-        {
-            var dialogParams = new DialogParameters()
-            {
-                { "game", Game }
-            };
-            dialogService.ShowDialog(nameof(Views.Dialogs.GameEditDialog), dialogParams, null);
-        }
-
-        [RelayCommand]
-        private async Task DeleteGameAsync()
-        {
-            var result = await messageDialog.ShowAsync(new MessageDialogParameters()
-            {
-                Title = Strings.Dialog_ConfirmTitle,
-                Message = Strings.Game_DeleteRegistrationConfirmation,
-                PrimaryButtonText = Strings.Common_Delete,
-                CloseButtonText = Strings.Common_Cancel,
+                Title = Strings.Dialog_ErrorTitle,
+                Message = string.Format(Strings.Game_StartFailedFormat, ex.Message),
+                CloseButtonText = Strings.Common_Ok,
             });
-            if (result == MessageDialogResult.Primary)
-            {
-                if (Game == null)
-                {
-                    await messageDialog.ShowErrorAsync(Strings.Game_InfoMissingForDelete);
-                    return;
-                }
+        }
+    }
 
-                await database.RemoveAsync(Game);
-                await messageDialog.ShowAsync(new MessageDialogParameters()
-                {
-                    Title = Strings.Dialog_InfoTitle,
-                    Message = Strings.Game_DeleteRegistrationSucceeded,
-                    CloseButtonText = Strings.Common_Ok,
-                });
-                NavigationHelper.GetNavigationService(regionManager)?.Journal?.GoBack();
+    [RelayCommand]
+    private void EditGame()
+    {
+        var dialogParams = new DialogParameters()
+        {
+            { "game", Game }
+        };
+        dialogService.ShowDialog(nameof(Views.Dialogs.GameEditDialog), dialogParams, null);
+    }
+
+    [RelayCommand]
+    private async Task DeleteGameAsync()
+    {
+        var result = await messageDialog.ShowAsync(new MessageDialogParameters()
+        {
+            Title = Strings.Dialog_ConfirmTitle,
+            Message = Strings.Game_DeleteRegistrationConfirmation,
+            PrimaryButtonText = Strings.Common_Delete,
+            CloseButtonText = Strings.Common_Cancel,
+        });
+        if (result == MessageDialogResult.Primary)
+        {
+            if (Game == null)
+            {
+                await messageDialog.ShowErrorAsync(Strings.Game_InfoMissingForDelete);
+                return;
             }
+
+            await database.RemoveAsync(Game);
+            await messageDialog.ShowAsync(new MessageDialogParameters()
+            {
+                Title = Strings.Dialog_InfoTitle,
+                Message = Strings.Game_DeleteRegistrationSucceeded,
+                CloseButtonText = Strings.Common_Ok,
+            });
+            NavigationHelper.GetNavigationService(regionManager)?.Journal?.GoBack();
         }
     }
 }

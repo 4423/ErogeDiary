@@ -9,174 +9,173 @@ using Prism.Services.Dialogs;
 using System;
 using System.Threading.Tasks;
 
-namespace ErogeDiary.ViewModels.Dialogs
+namespace ErogeDiary.ViewModels.Dialogs;
+
+public partial class GameEditDialogViewModel : BindableDialogBase
 {
-    public partial class GameEditDialogViewModel : BindableDialogBase
+    private ErogeDiaryDbContext database;
+    private IMessageDialog messageDialog;
+    private IOpenFileDialog openFileDialog;
+    private Game? originalGame;
+
+
+    public GameEditDialogViewModel(
+        ErogeDiaryDbContext database, 
+        IMessageDialog messageDialog, 
+        IOpenFileDialog openFileDialog)
     {
-        private ErogeDiaryDbContext database;
-        private IMessageDialog messageDialog;
-        private IOpenFileDialog openFileDialog;
-        private Game? originalGame;
+        this.database = database;
+        this.messageDialog = messageDialog;
+        this.openFileDialog = openFileDialog;
+    }
 
 
-        public GameEditDialogViewModel(
-            ErogeDiaryDbContext database, 
-            IMessageDialog messageDialog, 
-            IOpenFileDialog openFileDialog)
+    public override void OnDialogOpened(IDialogParameters parameters)
+    {
+        originalGame = parameters.GetValue<Game>("game");
+        VerifiableGame = new VerifiableGame()
         {
-            this.database = database;
-            this.messageDialog = messageDialog;
-            this.openFileDialog = openFileDialog;
+            Title = originalGame.Title,
+            Brand = originalGame.Brand,
+            ReleaseDate = originalGame.ReleaseDate,
+            ImageUri = ThumbnailHelper.CombineThumbnailDir(originalGame.ImageFileName),
+            ErogameScapeGameId = originalGame.ErogameScapeGameId,
+            InstallationType = originalGame.InstallationType,
+            WindowTitle = originalGame.WindowTitle,
+            ExecutableFilePath = originalGame.ExecutableFilePath,
+            IsCleared= originalGame.IsCleared,
+            ClearedAt= originalGame.ClearedAt,
+        };
+    }
+
+    public override void OnDialogClosed()
+    {
+        VerifiableGame = null;
+    }
+
+
+    [ObservableProperty]
+    private VerifiableGame? verifiableGame;
+
+    partial void OnVerifiableGameChanging(VerifiableGame? value)
+    {
+        if (verifiableGame != null)
+        {
+            verifiableGame.PropertyChanged -= VerifiableGameChanged;
+            verifiableGame.ErrorsChanged -= VerifiableGameChanged;
+        }
+    }
+
+    partial void OnVerifiableGameChanged(VerifiableGame? value)
+    {
+        if (value != null)
+        {
+            value.PropertyChanged += VerifiableGameChanged;
+            value.ErrorsChanged += VerifiableGameChanged;
+        }
+        UpdateCommand.NotifyCanExecuteChanged();
+    }
+
+    [ObservableProperty]
+    private bool isUpdating;
+
+    [RelayCommand]
+    private void SelectThumbnailFileName()
+    {
+        var imageUri = openFileDialog.Show(
+            Strings.OpenFile_SelectThumbnail,
+            Strings.FileFilter_Image);
+        if (imageUri != null)
+        {
+            VerifiableGame!.ImageUri = imageUri;
+        }
+    }
+
+    [RelayCommand]
+    private void SelectExecutionFileName()
+    {
+        var fileName = openFileDialog.Show(
+            Strings.OpenFile_SelectExecutable,
+            Strings.FileFilter_Executable);
+        if (fileName != null)
+        {
+            VerifiableGame!.ExecutableFilePath = fileName;
+        }
+    }
+
+    private bool CanExecuteUpdateGame()
+        => VerifiableGame?.Valid() == true;
+
+    private void VerifiableGameChanged(object? sender, EventArgs e)
+        => UpdateCommand.NotifyCanExecuteChanged();
+
+    [RelayCommand(CanExecute = nameof(CanExecuteUpdateGame))]
+    private async Task UpdateAsync()
+    {
+        IsUpdating = true;
+        try
+        {
+            await UpdateGameCore();
+        } 
+        finally
+        {
+            IsUpdating = false;
+        }
+    }
+
+    private async Task UpdateGameCore()
+    {
+        if (VerifiableGame is null || originalGame is null)
+        {
+            throw new ArgumentNullException();
         }
 
-
-        public override void OnDialogOpened(IDialogParameters parameters)
+        if (await HasConflictingGame(VerifiableGame, originalGame.GameId))
         {
-            originalGame = parameters.GetValue<Game>("game");
-            VerifiableGame = new VerifiableGame()
-            {
-                Title = originalGame.Title,
-                Brand = originalGame.Brand,
-                ReleaseDate = originalGame.ReleaseDate,
-                ImageUri = ThumbnailHelper.CombineThumbnailDir(originalGame.ImageFileName),
-                ErogameScapeGameId = originalGame.ErogameScapeGameId,
-                InstallationType = originalGame.InstallationType,
-                WindowTitle = originalGame.WindowTitle,
-                ExecutableFilePath = originalGame.ExecutableFilePath,
-                IsCleared= originalGame.IsCleared,
-                ClearedAt= originalGame.ClearedAt,
-            };
+            await messageDialog.ShowErrorAsync(Strings.GameRegistration_DuplicateGame);
+            return;
         }
 
-        public override void OnDialogClosed()
+        if (VerifiableGame.ImageUri != ThumbnailHelper.CombineThumbnailDir(originalGame.ImageFileName))
         {
-            VerifiableGame = null;
-        }
-
-
-        [ObservableProperty]
-        private VerifiableGame? verifiableGame;
-
-        partial void OnVerifiableGameChanging(VerifiableGame? value)
-        {
-            if (verifiableGame != null)
-            {
-                verifiableGame.PropertyChanged -= VerifiableGameChanged;
-                verifiableGame.ErrorsChanged -= VerifiableGameChanged;
-            }
-        }
-
-        partial void OnVerifiableGameChanged(VerifiableGame? value)
-        {
-            if (value != null)
-            {
-                value.PropertyChanged += VerifiableGameChanged;
-                value.ErrorsChanged += VerifiableGameChanged;
-            }
-            UpdateCommand.NotifyCanExecuteChanged();
-        }
-
-        [ObservableProperty]
-        private bool isUpdating;
-
-        [RelayCommand]
-        private void SelectThumbnailFileName()
-        {
-            var imageUri = openFileDialog.Show(
-                Strings.OpenFile_SelectThumbnail,
-                Strings.FileFilter_Image);
-            if (imageUri != null)
-            {
-                VerifiableGame!.ImageUri = imageUri;
-            }
-        }
-
-        [RelayCommand]
-        private void SelectExecutionFileName()
-        {
-            var fileName = openFileDialog.Show(
-                Strings.OpenFile_SelectExecutable,
-                Strings.FileFilter_Executable);
-            if (fileName != null)
-            {
-                VerifiableGame!.ExecutableFilePath = fileName;
-            }
-        }
-
-        private bool CanExecuteUpdateGame()
-            => VerifiableGame?.Valid() == true;
-
-        private void VerifiableGameChanged(object? sender, EventArgs e)
-            => UpdateCommand.NotifyCanExecuteChanged();
-
-        [RelayCommand(CanExecute = nameof(CanExecuteUpdateGame))]
-        private async Task UpdateAsync()
-        {
-            IsUpdating = true;
             try
             {
-                await UpdateGameCore();
-            } 
-            finally
-            {
-                IsUpdating = false;
+                VerifiableGame.ImageUri = new Uri(VerifiableGame.ImageUri!).IsFile ?
+                    await ThumbnailHelper.CopyAndResize(VerifiableGame.ImageUri!) :
+                    await ThumbnailHelper.DownloadAndResizeAsync(VerifiableGame.ImageUri!);
             }
-        }
-
-        private async Task UpdateGameCore()
-        {
-            if (VerifiableGame is null || originalGame is null)
+            catch (Exception ex)
             {
-                throw new ArgumentNullException();
-            }
-
-            if (await HasConflictingGame(VerifiableGame, originalGame.GameId))
-            {
-                await messageDialog.ShowErrorAsync(Strings.GameRegistration_DuplicateGame);
+                await messageDialog.ShowErrorAsync(string.Format(Strings.Thumbnail_DownloadFailedFormat, ex.Message));
                 return;
             }
-
-            if (VerifiableGame.ImageUri != ThumbnailHelper.CombineThumbnailDir(originalGame.ImageFileName))
-            {
-                try
-                {
-                    VerifiableGame.ImageUri = new Uri(VerifiableGame.ImageUri!).IsFile ?
-                        await ThumbnailHelper.CopyAndResize(VerifiableGame.ImageUri!) :
-                        await ThumbnailHelper.DownloadAndResizeAsync(VerifiableGame.ImageUri!);
-                }
-                catch (Exception ex)
-                {
-                    await messageDialog.ShowErrorAsync(string.Format(Strings.Thumbnail_DownloadFailedFormat, ex.Message));
-                    return;
-                }
-            }
-
-            VerifiableGame.Pretty();
-
-            VerifiableGame.CopyTo(ref originalGame);
-
-            await database.UpdateAsync(originalGame);
-
-            CloseDialogOK();
         }
 
-        private async Task<bool> HasConflictingGame(VerifiableGame verifiableGame, int gameId)
+        VerifiableGame.Pretty();
+
+        VerifiableGame.CopyTo(ref originalGame);
+
+        await database.UpdateAsync(originalGame);
+
+        CloseDialogOK();
+    }
+
+    private async Task<bool> HasConflictingGame(VerifiableGame verifiableGame, int gameId)
+    {
+        var gameWithSameTitleAndBrand = await database.FindGameByTitleAndBrandAsync(verifiableGame.Title!, verifiableGame.Brand!);
+        var conflictTitleAndBrand = gameWithSameTitleAndBrand != null && gameWithSameTitleAndBrand.GameId != gameId;
+        if (conflictTitleAndBrand)
         {
-            var gameWithSameTitleAndBrand = await database.FindGameByTitleAndBrandAsync(verifiableGame.Title!, verifiableGame.Brand!);
-            var conflictTitleAndBrand = gameWithSameTitleAndBrand != null && gameWithSameTitleAndBrand.GameId != gameId;
-            if (conflictTitleAndBrand)
-            {
-                return true;
-            }
-
-            if (verifiableGame.ExecutableFilePath == null)
-            {
-                return false;
-            }
-
-            var gameWithSameExecutableFilePath = await database.FindGameByFileNameAsync(verifiableGame.ExecutableFilePath);
-            var conflictExecutableFilePath = gameWithSameExecutableFilePath != null && gameWithSameExecutableFilePath.GameId != gameId;
-            return conflictExecutableFilePath;
+            return true;
         }
+
+        if (verifiableGame.ExecutableFilePath == null)
+        {
+            return false;
+        }
+
+        var gameWithSameExecutableFilePath = await database.FindGameByFileNameAsync(verifiableGame.ExecutableFilePath);
+        var conflictExecutableFilePath = gameWithSameExecutableFilePath != null && gameWithSameExecutableFilePath.GameId != gameId;
+        return conflictExecutableFilePath;
     }
 }

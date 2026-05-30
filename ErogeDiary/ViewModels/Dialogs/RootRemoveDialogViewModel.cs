@@ -10,58 +10,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ErogeDiary.ViewModels.Dialogs
+namespace ErogeDiary.ViewModels.Dialogs;
+
+public partial class RootRemoveDialogViewModel : BindableDialogBase
 {
-    public partial class RootRemoveDialogViewModel : BindableDialogBase
+    private ErogeDiaryDbContext database;
+    private IMessageDialog messageDialog;
+    private Game? game;
+
+
+    public RootRemoveDialogViewModel(
+        ErogeDiaryDbContext database,
+        IMessageDialog messageDialog)
     {
-        private ErogeDiaryDbContext database;
-        private IMessageDialog messageDialog;
-        private Game? game;
+        this.database = database;
+        this.messageDialog = messageDialog;
+    }
 
 
-        public RootRemoveDialogViewModel(
-            ErogeDiaryDbContext database,
-            IMessageDialog messageDialog)
+    [ObservableProperty]
+    private ICollection<Root>? roots;
+
+    [ObservableProperty]
+    private Root? selectedRoot;
+
+    partial void OnSelectedRootChanged(Root? value)
+    {
+        RemoveCommand.NotifyCanExecuteChanged();
+    }
+
+
+    public override void OnDialogOpened(IDialogParameters parameters)
+    {
+        game = parameters.GetValue<Game>("game");
+        Roots = game.Roots;
+        SelectedRoot = game.Roots.FirstOrDefault();
+    }
+
+    private bool CanExecuteRemoveRoot()
+        => SelectedRoot != null;
+
+    [RelayCommand(CanExecute = nameof(CanExecuteRemoveRoot))]
+    private async Task RemoveAsync()
+    {
+        try
         {
-            this.database = database;
-            this.messageDialog = messageDialog;
+            await database.RemoveRootAsync(SelectedRoot!);
+            CloseDialogOK();
         }
-
-
-        [ObservableProperty]
-        private ICollection<Root>? roots;
-
-        [ObservableProperty]
-        private Root? selectedRoot;
-
-        partial void OnSelectedRootChanged(Root? value)
+        catch (Exception)
         {
-            RemoveCommand.NotifyCanExecuteChanged();
-        }
-
-
-        public override void OnDialogOpened(IDialogParameters parameters)
-        {
-            game = parameters.GetValue<Game>("game");
-            Roots = game.Roots;
-            SelectedRoot = game.Roots.FirstOrDefault();
-        }
-
-        private bool CanExecuteRemoveRoot()
-            => SelectedRoot != null;
-
-        [RelayCommand(CanExecute = nameof(CanExecuteRemoveRoot))]
-        private async Task RemoveAsync()
-        {
-            try
-            {
-                await database.RemoveRootAsync(SelectedRoot!);
-                CloseDialogOK();
-            }
-            catch (Exception)
-            {
-                await messageDialog.ShowErrorAsync(Strings.Root_RemoveFailed);
-            }
+            await messageDialog.ShowErrorAsync(Strings.Root_RemoveFailed);
         }
     }
 }

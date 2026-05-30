@@ -6,21 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ErogeDiary.Dialogs
-{
-    public class OpenFileDialog : IOpenFileDialog
-    {
-        public string? Show(string title, string filter)
-        {
-            var ofd = new Microsoft.Win32.OpenFileDialog()
-            {
-                Title = title,
-                Filter = filter,
-                Multiselect = false,
-                RestoreDirectory = true
-            };
+namespace ErogeDiary.Dialogs;
 
-            return ofd.ShowDialog() == true ? ofd.FileName : null;
-        }
+public class OpenFileDialog : IOpenFileDialog
+{
+    public string? Show(string title, string filter)
+    {
+        var ofd = new Microsoft.Win32.OpenFileDialog()
+        {
+            Title = title,
+            Filter = filter,
+            Multiselect = false,
+            RestoreDirectory = true
+        };
+
+        return ofd.ShowDialog() == true ? ofd.FileName : null;
     }
 }

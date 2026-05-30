@@ -3,28 +3,27 @@ using ErogeDiary.Properties;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 
-namespace ErogeDiary.Models.DataAnnotations
+namespace ErogeDiary.Models.DataAnnotations;
+
+public class FileExistRequiredIfAttribute : RequiredIfAttribute
 {
-    public class FileExistRequiredIfAttribute : RequiredIfAttribute
+    public FileExistRequiredIfAttribute(
+        string conditionProperty, 
+        object conditionPropertyValue
+    ) : base(conditionProperty, conditionPropertyValue)
     {
-        public FileExistRequiredIfAttribute(
-            string conditionProperty, 
-            object conditionPropertyValue
-        ) : base(conditionProperty, conditionPropertyValue)
-        {
-            ErrorMessageResourceType = typeof(Strings);
-            ErrorMessageResourceName = nameof(Strings.Validation_FileNotFound);
-        }
+        ErrorMessageResourceType = typeof(Strings);
+        ErrorMessageResourceName = nameof(Strings.Validation_FileNotFound);
+    }
 
 
-        protected override bool IsValidIfShouldValidate(object? value)
+    protected override bool IsValidIfShouldValidate(object? value)
+    {
+        var fileName = value as string;
+        if (fileName == null)
         {
-            var fileName = value as string;
-            if (fileName == null)
-            {
-                return false;
-            }
-            return File.Exists(fileName);
+            return false;
         }
+        return File.Exists(fileName);
     }
 }

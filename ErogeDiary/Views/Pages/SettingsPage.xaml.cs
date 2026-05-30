@@ -1,10 +1,9 @@
-namespace ErogeDiary.Views.Pages
+namespace ErogeDiary.Views.Pages;
+
+public partial class SettingsPage
 {
-    public partial class SettingsPage
+    public SettingsPage()
     {
-        public SettingsPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

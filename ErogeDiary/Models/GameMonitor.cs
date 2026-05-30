@@ -11,114 +11,113 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace ErogeDiary.Models
+namespace ErogeDiary.Models;
+
+public delegate void GameStarted(Game game);
+public delegate void GameEnded(Game game, TimeSpan playTime);
+public delegate void ProgressChanged(Game game, TimeSpan currentPlayTime, TimeSpan totalPlayTime);
+
+public sealed class GameMonitor
 {
-    public delegate void GameStarted(Game game);
-    public delegate void GameEnded(Game game, TimeSpan playTime);
-    public delegate void ProgressChanged(Game game, TimeSpan currentPlayTime, TimeSpan totalPlayTime);
+    public event GameStarted? GameStarted;
+    public event GameEnded? GameEnded;
+    public event ProgressChanged? ProgressChanged;
 
-    public sealed class GameMonitor
+    private Game? previousGame;
+    private DateTime previousGameStartDate;
+    private ErogeDiaryDbContext database;
+    private DispatcherTimer timer;
+
+    public GameMonitor(ErogeDiaryDbContext database)
     {
-        public event GameStarted? GameStarted;
-        public event GameEnded? GameEnded;
-        public event ProgressChanged? ProgressChanged;
+        this.database = database;
+        ProcessMonitor.Instance.OnActiveProcessChanged += OnActiveProcessChanged;
 
-        private Game? previousGame;
-        private DateTime previousGameStartDate;
-        private ErogeDiaryDbContext database;
-        private DispatcherTimer timer;
+        timer = new DispatcherTimer();
+        timer.Interval = TimeSpan.FromSeconds(1);
+        timer.Tick += TimerTick;
+    }
 
-        public GameMonitor(ErogeDiaryDbContext database)
+    private async void OnActiveProcessChanged(Process activeProcess)
+    {
+        if (previousGame != null)
         {
-            this.database = database;
-            ProcessMonitor.Instance.OnActiveProcessChanged += OnActiveProcessChanged;
-
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += TimerTick;
+            timer.Stop();
+            var playTime = DateTime.Now - previousGameStartDate;
+            GameEnded?.Invoke(previousGame, playTime);
+            previousGame = null;
         }
 
-        private async void OnActiveProcessChanged(Process activeProcess)
+        var activeGame = await FindRegisteredGame(activeProcess);
+        if (activeGame != null)
         {
-            if (previousGame != null)
+            GameStarted?.Invoke(activeGame);
+            previousGame = activeGame;
+            previousGameStartDate = DateTime.Now;
+            timer.Start();
+        }
+    }
+
+    private static readonly string DMM_GAME_PLAYER_EXTENSION = ".tmp";
+
+    private async Task<Game?> FindRegisteredGame(Process process)
+    {
+        try
+        {
+            var installedViaDmm = process.ProcessName.EndsWith(DMM_GAME_PLAYER_EXTENSION);
+            if (installedViaDmm && !String.IsNullOrWhiteSpace(process.MainWindowTitle))
             {
-                timer.Stop();
-                var playTime = DateTime.Now - previousGameStartDate;
-                GameEnded?.Invoke(previousGame, playTime);
-                previousGame = null;
+                return await database.FindGameByWindowTitleAsync(process.MainWindowTitle);
             }
 
-            var activeGame = await FindRegisteredGame(activeProcess);
-            if (activeGame != null)
+            var fileNames = new[]
             {
-                GameStarted?.Invoke(activeGame);
-                previousGame = activeGame;
-                previousGameStartDate = DateTime.Now;
-                timer.Start();
+                process.MainModule?.FileName,
+                // 主に DL 版ではゲーム本体を子プロセスとして起動する場合があるため、親プロセスも一応確認している
+                // ただ、直接の親だけ確認するので足りるのかは不明（手元の10作品では問題ないが）
+                // いっそディレクトリ名で一致を取ってもいいかも？
+                GetParentProcessFileName(process),
+            };
+            foreach (var fileName in fileNames.WhereNotNull())
+            {
+                var game = await database.FindGameByFileNameAsync(fileName);
+                if (game != null)
+                {
+                    return game;
+                }
             }
         }
-
-        private static readonly string DMM_GAME_PLAYER_EXTENSION = ".tmp";
-
-        private async Task<Game?> FindRegisteredGame(Process process)
+        catch (Win32Exception)
         {
-            try
-            {
-                var installedViaDmm = process.ProcessName.EndsWith(DMM_GAME_PLAYER_EXTENSION);
-                if (installedViaDmm && !String.IsNullOrWhiteSpace(process.MainWindowTitle))
-                {
-                    return await database.FindGameByWindowTitleAsync(process.MainWindowTitle);
-                }
-
-                var fileNames = new[]
-                {
-                    process.MainModule?.FileName,
-                    // 主に DL 版ではゲーム本体を子プロセスとして起動する場合があるため、親プロセスも一応確認している
-                    // ただ、直接の親だけ確認するので足りるのかは不明（手元の10作品では問題ないが）
-                    // いっそディレクトリ名で一致を取ってもいいかも？
-                    GetParentProcessFileName(process),
-                };
-                foreach (var fileName in fileNames.WhereNotNull())
-                {
-                    var game = await database.FindGameByFileNameAsync(fileName);
-                    if (game != null)
-                    {
-                        return game;
-                    }
-                }
-            }
-            catch (Win32Exception)
-            {
-                return null;
-            }
-
             return null;
         }
 
-        private string? GetParentProcessFileName(Process childProcess)
+        return null;
+    }
+
+    private string? GetParentProcessFileName(Process childProcess)
+    {
+        try
         {
-            try
-            {
-                var parent = ParentProcess.GetParentProcess(childProcess);
-                return parent.MainModule?.FileName;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                return null;
-            }
+            var parent = ParentProcess.GetParentProcess(childProcess);
+            return parent.MainModule?.FileName;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            return null;
+        }
+    }
+
+    private void TimerTick(object? sender, EventArgs e)
+    {
+        if (previousGame == null)
+        {
+            return;
         }
 
-        private void TimerTick(object? sender, EventArgs e)
-        {
-            if (previousGame == null)
-            {
-                return;
-            }
-
-            var currentPlayTime = DateTime.Now - previousGameStartDate;
-            var totalPlayTime = currentPlayTime + previousGame.TotalPlayTime;
-            ProgressChanged?.Invoke(previousGame, currentPlayTime, totalPlayTime);
-        }
+        var currentPlayTime = DateTime.Now - previousGameStartDate;
+        var totalPlayTime = currentPlayTime + previousGame.TotalPlayTime;
+        ProgressChanged?.Invoke(previousGame, currentPlayTime, totalPlayTime);
     }
 }

@@ -7,52 +7,51 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace ErogeDiary.Models
+namespace ErogeDiary.Models;
+
+public delegate void ActiveProcessChanged(Process activeProcess);
+
+public sealed class ProcessMonitor
 {
-    public delegate void ActiveProcessChanged(Process activeProcess);
+    public static ProcessMonitor Instance { get; } = new ProcessMonitor();
+    public event ActiveProcessChanged? OnActiveProcessChanged;
 
-    public sealed class ProcessMonitor
+    private DispatcherTimer timer;
+    private Process? previousProcess;
+
+    private ProcessMonitor()
     {
-        public static ProcessMonitor Instance { get; } = new ProcessMonitor();
-        public event ActiveProcessChanged? OnActiveProcessChanged;
+        timer = new DispatcherTimer();
+        timer.Interval = TimeSpan.FromSeconds(1);
+        timer.Tick += TimerTick;
+        timer.Start();
+    }
 
-        private DispatcherTimer timer;
-        private Process? previousProcess;
+    private void TimerTick(object? sender, EventArgs e)
+    {
+        timer.Stop();
 
-        private ProcessMonitor()
+        Update();
+
+        timer.Start();
+    }
+
+    private void Update()
+    {
+        Process activeProcess;
+        try
         {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += TimerTick;
-            timer.Start();
+            activeProcess = ActiveProcess.GetActiveProcess();
+        }
+        catch (Exception)
+        {
+            return;
         }
 
-        private void TimerTick(object? sender, EventArgs e)
+        if (previousProcess == null || previousProcess.ProcessName != activeProcess.ProcessName)
         {
-            timer.Stop();
-
-            Update();
-
-            timer.Start();
-        }
-
-        private void Update()
-        {
-            Process activeProcess;
-            try
-            {
-                activeProcess = ActiveProcess.GetActiveProcess();
-            }
-            catch (Exception)
-            {
-                return;
-            }
-
-            if (previousProcess == null || previousProcess.ProcessName != activeProcess.ProcessName)
-            {
-                previousProcess = activeProcess;
-                OnActiveProcessChanged?.Invoke(activeProcess);
-            }
+            previousProcess = activeProcess;
+            OnActiveProcessChanged?.Invoke(activeProcess);
         }
     }
 }

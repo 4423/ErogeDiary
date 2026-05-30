@@ -16,13 +16,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ErogeDiary.Views.Pages
+namespace ErogeDiary.Views.Pages;
+
+public partial class GameDetailPage
 {
-    public partial class GameDetailPage
+    public GameDetailPage()
     {
-        public GameDetailPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -19,23 +19,22 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Unity;
 
-namespace ErogeDiary.Views
-{
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+namespace ErogeDiary.Views;
 
-        private void WindowMouseUp(object sender, MouseButtonEventArgs e)
+public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+    }
+
+    private void WindowMouseUp(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton == MouseButton.XButton1)
         {
-            if (e.ChangedButton == MouseButton.XButton1)
-            {
-                // XButtonMouseGesture で inputEventArgs を Handled しても
-                // ここの Handled には反映されない
-                e.Handled = true;
-            }
+            // XButtonMouseGesture で inputEventArgs を Handled しても
+            // ここの Handled には反映されない
+            e.Handled = true;
         }
     }
 }

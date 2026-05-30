@@ -8,30 +8,29 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace ErogeDiary.Views.Converters
+namespace ErogeDiary.Views.Converters;
+
+public class PlayTimeToStringConverter : IValueConverter
 {
-    public class PlayTimeToStringConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        if (value is not TimeSpan)
         {
-            if (value is not TimeSpan)
-            {
-                return DependencyProperty.UnsetValue;
-            }
-
-            var ts = (TimeSpan)value;
-
-            if (parameter != null && ts.TotalSeconds == 0)
-            {
-                return parameter;
-            }
-
-            return ts.ToPlayTimeString();
+            return DependencyProperty.UnsetValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        var ts = (TimeSpan)value;
+
+        if (parameter != null && ts.TotalSeconds == 0)
         {
-            throw new NotImplementedException();
+            return parameter;
         }
+
+        return ts.ToPlayTimeString();
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }

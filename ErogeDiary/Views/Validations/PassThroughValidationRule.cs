@@ -6,13 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace ErogeDiary.Views.Validations
+namespace ErogeDiary.Views.Validations;
+
+public class PassThroughValidationRule : ValidationRule
 {
-    public class PassThroughValidationRule : ValidationRule
+    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
-        {
-            return new ValidationResult(true, "");
-        }
+        return new ValidationResult(true, "");
     }
 }

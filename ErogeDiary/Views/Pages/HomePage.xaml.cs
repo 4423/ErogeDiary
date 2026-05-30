@@ -14,21 +14,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ErogeDiary.Views.Pages
-{
-    public partial class HomePage
-    {
-        public HomePage()
-        {
-            InitializeComponent();
-        }
+namespace ErogeDiary.Views.Pages;
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+public partial class HomePage
+{
+    public HomePage()
+    {
+        InitializeComponent();
+    }
+
+    private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count > 0)
         {
-            if (e.AddedItems.Count > 0)
-            {
-                ListBox.SelectedIndex = -1;
-            }
+            ListBox.SelectedIndex = -1;
         }
     }
 }

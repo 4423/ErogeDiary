@@ -14,26 +14,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ErogeDiary.Views.Dialogs
+namespace ErogeDiary.Views.Dialogs;
+
+public partial class GameRegistrationDialog : UserControl
 {
-    public partial class GameRegistrationDialog : UserControl
+    public GameRegistrationDialog()
     {
-        public GameRegistrationDialog()
-        {
-            InitializeComponent();
-            this.Loaded += GameRegistrationDialogLoaded;
-        }
-
-        private void GameRegistrationDialogLoaded(object sender, RoutedEventArgs e)
-        {
-            var window = Window.GetWindow(this);
-            WindowIcon.RemoveIcon(window);
-
-            ((ViewModels.Dialogs.GameRegistrationDialogViewModel)DataContext).HideFlyout =
-                () => InputFlyout.Hide();
-        }
-
-        private void FlyoutHide(object sender, RoutedEventArgs e)
-            => InputFlyout.Hide();
+        InitializeComponent();
+        this.Loaded += GameRegistrationDialogLoaded;
     }
+
+    private void GameRegistrationDialogLoaded(object sender, RoutedEventArgs e)
+    {
+        var window = Window.GetWindow(this);
+        WindowIcon.RemoveIcon(window);
+
+        ((ViewModels.Dialogs.GameRegistrationDialogViewModel)DataContext).HideFlyout =
+            () => InputFlyout.Hide();
+    }
+
+    private void FlyoutHide(object sender, RoutedEventArgs e)
+        => InputFlyout.Hide();
 }

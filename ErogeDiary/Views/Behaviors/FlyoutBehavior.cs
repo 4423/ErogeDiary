@@ -7,69 +7,68 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ErogeDiary.Views.Behaviors
+namespace ErogeDiary.Views.Behaviors;
+
+public class FlyoutBehavior
 {
-    public class FlyoutBehavior
+    public static readonly DependencyProperty IsVisibleProperty =
+        DependencyProperty.RegisterAttached("IsOpen", 
+                                            typeof(bool), 
+                                            typeof(FlyoutBehavior),
+                                            new PropertyMetadata(IsOpenChangedCallback));
+
+    public static readonly DependencyProperty ParentProperty =
+        DependencyProperty.RegisterAttached("Parent",
+                                            typeof(FrameworkElement),
+                                            typeof(FlyoutBehavior),
+                                            null);
+
+    public static bool GetIsOpen(DependencyObject obj)
     {
-        public static readonly DependencyProperty IsVisibleProperty =
-            DependencyProperty.RegisterAttached("IsOpen", 
-                                                typeof(bool), 
-                                                typeof(FlyoutBehavior),
-                                                new PropertyMetadata(IsOpenChangedCallback));
+        return (bool)obj.GetValue(IsVisibleProperty);
+    }
 
-        public static readonly DependencyProperty ParentProperty =
-            DependencyProperty.RegisterAttached("Parent",
-                                                typeof(FrameworkElement),
-                                                typeof(FlyoutBehavior),
-                                                null);
+    public static void SetIsOpen(DependencyObject obj, bool value)
+    {
+        obj.SetValue(IsVisibleProperty, value);
+    }
 
-        public static bool GetIsOpen(DependencyObject obj)
+    public static void SetParent(DependencyObject obj, FrameworkElement value)
+    {
+        obj.SetValue(ParentProperty, value);
+    }
+
+    public static FrameworkElement GetParent(DependencyObject obj)
+    {
+        return (FrameworkElement)obj.GetValue(ParentProperty);
+    }
+
+    private static void IsOpenChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var fb = d as FlyoutBase;
+        if (fb == null)
         {
-            return (bool)obj.GetValue(IsVisibleProperty);
+            return;
         }
 
-        public static void SetIsOpen(DependencyObject obj, bool value)
+        var isOpen = (bool)e.NewValue;
+        if (isOpen)
         {
-            obj.SetValue(IsVisibleProperty, value);
+            fb.Closed += FlyoutClosed;
+            fb.ShowAt(GetParent(d));
         }
-
-        public static void SetParent(DependencyObject obj, FrameworkElement value)
+        else
         {
-            obj.SetValue(ParentProperty, value);
+            fb.Closed -= FlyoutClosed;
+            fb.Hide();
         }
+    }
 
-        public static FrameworkElement GetParent(DependencyObject obj)
+    private static void FlyoutClosed(object? sender, object e)
+    {
+        if (sender is DependencyObject dependencyObject)
         {
-            return (FrameworkElement)obj.GetValue(ParentProperty);
-        }
-
-        private static void IsOpenChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var fb = d as FlyoutBase;
-            if (fb == null)
-            {
-                return;
-            }
-
-            var isOpen = (bool)e.NewValue;
-            if (isOpen)
-            {
-                fb.Closed += FlyoutClosed;
-                fb.ShowAt(GetParent(d));
-            }
-            else
-            {
-                fb.Closed -= FlyoutClosed;
-                fb.Hide();
-            }
-        }
-
-        private static void FlyoutClosed(object? sender, object e)
-        {
-            if (sender is DependencyObject dependencyObject)
-            {
-                SetIsOpen(dependencyObject, false);
-            }
+            SetIsOpen(dependencyObject, false);
         }
     }
 }

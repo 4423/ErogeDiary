@@ -7,68 +7,67 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ErogeDiary.Models
+namespace ErogeDiary.Models;
+
+public static class TimeSpanHelper
 {
-    public static class TimeSpanHelper
+    public static string ToPlayTimeString(this TimeSpan timeSpan)
     {
-        public static string ToPlayTimeString(this TimeSpan timeSpan)
+        var parts = new List<string>();
+        if (((int)timeSpan.TotalHours) > 0)
         {
-            var parts = new List<string>();
-            if (((int)timeSpan.TotalHours) > 0)
-            {
-                parts.Add(string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_HoursFormat, (int)timeSpan.TotalHours));
-            }
-            if (timeSpan.Minutes > 0)
-            {
-                parts.Add(string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_MinutesFormat, timeSpan.Minutes));
-            }
-            if (timeSpan.Seconds > 0)
-            {
-                parts.Add(string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_SecondsFormat, timeSpan.Seconds));
-            }
-            var separator = parts.Any(part => part.Contains(' ')) ? " " : "";
-            return string.Join(separator, parts);
+            parts.Add(string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_HoursFormat, (int)timeSpan.TotalHours));
+        }
+        if (timeSpan.Minutes > 0)
+        {
+            parts.Add(string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_MinutesFormat, timeSpan.Minutes));
+        }
+        if (timeSpan.Seconds > 0)
+        {
+            parts.Add(string.Format(CultureInfo.CurrentCulture, Strings.PlayTime_SecondsFormat, timeSpan.Seconds));
+        }
+        var separator = parts.Any(part => part.Contains(' ')) ? " " : "";
+        return string.Join(separator, parts);
+    }
+
+    public static string ToZeroPaddingStringWithoutDays(this TimeSpan timeSpan)
+    {
+        int hours = (int)timeSpan.TotalHours;
+        int minutes = timeSpan.Minutes;
+        int seconds = timeSpan.Seconds;
+        return $"{hours:00}:{minutes:00}:{seconds:00}";
+    }
+
+    private static readonly Regex timeSpanRegex = new Regex(
+        @"^(?<hours>\d+):(?<minutes>[0-5][0-9]):(?<seconds>[0-5][0-9])$",
+        RegexOptions.Compiled
+    );
+
+    public static TimeSpan ParseWithoutDays(this string s)
+    {
+        var match = timeSpanRegex.Match(s);
+        if (!match.Success)
+        {
+            throw new FormatException(s);
         }
 
-        public static string ToZeroPaddingStringWithoutDays(this TimeSpan timeSpan)
+        var hours = int.Parse(match.Groups["hours"].Value);
+        var minutes = int.Parse(match.Groups["minutes"].Value);
+        var seconds = int.Parse(match.Groups["seconds"].Value);
+        return new TimeSpan(hours, minutes, seconds);
+    }
+
+    public static bool TryParseWithoutDays(string s, out TimeSpan? result)
+    {
+        try
         {
-            int hours = (int)timeSpan.TotalHours;
-            int minutes = timeSpan.Minutes;
-            int seconds = timeSpan.Seconds;
-            return $"{hours:00}:{minutes:00}:{seconds:00}";
+            result = s.ParseWithoutDays();
+            return true;
         }
-
-        private static readonly Regex timeSpanRegex = new Regex(
-            @"^(?<hours>\d+):(?<minutes>[0-5][0-9]):(?<seconds>[0-5][0-9])$",
-            RegexOptions.Compiled
-        );
-
-        public static TimeSpan ParseWithoutDays(this string s)
+        catch (Exception)
         {
-            var match = timeSpanRegex.Match(s);
-            if (!match.Success)
-            {
-                throw new FormatException(s);
-            }
-
-            var hours = int.Parse(match.Groups["hours"].Value);
-            var minutes = int.Parse(match.Groups["minutes"].Value);
-            var seconds = int.Parse(match.Groups["seconds"].Value);
-            return new TimeSpan(hours, minutes, seconds);
-        }
-
-        public static bool TryParseWithoutDays(string s, out TimeSpan? result)
-        {
-            try
-            {
-                result = s.ParseWithoutDays();
-                return true;
-            }
-            catch (Exception)
-            {
-                result = null;
-                return false;
-            }
+            result = null;
+            return false;
         }
     }
 }

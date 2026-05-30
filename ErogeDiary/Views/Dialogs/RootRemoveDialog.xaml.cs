@@ -14,18 +14,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ErogeDiary.Views.Dialogs
+namespace ErogeDiary.Views.Dialogs;
+
+public partial class RootRemoveDialog : UserControl
 {
-    public partial class RootRemoveDialog : UserControl
+    public RootRemoveDialog()
     {
-        public RootRemoveDialog()
+        InitializeComponent();
+        Loaded += (_, __) =>
         {
-            InitializeComponent();
-            Loaded += (_, __) =>
-            {
-                var window = Window.GetWindow(this);
-                WindowIcon.RemoveIcon(window);
-            };
-        }
+            var window = Window.GetWindow(this);
+            WindowIcon.RemoveIcon(window);
+        };
     }
 }
